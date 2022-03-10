@@ -1,0 +1,183 @@
+<div id="our-team__header" class="our-team__header">
+  <span>
+    <img
+      src="assets/logo-ravi.svg"
+      routerLink=""
+      class="our-team__header__logo"
+    />
+  </span>
+  <div class="our-team__header__middle">
+    <a>Courses</a>
+    <a
+      routerLinkActive="our-team__header__middle__active"
+      [routerLink]="['/our-team']"
+      >Our Team</a
+    >
+    <a>Why Ravi's</a>
+    <a>Contact Us</a>
+  </div>
+  <div class="our-team__header__last">
+    <a class="button button__green" [routerLink]="['/register']">REGISTER</a>
+    <a class="our-team__header__a__green" [routerLink]="['/login']">LOG IN</a>
+  </div>
+  <div class="our-team__header__mobile">
+    <input type="checkbox" [checked]="mobileNav" (click)="onMobileNav()" />
+    <div>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="our-team__header__mobile__menu" *ngIf="mobileNav">
+      <a class="our-team__header__mobile__menu__item">
+        Courses
+      </a>
+      <a
+        [routerLink]="['/our-team']"
+        class="our-team__header__mobile__menu__item"
+        routerLinkActive="our-team__header__middle__active"
+      >
+        Our Team
+      </a>
+      <a class="our-team__header__mobile__menu__item">
+        Why Ravi's
+      </a>
+      <a class="our-team__header__mobile__menu__item">
+        Contact Us
+      </a>
+      <a class="button button__green mobileView" [routerLink]="['/register']"
+        >REGISTER</a
+      >
+      <a class="our-team__header__a__green mobileView" [routerLink]="['/login']"
+        >LOG IN</a
+      >
+    </div>
+  </div>
+</div>
+<div class="body our-team">
+  <div class="mainContent our-team__mainContent">
+    <div class="our-team__mainContent__profiles">
+      <div
+        class="our-team__mainContent__profiles__avatar our-team__mainContent__profiles__avatar--ravi"
+      ></div>
+      <div class="our-team__mainContent__profiles__text">
+        <p class="our-team__mainContent__profiles__text--header">Ravi Bulusu</p>
+        <p class="our-team__mainContent__profiles__text--body">
+          Ravi Bulusu is a Software Architect by profession with over of 25
+          years of rich experience and holds a Masters Degree in Engineering from the reputed
+          Institution, NIT, Warangal, India. Being successful in one’s
+          profession could have stopped or limited someone in a routine of the
+          same work, but Ravi’s thirst doesn’t suffice with his professional
+          success. Apart from being a professional software architect, he is
+          also passionate about teaching. His passion laid the path to the birth
+          of Ravi’s Academy. 
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          “When the knowledge is enhanced, Success is your way.” That’s what we
+          do in Ravi’s Academy
+        </p>
+      </div>
+      <div
+        class="our-team__mainContent__profiles__text our-team__mainContent__profiles__text--secondary"
+      >
+        <p class="our-team__mainContent__profiles__text--header">Adam Duda</p>
+        <p class="our-team__mainContent__profiles__text--body">
+          Adam has been working with students both inside and outside of the
+          classroom since 2000. Early on in his career, he enjoyed challenging
+          roles as a teacher, coach and tutor. Upon graduation from the
+          University of Connecticut, he focused on academic tutoring for a
+          variety of subjects. Over the years, he has slowly gravitated to
+          standardized test preparation and is now highly experienced in this
+          field. Adam prides himself on having a unique style that engages
+          students by providing them with a comfortable, dynamic learning
+          environment. He strives for and attains success by identifying and
+          adapting to each individual student’s learning style when presenting
+          material. 
+        </p>
+      </div>
+      <div
+        class="our-team__mainContent__profiles__avatar our-team__mainContent__profiles__avatar--secondary our-team__mainContent__profiles__avatar--adam"
+      ></div>
+      <div
+        class="our-team__mainContent__profiles__avatar our-team__mainContent__profiles__avatar--brittany"
+      ></div>
+      <div class="our-team__mainContent__profiles__text">
+        <p class="our-team__mainContent__profiles__text--header">
+          Brittany Hoffmann
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          Brittany offers a customized tutoring for a wide range of subjects,
+          SAT, ACT, and AP prep, and college application counseling throughout
+          Connecticut!
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          I was accepted to 12 universities, including Yale University, the
+          University of Pennsylvania, New York University, Fordham University,
+          Boston College, Boston University, Northeastern University, and the
+          University of Connecticut Honors Program. I graduated cum laude from
+          the University of Pennsylvania with a BA in Psychology and a minor in
+          Education, and tutored and mentored students through school-university
+          partnerships during my time there.
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          I have over 10 years of experience teaching SAT and ACT prep,
+          mathematics, writing, and more. I have worked as a professional
+          classroom tutor for a major SAT/ACT tutoring company, as a classroom
+          math teacher for summer programs at the Hopkins School in New Haven,
+          and as a literacy tutor for students in the community through the
+          non-profit New Haven Reads. I have served Connecticut as a Private
+          Tutor for the past 7 years with over 300 outstanding students!
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          I am passionate about helping students unlock their true academic
+          potential, and I would love to help you achieve your academic and
+          college admissions goals!
+        </p>
+      </div>
+      <div
+        class="our-team__mainContent__profiles__text our-team__mainContent__profiles__text--secondary"
+      >
+        <p class="our-team__mainContent__profiles__text--header">Navitha</p>
+        <p class="our-team__mainContent__profiles__text--body">
+          Hello, I am Navita. I am MBA with MSc (Maths). With 18 year teaching
+          experience, Mathematics is not a subject of study it's a lifestyle for
+          me.
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          I believe in teaching through Concept Orientated method for building
+          Foundation in students from grade 3rd to 8th, Algebra 1 and 2,
+          Geometry, Trigonometry, Pre calculus and Calculus( AP and BC).
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          I choose the best teaching methodology to tailor individual student. I
+          understand the importance of interactive classes, where my students
+          will be at liberty to express themselves and learn along the way.
+        </p>
+        <p class="our-team__mainContent__profiles__text--body">
+          My student profile includes countries like UK, USA, Dubai, New Zealand
+          and Australia. So I'm well versed with Common core curriculum, ICSE
+          and IGCSE. I am here to provide you the Best possible guidance.
+        </p>
+      </div>
+      <div
+        class="our-team__mainContent__profiles__avatar our-team__mainContent__profiles__avatar--secondary our-team__mainContent__profiles__avatar--navitha"
+      ></div>
+    </div>
+    <div class="our-team__mainContent__images">
+      <div class="our-team__mainContent__images__block">
+        <div
+          class="our-team__mainContent__images__block--image our-team__mainContent__images__block--image--vaishnavi"
+        ></div>
+        <p class="our-team__mainContent__images__block--name">
+          Vaishnavi Bulusu
+        </p>
+      </div>
+    </div>
+  </div>
+  <footer class="our-team__footer">
+    <span class="footer--first"
+      >378 Boston Post Road, Suite #202, Orange, CT</span
+    >
+    <span>factorialmath@gmail.com</span>
+    <span class="footer--last">(203) 952 5567 / (203) 981 4186</span>
+  </footer>
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Reading and Writing</title>
+    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#00CAF2" x="0" y="0" width="48" height="48" rx="5"></rect>
+        <g id="book-24px" transform="translate(8.640000, 8.640000)">
+            <polygon id="Path" points="0 0 30.72 0 30.72 30.72 0 30.72"></polygon>
+            <path d="M21.888,3.84 L8.064,3.84 C6.7968,3.84 5.76,4.8768 5.76,6.144 L5.76,24.576 C5.76,25.8432 6.7968,26.88 8.064,26.88 L21.888,26.88 C23.1552,26.88 24.192,25.8432 24.192,24.576 L24.192,6.144 C24.192,4.8768 23.1552,3.84 21.888,3.84 Z M8.064,6.144 L13.824,6.144 L13.824,15.36 L10.944,13.632 L8.064,15.36 L8.064,6.144 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

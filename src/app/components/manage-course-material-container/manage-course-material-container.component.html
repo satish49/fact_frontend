@@ -1,0 +1,19 @@
+<app-common-header [isAdminOrTutor]="role === '1' || role === '2'"></app-common-header>
+<div class="body">
+    <div class="mainContent">
+        <div class="material-container">
+            <span class="material-container__heading">Manage Course Material</span>
+            <div class="material-container__tabs">
+                <span class="material-container__tabs__tab"
+                    [ngClass]="{'material-container__tabs__tab--active': display === 'upload'}"
+                    (click)="display = 'upload'">Upload</span>
+                <span class="material-container__tabs__tab"
+                    [ngClass]="{'material-container__tabs__tab--active': display === 'assign'}"
+                    (click)="display = 'assign'">Assign</span>
+            </div>
+            <app-assign-course-material *ngIf="display === 'assign'"></app-assign-course-material>
+            <app-manage-course-material *ngIf="display === 'upload'"></app-manage-course-material>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>

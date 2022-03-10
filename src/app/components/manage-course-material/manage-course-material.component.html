@@ -1,0 +1,85 @@
+<div class="course-material__upload">
+  <div class="course-material__upload__heading">
+    <p-dialog [(visible)]="documentDialog" class="course-material__document">
+      <ngx-doc-viewer *ngIf="fileUrlExtension !== 'pdf'" [url]="fileUrl" viewer="office"
+        class="course-material__document--viewer" googleCheckContentLoaded=true></ngx-doc-viewer>
+      <ngx-doc-viewer *ngIf="fileUrlExtension === 'pdf'" [url]="fileUrl" viewer="url"
+        class="course-material__document--viewer" googleCheckContentLoaded=true></ngx-doc-viewer>
+    </p-dialog>
+    <span class="course-material__upload__heading--title">Upload Files</span>
+    <button class="course-material__upload__heading--add" (click)="addUploadSection()">
+      <mat-icon class="course-material__upload__heading__icon">add_circle_outline</mat-icon> Add
+    </button>
+    <button class="course-material__upload__heading--submit" (click)="uploadFiles()" [disabled]="uploadClicked">
+      <mat-icon class="course-material__upload__heading__icon">cloud_upload</mat-icon>Upload
+    </button>
+  </div>
+  <div class="course-material__upload__body">
+    <ng-container *ngFor="let uploadItem of uploadSections.controls; index as uploadItemIndex">
+      <form class="course-material__upload__body__form" [formGroup]="uploadItem">
+        <div class="course-material__upload__body__form__fileBlock">
+          <input class="course-material__upload__body__form__input" #file1 type="file" multiple
+            (change)="getfiles($event, uploadItemIndex)" />
+          <div>
+            <!-- <span class="course-material__upload__body__form__fileBlock--title">Choose Path</span> -->
+            <div class="course-material__upload__body__form__locationPath">
+              <div class="course-material__upload__body__form__locationPath--container"
+                (click)="toggleTree($event, treeDropDown)">
+                {{uploadItem.value.uploadPath ? uploadItem.value.uploadPath : "Location / Path"}}
+                <mat-icon>arrow_drop_down</mat-icon>
+              </div>
+              <p-overlayPanel [dismissable]="false" #treeDropDown (onHide)="triggerCollapseRecursive($event)">
+                <div class="course-material__upload__body__form__locationPath__addNode">
+                  <input formControlName="nodeName"
+                    class="course-material__upload__body__form__locationPath__addNode--input" />
+                  <button (click)="addNode(uploadItemIndex)"
+                    class="course-material__upload__body__form__locationPath__addNode--add">Add</button>
+                </div>
+                <p-tree [value]="myTree" selectionMode="single" [(selection)]="treeSelection"
+                  class="course-material__upload__body__form__locationPath--tree"
+                  (onNodeSelect)="nodeSelected($event, uploadItemIndex)" emptyMessage="No Courses Found">
+                  <ng-template let-node pTemplate="default">
+                    <span class="d-flex align-items-center">
+                      <mat-icon class="course-material__upload__body__form__locationPath--tree--icon">{{
+                        node.children ? 'folder' : 'description'}}</mat-icon>
+                      <label class="course-material__upload__body__form__locationPath--tree--label pointer"
+                        (click)="node.children ? false : displayDocumentDialog(node.fileId, node.label)">{{node.label}}</label>
+                    </span>
+                  </ng-template>
+                </p-tree>
+              </p-overlayPanel>
+            </div>
+          </div>
+          <!-- <span class="course-material__upload__body__form__fileBlock--title">Choose Files</span> -->
+          <div class="course-material__upload__body__form__files" (click)="file1.click()">
+            <span class="course-material__upload__body__form__files--text">Select Files</span>
+            <span class="course-material__upload__body__form__files--icon">
+              <mat-icon>add</mat-icon>
+            </span>
+          </div>
+          <!-- <span class="course-material__upload__body__form__fileBlock--title">Choose Type</span> -->
+          <p-dropdown formControlName="type" [options]="fileTypes" optionLabel="name"></p-dropdown>
+          <mat-icon *ngIf="uploadSections.controls.length > 1" (click)="deleteUploadSection(uploadItemIndex)"
+            class="course-material__upload__body__form__delete">delete</mat-icon>
+        </div>
+
+        <div class="course-material__upload__body__form__selectedFiles"
+          *ngIf="uploadItem['value']['uploadFiles'].length > 0">
+          <mat-chip-list>
+            <mat-chip selectable="false" [matTooltip]="file.name"
+              *ngFor="let file of uploadItem['value']['uploadFiles']; index as fileIndex"
+              class="course-material__upload__body__form__selectedFiles--item">
+              <mat-icon class="course-material__upload__body__form__selectedFiles--item--pdf">description
+              </mat-icon>
+              {{(file.name.length>40)? (file.name | slice:0:40)+'...':(file.name)}}
+              <span class="course-material__upload__body__form__selectedFiles--item--size">{{file.size/1024 |
+                number: "0.2-2"}} KB</span>
+              <mat-icon class="course-material__upload__body__form__selectedFiles--item--icon"
+                (click)="deleteFile(uploadItemIndex, fileIndex)">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</div>

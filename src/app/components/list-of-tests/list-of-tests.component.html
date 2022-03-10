@@ -1,0 +1,130 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="list-of-tests">
+      <span class="list-of-tests__heading">Online Tests</span>
+      <div class="list-of-tests__filterSection">
+        <div class="list-of-tests__filterSection__searchSection">
+          <span class="list-of-tests__filterSection__searchSection__label"
+            >Search</span
+          >
+          <input
+            class="list-of-tests__filterSection__searchSection__searchInput"
+            [(ngModel)]="searchTable"
+            (keyup)="applyFilter()"
+          /><button
+            class="list-of-tests__filterSection__searchSection__searchButton button"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+        <!-- <div class="list-of-tests__filterSection__selectTest">
+          <span class="list-of-tests__filterSection__selectTest__label"
+            >Test Type</span
+          >
+          <mat-select
+            class="list-of-tests__filterSection__selectTest__select"
+            [(value)]="selectedTestType"
+            (selectionChange)="getTests()"
+          >
+            <mat-option
+              *ngFor="let type of testTypes; index as i"
+              [value]="i"
+              >{{ type.testTypeName }}</mat-option
+            >
+          </mat-select>
+        </div> -->
+      </div>
+      <table mat-table [dataSource]="tests" class="list-of-tests__table">
+        <ng-container matColumnDef="test_type">
+          <th mat-header-cell *matHeaderCellDef>Test Type</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            {{ test["testTypeName"] }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="test_code">
+          <th mat-header-cell *matHeaderCellDef>Test Code</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            {{ test["testCode"] }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="test_date">
+          <th mat-header-cell *matHeaderCellDef>Due Date</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            {{ test["completeBy"] }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td
+            mat-cell
+            *matCellDef="let test"
+            class="capitalize list-of-tests__table__status"
+          >
+            <!-- <img
+              [src]="
+                test.totalQuestions === test.totalSavedQuestions
+                  ? 'assets/test-completed.svg'
+                  : test.totalSavedQuestions === 0
+                  ? 'assets/test-not-started.svg'
+                  : 'assets/test-incomplete.svg'
+              "
+            /> -->
+            <span
+              class="list-of-tests__table__status__text"
+              [ngClass]="
+                test.status === 3
+                  ? 'list-of-tests__table__status__text__completed'
+                  : ''
+              "
+              >{{
+                test.status === 3
+                  ? "Completed"
+                  : test.status === 2
+                  ? "Started"
+                  : test.status === 4
+                  ? "Expired"
+                  : "Not Started"
+              }}</span
+            >
+            <!-- <img src="assets/test-completed.svg" />
+            <span class="list-of-tests__table__status__text">Completed</span> -->
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            <button
+              class="button"
+              [routerLink]="
+                test.status === 3
+                  ? ['/report', test.studentTestId]
+                  : ['/online-test', test.studentTestId]
+              "
+            >
+              {{
+                test["status"] === 3
+                  ? "View"
+                  : test["status"] === 2
+                  ? "Continue"
+                  : test["status"] === 1
+                  ? "Begin"
+                  : "View"
+              }}
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+      </table>
+      <mat-paginator
+        [pageSize]="15"
+        showFirstLastButtons
+        #paginator
+      ></mat-paginator>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

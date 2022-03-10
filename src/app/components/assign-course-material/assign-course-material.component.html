@@ -1,0 +1,181 @@
+<div class="assign-material">
+    <div class="assign-material__files" (click)="filesExist()"
+        [ngClass]="{'error-border': assignError && !filesExistFlag}">
+        <div class="assign-material__files--tree">
+            <p-dialog [(visible)]="documentDialog" class="assign-material__document">
+                <ngx-doc-viewer *ngIf="fileUrlExtension !== 'pdf'" [url]="fileUrl" viewer="office"
+                    class="assign-material__document--viewer" googleCheckContentLoaded=true></ngx-doc-viewer>
+                <ngx-doc-viewer *ngIf="fileUrlExtension === 'pdf'" [url]="fileUrl" viewer="url"
+                    class="assign-material__document--viewer" googleCheckContentLoaded=true></ngx-doc-viewer>
+            </p-dialog>
+            <span class="primary-text">Select Files</span>
+            <div class="assign-material__files--tree--trigger" (click)="treeDropDown.toggle($event)">Files <mat-icon>
+                    arrow_drop_down</mat-icon>
+            </div>
+            <p-overlayPanel #treeDropDown [dismissable]="false">
+                <p-tree [value]="fileTree" selectionMode="checkbox" [(selection)]="selectedFiles"
+                    class="assign-material__files--tree--body" (onNodeSelect)="nodeSelected($event)"
+                    emptyMessage="No Courses Found">
+                    <ng-template let-node pTemplate="default">
+                        <span class="d-flex align-items-center">
+                            <mat-icon class="assign-material__files--tree--body--icon">{{
+                                node.children ? 'folder' : 'description'}}</mat-icon>
+                            <label class="assign-material__files--tree--body--label pointer"
+                                (click)="node.children ? false : displayDocumentDialog(node.fileId, node.label)">{{node.label}}</label>
+                        </span>
+                    </ng-template>
+                </p-tree>
+            </p-overlayPanel>
+        </div>
+        <div class="assign-material__files--category">
+            <span>Selected Files to Assign</span>
+            <div class="assign-material__files--category--list">
+                <ng-container *ngFor="let file of selectedFiles">
+                    <form *ngIf="file.fileId" [formGroup]="file.formData"
+                        class="assign-material__files--category--list--item">
+                        <span [matTooltip]="file.formData.value.fileName"
+                            class="assign-material__files--category--list--item--file">{{(file.formData.value.fileName.length>40)?
+                            (file.formData.value.fileName | slice:0:40)+'...':(file.formData.value.fileName)}}</span>
+                        <mat-select formControlName="category" disableOptionCentering
+                            class="assign-material__files--category--list--item--categories"
+                            [ngClass]="{'error-border': file.formData.controls.category.invalid && assignError }">
+                            <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}
+                            </mat-option>
+                        </mat-select>
+                        <div (click)="dueDatePicker.open()"
+                            class="assign-material__files--category--list--item--datepicker"
+                            [ngClass]="{'error-border': file.formData.controls.dueDate.invalid && assignError }">
+                            <input [matDatepicker]="dueDatePicker" formControlName="dueDate" readonly
+                                placeholder="Due Date" [max]="file.formData.value.expiryDate"
+                                class="assign-material__files--category--list--item--datepicker--input" />
+                            <mat-datepicker-toggle matSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dueDatePicker></mat-datepicker>
+                        </div>
+                        <div (click)="expiryDatePicker.open()"
+                            class="assign-material__files--category--list--item--datepicker"
+                            [ngClass]="{'error-border': file.formData.controls.expiryDate.invalid && assignError }">
+                            <input [matDatepicker]="expiryDatePicker" placeholder="Expiry Date"
+                                [min]="file.formData.value.dueDate" formControlName="expiryDate"
+                                class="assign-material__files--category--list--item--datepicker--input" readonly />
+                            <mat-datepicker-toggle matSuffix [for]="expiryDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #expiryDatePicker></mat-datepicker>
+                        </div>
+                    </form>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="assign-material__students">
+        <div class="assign-material__students__selectType">
+            <span class="assign-material__students__selectType__sendTo">Assign To</span>
+            <mat-select class="assign-material__students__selectType__select" [(value)]="sendToType">
+                <mat-option value="0">Student</mat-option>
+                <mat-option value="1">Batch</mat-option>
+            </mat-select>
+            <mat-select-autocomplete *ngIf="sendToType === '0'; else batchBlock" class="capitalize"
+                (selectionChange)="getSelectedStudents($event)" [multiple]="true" [display]="'studentName'"
+                [value]="'studentId'" [placeholder]="'Search Student'" [options]="students" [appearance]="'standard'">
+            </mat-select-autocomplete>
+            <ng-template #batchBlock>
+                <mat-select-autocomplete class="capitalize" (selectionChange)="getSelectedBatches($event)"
+                    [multiple]="true" [display]="'batchName'" [value]="'batchId'" [placeholder]="'Search Batch'"
+                    [options]="batches" [appearance]="'standard'"></mat-select-autocomplete>
+            </ng-template>
+            <button class="textButton" (click)="addBatchOrStudent()">
+                <mat-icon>add</mat-icon> Add
+            </button>
+        </div>
+        <div class="assign-material__students__studentList">
+            Student List
+            <p-overlayPanel #studentTreeTrigger>
+                <p-tree [value]="studentTree" class="assign-material__files--tree--body"
+                    emptyMessage="No Material Found">
+                    <ng-template let-node pTemplate="default">
+                        <span class="d-flex align-items-center">
+                            <mat-icon class="assign-material__files--tree--body--icon">{{
+                                node.children ? 'folder' : 'description'}}</mat-icon>
+                            <label class="assign-material__files--tree--body--label  pointer"
+                                (click)="node.children ? false : displayDocumentDialog(node.fileId, node.label)">{{node.label}}</label>
+                        </span>
+                    </ng-template>
+                </p-tree>
+            </p-overlayPanel>
+        </div>
+        <p class="error-text" *ngIf="assignError && noStudentsError">
+            Please add atleast one student
+        </p>
+        <div class="assign-material__students__selectedStudents">
+            <span>Selected Students</span>
+            <div class="assign-material__students__selectedStudents__list">
+                <ng-container *ngFor="let student of students"><span
+                        class="assign-material__students__selectedStudents__list__item capitalize"
+                        *ngIf="addedStudents.indexOf(student['studentId']) > -1"
+                        [ngClass]="{disabled: studentFilesLoading}"
+                        (click)="studentFilesLoading ? false:getStudentFiles(student['studentId'], studentTreeTrigger, $event)">
+                        <mat-icon class="assign-material__students__selectedStudents__list__item__close"
+                            (click)="removeStudent(student['studentId'])">cancel</mat-icon>
+                        {{ student["studentName"] }}
+                    </span></ng-container>
+            </div>
+        </div>
+        <div class="assign-material__students__selectedBatches">
+            <span>Selected Batches</span>
+            <ng-container *ngFor="let batch of batches; index as batchIndex">
+                <div class="assign-material__students__selectedBatches__batch"
+                    *ngIf="addedBatches.indexOf(batch['batchId']) > -1">
+                    <div class="assign-material__students__selectedBatches__batch__info"
+                        (click)="toggleBatchDrillDown(batch['batchId'])" [ngClass]="
+                    openBatches.indexOf(batch['batchId']) > -1
+                      ? 'assign-material__students__selectedBatches__batch__info__openDrillDown'
+                      : ''
+                  ">
+                        {{ batch["batchName"] }}
+                        <span class="assign-material__students__selectedBatches__batch__info__studentCount">No. Of
+                            Students:
+                            {{
+                            batch["students"]["length"] -
+                            batch["removedStudents"]["length"]
+                            }}</span>
+                        <mat-icon class="assign-material__students__selectedBatches__batch__info__arrow">{{
+                            openBatches.indexOf(batch["batchId"]) > -1
+                            ? "arrow_drop_up"
+                            : "arrow_drop_down"
+                            }}</mat-icon>
+                    </div>
+                    <div *ngIf="openBatches.indexOf(batch['batchId']) > -1"
+                        class="assign-material__students__selectedBatches__batch__students">
+                        <ng-container *ngFor="let student of batch['students']">
+                            <span
+                                class="assign-material__students__selectedBatches__batch__students__student capitalize">
+                                <mat-checkbox [checked]="
+                          batch['removedStudents'].indexOf(student['studentId']) <
+                          0
+                        " (change)="
+                          toggleStudentInBatch(batchIndex, student['studentId'])
+                        "></mat-checkbox>
+                                <span class="assign-material__students__selectedBatches__batch__students__student--name"
+                                    [ngClass]="{disabled: studentFilesLoading}"
+                                    (click)="studentFilesLoading ? false:getStudentFiles(student['studentId'], studentTreeTrigger, $event)">{{
+                                    student["studentName"] }}</span>
+                            </span>
+                        </ng-container>
+                    </div>
+                    <div class="assign-material__students__selectedBatches__batch__buttonStack"
+                        *ngIf="openBatches.indexOf(batch['batchId']) > -1">
+                        <span>
+                            <mat-checkbox [checked]="batch['allStudentsSelected']"
+                                (change)="selectAllStudents($event.checked, batchIndex)">Select All</mat-checkbox>
+                        </span>
+                        <button
+                            class="textButton assign-material__students__selectedBatches__batch__buttonStack__remove"
+                            (click)="removeBatch(batch['batchId'], batchIndex)">
+                            <mat-icon>remove</mat-icon>Remove
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <button class="assign-material__assign button button__green" (click)="assignFiles()"
+        [disabled]="assignClicked">Assign</button>
+</div>

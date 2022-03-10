@@ -1,0 +1,284 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="report">
+      <ng-container *ngIf="!testDetailsLoading">
+        <div class="report__userDetails">
+          <span class="capitalize">
+            {{ test_details["overview"][0]["student_name"] }}</span
+          >
+          <span class="report__userDetails__scoreReport">Score Report</span>
+        </div>
+        <div
+          class="report__examDetails"
+          *ngIf="test_details['overview'][0]['test_type_name'] !== 'ACT'"
+        >
+          <div class="report__examDetails__basic">
+            <span class="report__examDetails__basic__examTitle">{{
+              test_details["overview"][0]["test_code"]
+            }}</span>
+            <span class="report__examDetails__basic__examDate">{{
+              commonService.getDate(test_details["overview"][0]["test_date"])
+            }}</span>
+          </div>
+          <div class="report__examDetails__readingAndWriting">
+            <div class="report__examDetails__readingAndWriting__section">
+              <span
+                class="report__examDetails__readingAndWriting__section__name"
+                >READING:
+              </span>
+              <span
+                class="report__examDetails__readingAndWriting__section__score"
+                >{{
+                  test_details["overview"][0]["section_score"]["Reading"][
+                    "score"
+                  ]
+                }}</span
+              >
+              <span
+                class="report__examDetails__readingAndWriting__section__name"
+                >WRITING:
+              </span>
+              <span
+                class="report__examDetails__readingAndWriting__section__score"
+                >{{
+                  test_details["overview"][0]["section_score"][
+                    "Writing and Language"
+                  ]["score"]
+                }}</span
+              >
+            </div>
+            <span class="report__examDetails__readingAndWriting__total">{{
+              test_details["overview"][0]["section_score"]["Reading"]["score"] +
+                test_details["overview"][0]["section_score"][
+                  "Writing and Language"
+                ]["score"]
+            }}</span>
+          </div>
+          <div class="report__examDetails__math">
+            <span class="report__examDetails__math__title">MATH SCORE</span>
+            <span class="report__examDetails__math__score">{{
+              test_details["overview"][0]["section_score"]["Math"]["score"]
+            }}</span>
+          </div>
+          <div class="report__examDetails__total">
+            <span class="report__examDetails__total__title">TOTAL</span>
+            <span class="report__examDetails__total__score">{{
+              test_details["overview"][0]["section_score"]["Reading"]["score"] +
+                test_details["overview"][0]["section_score"][
+                  "Writing and Language"
+                ]["score"] +
+                test_details["overview"][0]["section_score"]["Math"]["score"]
+            }}</span>
+          </div>
+        </div>
+        <div
+          class="report__actDetails"
+          *ngIf="test_details['overview'][0]['test_type_name'] === 'ACT'"
+        >
+          <div class="report__actDetails__basic">
+            <span class="report__actDetails__basic__examTitle"
+              >ACT Exam 225</span
+            >
+            <span class="report__actDetails__basic__examDate">{{
+              commonService.getDate("08/24/2020")
+            }}</span>
+          </div>
+          <div class="report__actDetails__section">
+            <span class="report__actDetails__section__title">ENGLISH</span>
+            <span class="report__actDetails__section__score">28</span>
+          </div>
+          <div
+            class="report__actDetails__section report__actDetails__section__math"
+          >
+            <span class="report__actDetails__section__title">MATH</span>
+            <span class="report__actDetails__section__score">22</span>
+          </div>
+          <div
+            class="report__actDetails__section report__actDetails__section__reading"
+          >
+            <span class="report__actDetails__section__title">READING</span>
+            <span class="report__actDetails__section__score">21</span>
+          </div>
+          <div
+            class="report__actDetails__section report__actDetails__section__science"
+          >
+            <span class="report__actDetails__section__title">SCIENCE</span>
+            <span class="report__actDetails__section__score">21</span>
+          </div>
+          <div class="report__actDetails__total">
+            <span class="report__actDetails__total__title">TOTAL</span>
+            <span class="report__actDetails__total__score">32</span>
+          </div>
+        </div>
+        <ng-container
+          *ngFor="
+            let scoringSection of test_details['detailed_report'];
+            index as scoringSectionIndex
+          "
+        >
+          <div class="report__sectionDetails">
+            <div class="report__sectionDetails__header">
+              <div class="report__sectionDetails__header__tag">
+                {{ scoringSection["scoring_section_name"] }}
+              </div>
+              <div class="report__sectionDetails__header__analysisStack">
+                <a
+                  class="button"
+                  (click)="
+                    scrollTo(
+                      'analysis' + scoringSection['scoring_section_name']
+                    )
+                  "
+                >
+                  <img src="assets/analysis.svg" />Analysis
+                </a>
+                <a
+                  class="button"
+                  (click)="scrollTo(scoringSection['scoring_section_name'])"
+                >
+                  <img src="assets/error-log.svg" /> Incorrect Answers
+                </a>
+              </div>
+            </div>
+            <div class="report__sectionDetails__section">
+              <ng-container
+                *ngFor="
+                  let section of scoringSection['sections'];
+                  index as sectionIndex
+                "
+              >
+                <div
+                  class="report__sectionDetails__section__header"
+                  [ngClass]="
+                    sectionIndex > 0
+                      ? 'report__sectionDetails__section__header__second'
+                      : ''
+                  "
+                >
+                  <div
+                    class="report__sectionDetails__section__header__left"
+                    *ngIf="scoringSection['sections']['length'] > 1"
+                  >
+                    <img
+                      [src]="
+                        section['section_name'] === 'Math - No Calculator'
+                          ? 'assets/no-calculator.svg'
+                          : 'assets/calculator.svg'
+                      "
+                      *ngIf="scoringSection['scoring_section_name'] === 'Math'"
+                    />{{ section["section_name"] }}
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__header__right"
+                    *ngIf="sectionIndex === 0"
+                  >
+                    <span>Level:</span>
+                    <span><b>E</b>- Easy</span>
+                    <span><b>M</b>- Medium</span>
+                    <span><b>H</b>- Hard</span>
+                  </div>
+                </div>
+                <div
+                  class="report__sectionDetails__section__body"
+                  *ngFor="let range of section['range']; index as i"
+                >
+                  <div
+                    class="report__sectionDetails__section__body__header report__sectionDetails__section__body__header__topRow"
+                  >
+                    QUESTION
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__answers report__sectionDetails__section__body__answers__topRow"
+                  >
+                    <span *ngFor="let element of range['elements']; index as j">
+                      {{ i * 25 + j + 1 }}
+                    </span>
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__header report__sectionDetails__section__body__header__evenChild report__sectionDetails__section__body__header__middleRows"
+                  >
+                    STUDENT
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__answers report__sectionDetails__section__body__answers__middleRows"
+                  >
+                    <ng-container
+                      *ngFor="let element of range['elements']; index as j"
+                    >
+                      <span *ngIf="element['is_correct']; else wrongAnswer"
+                        ><mat-icon
+                          class="report__sectionDetails__section__body__answers__correct"
+                          >check</mat-icon
+                        ></span
+                      >
+                      <ng-template #wrongAnswer
+                        ><span
+                          class="report__sectionDetails__section__body__answers__error"
+                          >{{ element["student_answers"][0] }}</span
+                        ></ng-template
+                      >
+                    </ng-container>
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__header report__sectionDetails__section__body__header__middleRows"
+                  >
+                    KEY
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__answers report__sectionDetails__section__body__answers__key report__sectionDetails__section__body__answers__middleRows"
+                  >
+                    <span *ngFor="let element of range['elements']; index as j">
+                      <ng-container
+                        *ngIf="element['key'][0] !== null; else minMaxElement"
+                      >
+                        <ng-container
+                          *ngFor="let answer of element['key']; index as k"
+                        >
+                          <span>{{ answer }}</span>
+                        </ng-container>
+                      </ng-container>
+                      <ng-template #minMaxElement>
+                        <span
+                          >{{ element["is_min_inclusive"] === 1 ? ">=" : ">"
+                          }}{{ element["range_min"] }}</span
+                        >
+                        <span
+                          >{{ element["is_max_inclusive"] === 1 ? "<=" : "<"
+                          }}{{ element["range_max"] }}</span
+                        >
+                      </ng-template>
+                    </span>
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__header report__sectionDetails__section__body__header__evenChild report__sectionDetails__section__body__header__bottomRow"
+                  >
+                    LEVEL
+                  </div>
+                  <div
+                    class="report__sectionDetails__section__body__answers report__sectionDetails__section__body__answers__bottomRow"
+                  >
+                    <span *ngFor="let element of range['elements']; index as j">
+                      {{ element["difficult_level_code"] }}
+                    </span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+        <app-report-error-log
+          *ngIf="testDetailsLoaded"
+          [testDetails]="test_details"
+        ></app-report-error-log>
+        <app-report-analysis
+          *ngIf="analysisLoaded"
+          [scoringSections]="scoringSections"
+        ></app-report-analysis>
+      </ng-container>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>

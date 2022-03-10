@@ -1,0 +1,97 @@
+<div class="login">
+  <div id="login__header" class="login__header">
+    <span>
+      <img
+        src="assets/RA LOGO-01.svg"
+        class="login__header__logo"
+        routerLink=""
+      />
+    </span>
+    <div class="login__header__last">
+      <!-- <a
+        class="button button__green"
+        [routerLink]="['/register']"
+        *ngIf="loginRegisterText === 'Login'"
+        >REGISTER</a
+      > -->
+      <a
+        class="button login__header__register"
+        [routerLink]="['/register']"
+        *ngIf="loginRegisterText === 'Login'"
+        >REGISTER</a
+      >
+      <!-- <a
+        class="login__header__a__green"
+        [routerLink]="['/login']"
+        *ngIf="loginRegisterText === 'Register'"
+        >LOG IN</a
+      > -->
+      <a
+        class="button login__header__register"
+        [routerLink]="['/login']"
+        *ngIf="loginRegisterText === 'Register'"
+        >LOG IN</a
+      >
+    </div>
+  </div>
+  <div
+    class="login__content"
+    *ngIf="!profileUpdated && !profileBlocked && !errorPage"
+  >
+    <div
+      class="login__content__header"
+      *ngIf="!profileUpdated && !profileBlocked"
+    >
+      <h2 class="login__content__header--head">
+        {{ loginRegisterText }} using any of the services below
+      </h2>
+      <p class="login__content__header--sub">
+        <!-- Log In using any of the services below -->
+      </p>
+    </div>
+    <div
+      class="login__content__buttonStack"
+      *ngIf="!profileUpdated && !profileBlocked"
+    >
+      <a
+        class="login__content__buttonStack__button button"
+        [href]="facebookURL"
+      >
+        <img src="../../../assets/fb.svg" alt="fb" /> Continue with Facebook
+      </a>
+      <a
+        [href]="googleURL"
+        class="login__content__buttonStack__button login__content__buttonStack__button--google button"
+      >
+        <img src="../../../assets/google.svg" alt="fb" />
+        Continue with Google
+      </a>
+    </div>
+  </div>
+  <div class="login__content login__notAllowed" *ngIf="profileUpdated">
+    <p class="login__notAllowed__heading">
+      You are already Registered
+    </p>
+    <span class="login__notAllowed__subHeading">Check Email for updates </span>
+    <img src="assets/info-image.svg" />
+  </div>
+  <div class="login__content login__notAllowed" *ngIf="profileBlocked">
+    <p class="login__notAllowed__heading">
+      Your account has been blocked
+    </p>
+    <span class="login__notAllowed__subHeading">Please contact admin</span>
+    <img src="assets/info-image.svg" />
+  </div>
+  <div class="login__content login__errorPage" *ngIf="errorPage">
+    <p class="login__errorPage__message error">
+      {{ errorMessage }}
+    </p>
+  </div>
+</div>
+<!-- <footer class="footer">
+  <span class="footer--first"
+    >378 Boston Post Road, Suite #202, Orange, CT</span
+  >
+  <span>factorialmath@gmail.com</span>
+  <span class="footer--last">(203) 952 5567 / (203) 981 4186</span>
+</footer> -->

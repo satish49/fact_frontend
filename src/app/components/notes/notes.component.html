@@ -1,0 +1,175 @@
+<app-common-header [isAdminOrTutor]="role === '1' || role === '2'"></app-common-header>
+<div class="body">
+    <div class="mainContent">
+        <div class="notes">
+            <span class="notes__heading">To Do Notes</span>
+            <div class="notes__filterSection">
+                <div class="createNote">
+                    <button class="createNote" (click)="toggleNewNote()">
+                        <mat-icon>add_circle_outline</mat-icon>Add New
+                    </button>
+                    <p-dialog [(visible)]="addNoteVisible" [closeOnEscape]="false" [resizable]="false"
+                        [showHeader]="false" [draggable]="false">
+                        <!-- <p-overlayPanel #newNote [dismissable]="false"> -->
+                        <form class="createNote__container" [formGroup]="addNoteForm">
+                            <div class="createNote__container__section">
+                                <mat-icon class="createNote__container__section--icon">person</mat-icon>
+                                <span>User</span>
+                                <!-- <input placeholder="Username" class="createNote__container__section--input"> -->
+                                <p-autoComplete formControlName="user" [suggestions]="userSuggestions"
+                                    class="capitalize" placeholder="User" (completeMethod)="filterUsers($event)"
+                                    field="username" forceSelection="true"
+                                    [ngClass]="{'error-border': addNoteForm.controls.user.invalid && addNoteError}">
+                                    <ng-template let-user pTemplate="item">
+                                        <span>{{user.first_name}} {{user.last_name}} <span
+                                                class="text-initial">({{user.email}})</span></span>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </div>
+                            <div class="createNote__container__section createNote__container__section--big">
+                                <mat-icon class="createNote__container__section--icon">event_note</mat-icon>
+                                <span>Notes</span>
+                                <textarea rows="3" formControlName="notes"
+                                    [ngClass]="{'error-border': addNoteForm.controls.notes.invalid && addNoteError}"
+                                    class="createNote__container__section--notes createNote__container__section--input"></textarea>
+                            </div>
+                            <div class="createNote__container__section">
+                                <mat-icon class="createNote__container__section--icon">date_range</mat-icon>
+                                <span>Need by</span>
+                                <div class="createNote__container__section--input createNote__container__section__datepicker"
+                                    (click)="needByPicker.open()"
+                                    [ngClass]="{'error-border': addNoteForm.controls.needBy.invalid && addNoteError}">
+                                    <input matInput class="createNote__container__section__datepicker--input"
+                                        [matDatepicker]="needByPicker" formControlName="needBy" readonly />
+                                    <mat-datepicker-toggle matSuffix [for]="needByPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #needByPicker></mat-datepicker>
+                                </div>
+                            </div>
+                            <div class="createNote__container__section createNote__container__section--small">
+                                <img class="createNote__container__section--icon" src="assets/status.svg" />
+                                <span>Status</span>
+                                <div class="notes__status"
+                                    [ngClass]="{'notes__status__openbg': addNoteForm.value.status, 'notes__status__closebg': !addNoteForm.value.status}">
+                                    <button class="notes__status__button notes__status__button__first-child"
+                                        (click)="setNoteStatus(true)"
+                                        [ngClass]="{ 'notes__status__opened' : addNoteForm.value.status }">Opened</button>
+                                    <button class="notes__status__button notes__status__button__last-child"
+                                        (click)="setNoteStatus(false)"
+                                        [ngClass]="{ 'notes__status__closed' : !addNoteForm.value.status }">Closed</button>
+                                </div>
+                            </div>
+                            <div class="createNote__container__section createNote__container__section--small">
+                                <mat-icon class="createNote__container__section--icon">visibility</mat-icon>
+                                <span>Show to User</span>
+                                <p-inputSwitch formControlName="showToUser"></p-inputSwitch>
+                            </div>
+                            <div class="createNote__container__footer">
+                                <button (click)="toggleNewNote()" class="createNote__container__footer--cancel"
+                                    [disabled]="addNoteClicked">Cancel</button>
+                                <button class="createNote__container__footer--add" (click)="addNote(null)"
+                                    [disabled]="addNoteClicked">Add</button>
+                            </div>
+                        </form>
+                        <!-- </p-overlayPanel> -->
+                    </p-dialog>
+                </div>
+                <div class="notes__filterSection__searchSection">
+                    <span class="notes__filterSection__searchSection__label">Search</span>
+                    <div class="notes__filterSection__searchSection__inputSection">
+                        <input class="notes__filterSection__searchSection__searchInput" placeholder="User"
+                            [(ngModel)]="searchUser" (keyup)="getNotes()" /><button
+                            class="notes__filterSection__searchSection__searchButton button">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="notes__filterSection__selectNote">
+                    <span class="notes__filterSection__selectNote__label">Need By</span>
+                    <mat-select class="notes__filterSection__selectNote__select" [(ngModel)]="needByFilter"
+                        (selectionChange)="getNotes()">
+                        <mat-option value="asc">Oldest First</mat-option>
+                        <mat-option value="desc">Latest First</mat-option>
+                    </mat-select>
+                </div>
+                <div class="notes__filterSection__selectNote">
+                    <span class="notes__filterSection__selectNote__label">Status</span>
+                    <mat-select class="notes__filterSection__selectNote__select" [(ngModel)]="noteType"
+                        (selectionChange)="getNotes()">
+                        <mat-option value="all">All</mat-option>
+                        <mat-option value="opened">Opened</mat-option>
+                        <mat-option value="closed">Closed</mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <!-- Mark as Closed Section start -->
+
+            <div class="notes__markSection" *ngIf="this.selectedNotes.length > 0">
+                <button class="notes__markSection__button notes__markSection__button__open"
+                    *ngIf="noteType !== 'opened'" (click)="updateMultipleNotes(true)"
+                    [disabled]="updateNotesClicked">Mark as Open</button>
+                <button class="notes__markSection__button notes__markSection__button__closed"
+                    *ngIf="noteType !== 'closed'" (click)="updateMultipleNotes(false)"
+                    [disabled]="updateNotesClicked">Mark as Closed</button>
+            </div>
+
+            <!-- Mark as Closed Section end -->
+            <div class="notes__table-container">
+                <table mat-table [dataSource]="notes" class="notes__table" matSort>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let note" class="capitalize">
+                            <mat-checkbox [checked]="selectedNotes.indexOf(note.notesId) >= 0"
+                                (change)="selectNote(note.notesId)"></mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="username">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+                        <td mat-cell *matCellDef="let note" class="capitalize">
+                            {{ note.username }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+                        <td mat-cell *matCellDef="let note" class="capitalize">
+                            {{ note.description }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="showToUser">
+                        <th mat-header-cell *matHeaderCellDef>Show To User</th>
+                        <td mat-cell *matCellDef="let note" class="capitalize">
+                            <p-inputSwitch [(ngModel)]="note.showToUser" [disabled]="updateNotesClicked"
+                                (onChange)="updateSingleNote(note.notesId, note.status, $event.checked)">
+                            </p-inputSwitch>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="completedBy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Need By</th>
+                        <td mat-cell *matCellDef="let note" class="capitalize">
+                            {{ note.completedBy }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                        <td mat-cell *matCellDef="let note" class="capitalize">
+                            <div class="notes__status"
+                                [ngClass]="{'notes__status__openbg': note.status, 'notes__status__closebg': !note.status}">
+                                <button class="notes__status__button notes__status__button__first-child"
+                                    (click)="!note.status ? updateSingleNote(note.notesId, true, note.showToUser): false"
+                                    [ngClass]="{ 'notes__status__opened' : note.status }"
+                                    [disabled]="updateNotesClicked">Opened</button>
+                                <button class="notes__status__button notes__status__button__last-child"
+                                    (click)="note.status ? updateSingleNote(note.notesId, false, note.showToUser) : false"
+                                    [ngClass]="{ 'notes__status__closed' : !note.status }"
+                                    [disabled]="updateNotesClicked">Closed</button>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSize]="15" showFirstLastButtons #paginator></mat-paginator>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

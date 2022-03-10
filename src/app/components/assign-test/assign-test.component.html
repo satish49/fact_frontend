@@ -1,0 +1,396 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="assign-test">
+      <div class="assign-test__heading">
+        <span class="assign-test__heading__main">Assign Test</span>
+        <span class="assign-test__heading__sub"
+          >Assign test to students or batch</span
+        >
+      </div>
+      <div class="assign-test__header">
+        <div class="assign-test__header__block">
+          <span class="assign-test__header__block__label">Test Type:</span>
+          <span class="assign-test__header__block__content">{{
+            testType
+          }}</span>
+        </div>
+        <div
+          class="assign-test__header__block assign-test__header__block--testCode"
+        >
+          <span class="assign-test__header__block__label">Test Code:</span>
+          <span class="assign-test__header__block__content">{{
+            testCode
+          }}</span>
+        </div>
+        <!-- <div class="assign-test__header__block">
+          <span class="assign-test__header__block__label">Section:</span>
+          <span class="assign-test__header__block__content">Reading</span>
+        </div> -->
+      </div>
+      <div class="assign-test__main">
+        <div class="assign-test__main__statusBlocks">
+          <div
+            class="assign-test__main__statusBlocks__block assign-test__main__statusBlocks__block--searchBlock"
+          >
+            <div class="assign-test__main__statusBlocks__block__dates">
+              <div
+                class="assign-test__main__statusBlocks__block__dates__date"
+                [ngClass]="
+                  searchError && fromDate['invalid']
+                    ? 'assign-test__main__statusBlocks__block__dates__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  class="assign-test__main__statusBlocks__block__dates__date__input"
+                  [matDatepicker]="fromDatePicker"
+                  readonly
+                  (click)="fromDatePicker.open()"
+                  [formControl]="fromDate"
+                  [max]="toDate['value']"
+                  placeholder="From"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="fromDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #fromDatePicker></mat-datepicker>
+              </div>
+              <div
+                class="assign-test__main__statusBlocks__block__dates__date"
+                [ngClass]="
+                  searchError && toDate['invalid']
+                    ? 'assign-test__main__statusBlocks__block__dates__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  class="assign-test__main__statusBlocks__block__dates__date__input"
+                  [matDatepicker]="toDatePicker"
+                  readonly
+                  (click)="toDatePicker.open()"
+                  [formControl]="toDate"
+                  [min]="fromDate['value']"
+                  placeholder="To"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="toDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #toDatePicker></mat-datepicker>
+              </div>
+            </div>
+            <button
+              class="button assign-test__main__statusBlocks__block__search"
+              (click)="getStudentsForTest()"
+              [disabled]="searchClicked"
+            >
+              Search <mat-icon>search</mat-icon>
+            </button>
+            <mat-radio-group
+              class="assign-test__main__statusBlocks__block__radios"
+              [(ngModel)]="selectedStatus"
+            >
+              <mat-radio-button [value]="0"
+                >Assigned({{ studentsForThisTest["length"] }})</mat-radio-button
+              >
+              <mat-radio-button [value]="1"
+                >Not Started({{ notStartedCount }})</mat-radio-button
+              >
+              <mat-radio-button [value]="2"
+                >In Progress({{ inProgressCount }})</mat-radio-button
+              >
+              <mat-radio-button [value]="3"
+                >Completed({{ completedCount }})</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div
+            class="assign-test__main__statusBlocks__block assign-test__main__statusBlocks__block--studentList"
+            *ngIf="studentsForThisTest['length'] > 0"
+          >
+            <span class="assign-test__main__statusBlocks__block__title">{{
+              selectedStatus === 1
+                ? "Not Started"
+                : selectedStatus === 2
+                ? "In Progress"
+                : selectedStatus === 3
+                ? "Completed"
+                : selectedStatus === 0
+                ? "Assigned"
+                : ""
+            }}</span>
+            <p
+              *ngIf="
+                (selectedStatus === 0 && studentsForThisTest['length'] === 0) ||
+                (selectedStatus === 1 && notStartedCount === 0) ||
+                (selectedStatus === 2 && inProgressCount === 0) ||
+                (selectedStatus === 3 && completedCount === 0)
+              "
+              class="assign-test__main__statusBlocks__block__noDataFound"
+            >
+              No Data Found
+            </p>
+            <div
+              class="assign-test__main__statusBlocks__block__listOfStudents"
+              *ngIf="
+                (selectedStatus === 0 && studentsForThisTest['length'] > 0) ||
+                (selectedStatus === 1 && notStartedCount > 0) ||
+                (selectedStatus === 2 && inProgressCount > 0) ||
+                (selectedStatus === 3 && completedCount > 0)
+              "
+            >
+              <ng-container
+                *ngFor="
+                  let student of studentsForThisTest;
+                  index as studentIndex
+                "
+              >
+                <div
+                  *ngIf="
+                    selectedStatus === 0
+                      ? true
+                      : student['testStatus'] === selectedStatus
+                  "
+                  class="capitalize"
+                >
+                  {{ student["name"] }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <!-- <div class="assign-test__main__statusBlocks__block">
+            <span class="assign-test__main__statusBlocks__block__title"
+              >TOTAL ASSIGNED</span
+            >
+            <span class="assign-test__main__statusBlocks__block__count">{{
+              totalAssigned
+            }}</span>
+            <a class="assign-test__main__statusBlocks__block__view">View</a>
+          </div>
+          <div
+            class="assign-test__main__statusBlocks__block assign-test__main__statusBlocks__block--completed"
+          >
+            <span class="assign-test__main__statusBlocks__block__title"
+              >COMPLETED</span
+            >
+            <span class="assign-test__main__statusBlocks__block__count">{{
+              totalCompleted
+            }}</span>
+            <a class="assign-test__main__statusBlocks__block__view">View</a>
+          </div> -->
+        </div>
+        <div class="assign-test__main__assignBlock">
+          <div class="assign-test__main__assignBlock__searchBlock">
+            <div class="assign-test__main__assignBlock__searchBlock__block">
+              <span
+                class="assign-test__main__assignBlock__selectBlock__assignTo"
+                >Assign to</span
+              >
+              <mat-select
+                class="assign-test__main__assignBlock__selectBlock__select"
+                [(value)]="selectedType"
+              >
+                <mat-option value="0">Student</mat-option>
+                <mat-option value="1">Batch</mat-option>
+              </mat-select>
+            </div>
+            <div
+              class="assign-test__main__assignBlock__searchBlock__block assign-test__main__assignBlock__searchBlock__block--dateBlock"
+            >
+              <span
+                class="assign-test__main__assignBlock__searchBlock__block--dateBlock__dueBy"
+                >Due By</span
+              >
+              <div
+                class="assign-test__main__assignBlock__searchBlock__block__date"
+                [ngClass]="
+                  error && dueBy['invalid']
+                    ? 'assign-test__main__assignBlock__searchBlock__block__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  class="assign-test__main__assignBlock__searchBlock__block__date__input"
+                  [matDatepicker]="datePicker"
+                  readonly
+                  (click)="datePicker.open()"
+                  [formControl]="dueBy"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datePicker></mat-datepicker>
+              </div>
+            </div>
+            <div
+              class="assign-test__main__assignBlock__searchBlock__block assign-test__main__assignBlock__searchBlock__block--partial"
+            >
+              <mat-checkbox
+                class="assign-test__main__assignBlock__searchBlock__block--partial--checkbox"
+                [(ngModel)]="isPartialAllowed"
+                >Partial Allowed</mat-checkbox
+              >
+            </div>
+          </div>
+          <div class="assign-test__main__assignBlock__searchBlock">
+            <div class="assign-test__main__assignBlock__searchBlock__block">
+              <span
+                class="assign-test__main__assignBlock__searchBlock__block__label"
+                >{{ selectedType === "0" ? "Student" : "Batch" }}</span
+              >
+              <mat-select-autocomplete
+                *ngIf="selectedType === '0'; else batchBlock"
+                class="capitalize"
+                (selectionChange)="getSelectedStudents($event)"
+                [multiple]="true"
+                [display]="'studentName'"
+                [value]="'studentId'"
+                [placeholder]="'Search Student'"
+                [options]="students"
+                [appearance]="'standard'"
+              ></mat-select-autocomplete>
+              <ng-template #batchBlock>
+                <mat-select-autocomplete
+                  class="capitalize"
+                  (selectionChange)="getSelectedBatches($event)"
+                  [multiple]="true"
+                  [display]="'batchName'"
+                  [value]="'batchId'"
+                  [placeholder]="'Search Batch'"
+                  [options]="batches"
+                  [appearance]="'standard'"
+                ></mat-select-autocomplete>
+              </ng-template>
+            </div>
+            <button
+              class="textButton assign-test__main__assignBlock__add"
+              (click)="addBatchOrStudent()"
+            >
+              <mat-icon>add</mat-icon>Add
+            </button>
+          </div>
+          <p class="assign-test__main__assignBlock__assignStudents">
+            Selected Assign List
+          </p>
+          <p
+            class="assign-test__main__assignBlock__noStudents"
+            *ngIf="error && noStudentsError"
+          >
+            Please add atleast one student
+          </p>
+          <div class="assign-test__main__assignBlock__selectedStudents">
+            <span>Selected Students</span>
+            <div class="assign-test__main__assignBlock__selectedStudents__list">
+              <ng-container *ngFor="let student of students"
+                ><span
+                  class="assign-test__main__assignBlock__selectedStudents__list__item capitalize"
+                  *ngIf="addedStudents.indexOf(student['studentId']) > -1"
+                >
+                  <mat-icon
+                    class="assign-test__main__assignBlock__selectedStudents__list__item__close"
+                    (click)="removeStudent(student['studentId'])"
+                    >cancel</mat-icon
+                  >
+                  {{ student["studentName"] }}</span
+                ></ng-container
+              >
+            </div>
+          </div>
+          <div class="assign-test__main__assignBlock__selectedBatches">
+            <span>Selected Batches</span>
+            <ng-container *ngFor="let batch of batches; index as batchIndex"
+              ><div
+                class="assign-test__main__assignBlock__selectedBatches__batch"
+                *ngIf="addedBatches.indexOf(batch['batchId']) > -1"
+              >
+                <div
+                  class="assign-test__main__assignBlock__selectedBatches__batch__info"
+                  (click)="toggleBatchDrillDown(batch['batchId'])"
+                  [ngClass]="
+                    openBatches.indexOf(batch['batchId']) > -1
+                      ? 'assign-test__main__assignBlock__selectedBatches__batch__info__openDrillDown'
+                      : ''
+                  "
+                >
+                  {{ batch["batchName"] }}
+                  <span
+                    class="assign-test__main__assignBlock__selectedBatches__batch__info__studentCount"
+                    >No. Of Students:
+                    {{
+                      batch["students"]["length"] -
+                        batch["removedStudents"]["length"]
+                    }}</span
+                  >
+                  <mat-icon
+                    class="assign-test__main__assignBlock__selectedBatches__batch__info__arrow"
+                    >{{
+                      openBatches.indexOf(batch["batchId"]) > -1
+                        ? "arrow_drop_up"
+                        : "arrow_drop_down"
+                    }}</mat-icon
+                  >
+                </div>
+                <div
+                  *ngIf="openBatches.indexOf(batch['batchId']) > -1"
+                  class="assign-test__main__assignBlock__selectedBatches__batch__students"
+                >
+                  <ng-container *ngFor="let student of batch['students']">
+                    <span
+                      class="assign-test__main__assignBlock__selectedBatches__batch__students__student capitalize"
+                    >
+                      <mat-checkbox
+                        [checked]="
+                          batch['removedStudents'].indexOf(
+                            student['studentId']
+                          ) < 0
+                        "
+                        (change)="
+                          toggleStudentInBatch(batchIndex, student['studentId'])
+                        "
+                        >{{ student["studentName"] }}</mat-checkbox
+                      >
+                    </span>
+                  </ng-container>
+                </div>
+                <div
+                  class="assign-test__main__assignBlock__selectedBatches__batch__buttonStack"
+                  *ngIf="openBatches.indexOf(batch['batchId']) > -1"
+                >
+                  <span>
+                    <mat-checkbox
+                      [checked]="batch['allStudentsSelected']"
+                      (change)="selectAllStudents($event.checked, batchIndex)"
+                      >Select All</mat-checkbox
+                    >
+                  </span>
+                  <button
+                    class="textButton assign-test__main__assignBlock__selectedBatches__batch__buttonStack__remove"
+                    (click)="removeBatch(batch['batchId'], batchIndex)"
+                  >
+                    <mat-icon>remove</mat-icon>Remove
+                  </button>
+                </div>
+              </div></ng-container
+            >
+          </div>
+          <button
+            class="assign-test__main__assignBlock__save"
+            (click)="assignTest()"
+            [disabled]="assignClicked"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

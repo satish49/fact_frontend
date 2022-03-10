@@ -1,0 +1,280 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="notification">
+      <div class="notification__heading">
+        <span class="notification__heading__main"
+          >Email / SMS Notification</span
+        >
+        <span class="notification__heading__sub"
+          >Send messages/emails to students or parents</span
+        >
+      </div>
+      <div class="notification__body">
+        <div class="notification__body__notificationType">
+          <span class="notification__body__notificationType__title"
+            >Message Type</span
+          >
+          <span class="notification__body__notificationType__type"
+            ><mat-checkbox [(ngModel)]="email">Email</mat-checkbox></span
+          >
+          <span class="notification__body__notificationType__type"
+            ><mat-checkbox [(ngModel)]="message">Message</mat-checkbox></span
+          >
+          <p
+            *ngIf="error && !email && !message"
+            class="notification__body__notificationType__error"
+          >
+            Please select a notification type
+          </p>
+          <mat-radio-group
+            [(ngModel)]="selectedMailType"
+            class="notification__body__notificationType__mailType"
+          >
+            <mat-radio-button
+              value="CC"
+              labelPosition="before"
+              class="notification__body__notificationType__mailType__element"
+              >CC</mat-radio-button
+            >
+            <mat-radio-button value="BCC" labelPosition="before"
+              >BCC</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+        <div class="notification__body__selectType">
+          <span class="notification__body__selectType__sendTo">Send To</span>
+          <mat-select
+            class="notification__body__selectType__select"
+            [(value)]="sendToType"
+          >
+            <mat-option value="0">Student</mat-option>
+            <mat-option value="1">Batch</mat-option>
+          </mat-select>
+          <mat-select-autocomplete
+            *ngIf="sendToType === '0'; else batchBlock"
+            class="capitalize"
+            (selectionChange)="getSelectedStudents($event)"
+            [multiple]="true"
+            [display]="'studentName'"
+            [value]="'studentId'"
+            [placeholder]="'Search Student'"
+            [options]="students"
+            [appearance]="'standard'"
+          ></mat-select-autocomplete>
+          <ng-template #batchBlock>
+            <mat-select-autocomplete
+              class="capitalize"
+              (selectionChange)="getSelectedBatches($event)"
+              [multiple]="true"
+              [display]="'batchName'"
+              [value]="'batchId'"
+              [placeholder]="'Search Batch'"
+              [options]="batches"
+              [appearance]="'standard'"
+            ></mat-select-autocomplete>
+          </ng-template>
+          <button class="textButton" (click)="addBatchOrStudent()">
+            <mat-icon>add</mat-icon> Add
+          </button>
+        </div>
+        <div class="notification__body__sendToParent">
+          <span class="notification__body__sendToParent__list"
+            >Student List</span
+          >
+          <span class="notification__body__sendToParent__check"
+            ><mat-checkbox [(ngModel)]="sendToParents"
+              >Copy Parent</mat-checkbox
+            ></span
+          >
+        </div>
+        <p
+          class="notification__body__noStudents"
+          *ngIf="error && noStudentsError"
+        >
+          Please add atleast one student
+        </p>
+        <div class="notification__body__selectedStudents">
+          <span>Selected Students</span>
+          <div class="notification__body__selectedStudents__list">
+            <ng-container *ngFor="let student of students"
+              ><span
+                class="notification__body__selectedStudents__list__item capitalize"
+                *ngIf="addedStudents.indexOf(student['studentId']) > -1"
+              >
+                <mat-icon
+                  class="notification__body__selectedStudents__list__item__close"
+                  (click)="removeStudent(student['studentId'])"
+                  >cancel</mat-icon
+                >
+                {{ student["studentName"] }}</span
+              ></ng-container
+            >
+          </div>
+        </div>
+        <div class="notification__body__selectedBatches">
+          <span>Selected Batches</span>
+          <ng-container *ngFor="let batch of batches; index as batchIndex"
+            ><div
+              class="notification__body__selectedBatches__batch"
+              *ngIf="addedBatches.indexOf(batch['batchId']) > -1"
+            >
+              <div
+                class="notification__body__selectedBatches__batch__info"
+                (click)="toggleBatchDrillDown(batch['batchId'])"
+                [ngClass]="
+                  openBatches.indexOf(batch['batchId']) > -1
+                    ? 'notification__body__selectedBatches__batch__info__openDrillDown'
+                    : ''
+                "
+              >
+                {{ batch["batchName"] }}
+                <span
+                  class="notification__body__selectedBatches__batch__info__studentCount"
+                  >No. Of Students:
+                  {{
+                    batch["students"]["length"] -
+                      batch["removedStudents"]["length"]
+                  }}</span
+                >
+                <mat-icon
+                  class="notification__body__selectedBatches__batch__info__arrow"
+                  >{{
+                    openBatches.indexOf(batch["batchId"]) > -1
+                      ? "arrow_drop_up"
+                      : "arrow_drop_down"
+                  }}</mat-icon
+                >
+              </div>
+              <div
+                *ngIf="openBatches.indexOf(batch['batchId']) > -1"
+                class="notification__body__selectedBatches__batch__students"
+              >
+                <ng-container *ngFor="let student of batch['students']">
+                  <span
+                    class="notification__body__selectedBatches__batch__students__student capitalize"
+                  >
+                    <mat-checkbox
+                      [checked]="
+                        batch['removedStudents'].indexOf(student['studentId']) <
+                        0
+                      "
+                      (change)="
+                        toggleStudentInBatch(batchIndex, student['studentId'])
+                      "
+                      >{{ student["studentName"] }}</mat-checkbox
+                    >
+                  </span>
+                </ng-container>
+              </div>
+              <div
+                class="notification__body__selectedBatches__batch__buttonStack"
+                *ngIf="openBatches.indexOf(batch['batchId']) > -1"
+              >
+                <span>
+                  <mat-checkbox
+                    [checked]="batch['allStudentsSelected']"
+                    (change)="selectAllStudents($event.checked, batchIndex)"
+                    >Select All</mat-checkbox
+                  >
+                </span>
+                <button
+                  class="textButton notification__body__selectedBatches__batch__buttonStack__remove"
+                  (click)="removeBatch(batch['batchId'], batchIndex)"
+                >
+                  <mat-icon>remove</mat-icon>Remove
+                </button>
+              </div>
+            </div></ng-container
+          >
+        </div>
+        <div class="notification__body__subjectOrBody" *ngIf="email">
+          <span class="notification__body__subjectOrBody__title">Subject</span>
+          <input
+            class="notification__body__subjectOrBody__input"
+            [formControl]="subject"
+            [ngClass]="
+              error && (subject['invalid'] || subject['value'].trim() === '')
+                ? 'notification__body__subjectOrBody__input__error'
+                : ''
+            "
+          />
+        </div>
+        <div class="notification__body__subjectOrBody" *ngIf="email">
+          <span class="notification__body__subjectOrBody__title"
+            >Email Body</span
+          >
+          <angular-editor
+            [formControl]="body"
+            [config]="editorConfig"
+            [ngClass]="
+              error && (body['invalid'] || body['value'].trim() === '')
+                ? 'notification__body__subjectOrBody__input__error'
+                : ''
+            "
+          ></angular-editor>
+        </div>
+        <div class="notification__body__subjectOrBody" *ngIf="message">
+          <span class="notification__body__subjectOrBody__title"
+            >Message Body</span
+          >
+          <textarea
+            class="notification__body__subjectOrBody__input notification__body__subjectOrBody__input__textarea"
+            rows="5"
+            [formControl]="messageBody"
+            [ngClass]="
+              error &&
+              (messageBody['invalid'] || messageBody['value'].trim() === '')
+                ? 'notification__body__subjectOrBody__input__error'
+                : ''
+            "
+          ></textarea>
+        </div>
+        <div
+          *ngIf="files['length'] > 0"
+          class="notification__body__attachments"
+        >
+          <ng-container *ngFor="let file of files; index as fileIndex">
+            <span
+              class="notification__body__selectedStudents__list__item capitalize"
+            >
+              <mat-icon
+                class="notification__body__selectedStudents__list__item__close"
+                (click)="removeFile(fileIndex)"
+                >cancel</mat-icon
+              >
+              {{ file["name"] }}</span
+            >
+          </ng-container>
+        </div>
+        <div class="notification__body__buttonStack">
+          <button
+            class="button notification__body__buttonStack__attachment"
+            (click)="addFiles()"
+          >
+            <mat-icon>attach_file</mat-icon>Attachment
+          </button>
+          <input
+            id="notificationAttachment"
+            type="file"
+            multiple
+            (change)="onFileChange($event)"
+          />
+          <!-- <span class="notification__body__buttonStack__characters"
+            >Characters: {{ body["value"]["length"] }}/160</span
+          > -->
+          <button
+            class="button notification__body__buttonStack__send"
+            (click)="sendNotification()"
+            [disabled]="sendClicked"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,243 @@
+@import "../../../config";
+
+.user-details {
+  width: 100%;
+  background: url("../../../assets/water-mark.jpg") no-repeat;
+  background-size: cover;
+  min-height: 100%;
+  display: grid;
+  // grid-template-rows: 10% auto;
+  &__header {
+    display: grid;
+    z-index: 9999;
+    grid-template-columns: repeat(2, 1fr);
+    position: fixed;
+    width: 100%;
+    // justify-items: center;
+    align-items: center;
+    padding: 10px 40px 10px 90px;
+    padding-block-start: 25px !important;
+    &__whiteBackground {
+      background-color: white;
+      padding-block-end: 25px !important;
+      box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.6);
+    }
+    &__mobile {
+      display: none;
+    }
+    &__last {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      &__logout {
+        border-color: $error-color;
+        color: white;
+        background-color: $error-color;
+        margin-right: 10px;
+        padding: 10px 50px;
+      }
+      &__login {
+        border-color: $primary-green;
+        color: $primary-green;
+        margin-right: 10px;
+        padding: 10px 50px;
+      }
+    }
+  }
+  &__body {
+    display: grid;
+    margin-top: 70px;
+    // margin-top: 100px;
+    margin-bottom: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    word-break: break-all;
+    gap: 24px;
+    // grid-row: 2/3;
+    width: 70%;
+    justify-self: center;
+    align-self: center;
+    background-color: white;
+    padding: 20px 40px;
+    border: 1px solid white;
+    border-radius: 5px;
+    &__card {
+      border: 1px solid $primary-blue;
+      border-radius: 5px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      p {
+        margin-bottom: unset;
+      }
+      &--big {
+        grid-column: 1/-1;
+        display: grid;
+        align-items: start;
+      }
+      &__heading {
+        font-weight: bold;
+        color: $primary-blue;
+        margin-inline-end: 10px;
+      }
+      &__courses {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      &__save {
+        border: 1px solid $primary-blue;
+        background-color: $primary-blue;
+        border-radius: 5px;
+        color: white;
+        justify-self: end;
+        width: 50%;
+        cursor: pointer;
+      }
+    }
+    &__alignSelfStart {
+      align-self: start;
+    }
+    &__primaryButton {
+      border-color: $primary-green;
+      color: white;
+      background-color: $primary-green;
+    }
+    &__dangerButton {
+      border-color: $error-color;
+      color: white;
+      background-color: $error-color;
+    }
+    &__addNewChild {
+      grid-column: 1/-1;
+      width: 50%;
+      justify-self: center;
+      display: flex;
+      outline: none;
+      justify-content: center;
+    }
+    &__childrenContainer {
+      display: grid;
+      grid-column: 1/-1;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      &__select {
+        grid-column: 1/-1;
+        width: 100%;
+        justify-self: center;
+        display: grid;
+      }
+      .button {
+        justify-self: center;
+        width: 50%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .user-details {
+    &__header {
+      padding: 10px 40px;
+      grid-template-columns: 1fr 2fr;
+    }
+    &__body {
+      width: 75%;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .user-details {
+    &__header {
+      margin: unset;
+      grid-template-columns: 65% 20%;
+      padding: 10px 20px;
+      &__last {
+        display: none;
+      }
+      &__mobile {
+        display: initial;
+        position: relative;
+        z-index: 1;
+        -webkit-user-select: none;
+        user-select: none;
+        align-self: center;
+        margin-right: 10px;
+        grid-column: 3/-1;
+
+        input {
+          position: absolute;
+          width: 2.4rem;
+          height: 2.4rem;
+          opacity: 0;
+          z-index: 2;
+          cursor: pointer;
+          -webkit-touch-callout: none;
+        }
+
+        span {
+          display: block;
+          width: 3.4rem;
+          height: 0.5rem;
+          background: black;
+          border-radius: 0.6rem;
+          z-index: 1;
+          margin-top: 0.4rem;
+        }
+        &__menu {
+          position: fixed;
+          top: 85px;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          background-color: #ffffffe0;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          justify-items: center;
+          align-items: center;
+          &__item {
+            font-weight: 600;
+            margin-block-end: 10px;
+            cursor: pointer;
+            text-decoration: none;
+          }
+          // .mobileView {
+          //   display: none !important;
+          // }
+        }
+      }
+    }
+    &__body {
+      width: 100%;
+      grid-template-columns: unset;
+      margin-top: 110px;
+      &__primaryButton,
+      &__dangerButton,
+      &__addNewChild {
+        width: 100%;
+      }
+      &__childrenContainer {
+        &__select {
+          width: 100%;
+        }
+        .button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .user-details {
+    &__header {
+      padding: 10px 40px;
+      grid-template-columns: 1fr 2fr;
+    }
+    &__body {
+      width: 75%;
+      margin-top: 110px;
+    }
+  }
+}

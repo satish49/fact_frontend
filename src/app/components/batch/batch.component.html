@@ -1,0 +1,328 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="batch">
+      <span class="batch__heading"
+        >Batch {{ screenType === "create" ? "Creation" : "" }}</span
+      >
+      <div class="batch__batchData">
+        <div class="batch__batchData__block">
+          <div
+            class="batch__batchData__block__firstRow batch__batchData__block__firstRow--bigElement"
+          >
+            <span>Batch Name</span>
+            <input
+              [ngClass]="error && batchName['invalid'] ? 'batch__error' : ''"
+              [formControl]="batchName"
+              *ngIf="screenType !== 'update'"
+            />
+            <input
+              [ngClass]="error && batchName['invalid'] ? 'batch__error' : ''"
+              [formControl]="batchName"
+              *ngIf="screenType === 'update'"
+              disabled
+            />
+          </div>
+          <div
+            class="batch__batchData__block__firstRow batch__batchData__block__firstRow--bigElement"
+          >
+            <span>Course</span>
+            <mat-select
+              [(value)]="selectedCourse"
+              (selectionChange)="selectCourse()"
+              [ngClass]="
+                error && courseList['length'] === 0 ? 'batch__error' : ''
+              "
+            >
+              <mat-option
+                *ngFor="let course of courses"
+                [value]="course.courseId"
+                >{{ course.courseName }}</mat-option
+              >
+            </mat-select>
+          </div>
+          <div class="batch__batchData__block__firstRow">
+            <span>Start Date</span>
+            <div
+              class="batch__batchData__block__date"
+              [ngClass]="error && startDate['invalid'] ? 'batch__error' : ''"
+            >
+              <input
+                matInput
+                class="batch__batchData__block__date__input"
+                [matDatepicker]="startDatePicker"
+                [max]="endDate['value']"
+                [formControl]="startDate"
+                readonly
+                (click)="startDatePicker.open()"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </div>
+          </div>
+          <div class="batch__batchData__block__firstRow">
+            <span>End Date</span>
+            <div
+              class="batch__batchData__block__date"
+              [ngClass]="error && endDate['invalid'] ? 'batch__error' : ''"
+            >
+              <input
+                matInput
+                class="batch__batchData__block__date__input"
+                [matDatepicker]="endDatePicker"
+                [min]="startDate['value']"
+                [formControl]="endDate"
+                readonly
+                (click)="endDatePicker.open()"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="batch__batchData__selectedCourse">
+          <span class="batch__batchData__selectedCourse__heading">
+            Selected Courses
+          </span>
+          <ng-container *ngFor="let course of courseList; index as courseIndex">
+            <span class="batch__batchData__selectedCourse__name">
+              <mat-icon
+                class="batch__batchData__selectedCourse__name__close"
+                (click)="removeCourse(courseIndex)"
+                >cancel</mat-icon
+              >
+              {{ course.courseName }}</span
+            >
+          </ng-container>
+        </div>
+        <ng-container
+          *ngFor="let day of schedules['controls']; index as dayIndex"
+        >
+          <div class="batch__batchData__block batch__batchData__block--day">
+            <div>
+              <span>Day</span>
+              <mat-select
+                [formControl]="
+                  schedules['controls'][dayIndex]['controls']['day']
+                "
+                [ngClass]="
+                  error &&
+                  schedules['controls'][dayIndex]['controls']['day']['invalid']
+                    ? 'batch__error'
+                    : ''
+                "
+              >
+                <mat-option [value]="1">Monday</mat-option>
+                <mat-option [value]="2">Tuesday</mat-option>
+                <mat-option [value]="3">Wednesday</mat-option>
+                <mat-option [value]="4">Thursday</mat-option>
+                <mat-option [value]="5">Friday</mat-option>
+                <mat-option [value]="6">Saturday</mat-option>
+                <mat-option [value]="7">Sunday</mat-option>
+              </mat-select>
+            </div>
+            <div class="batch__batchData__block--day__time">
+              <span>Start Time</span>
+              <input
+                [ngxTimepicker]="startTimePicker"
+                [formControl]="
+                  schedules['controls'][dayIndex]['controls']['startTime']
+                "
+                [max]="
+                  schedules['controls'][dayIndex]['controls']['endTime'][
+                    'value'
+                  ]
+                    ? schedules['controls'][dayIndex]['controls']['endTime'][
+                        'value'
+                      ]
+                    : '11:59 PM'
+                "
+                [ngClass]="
+                  error &&
+                  schedules['controls'][dayIndex]['controls']['startTime'][
+                    'invalid'
+                  ]
+                    ? 'batch__error'
+                    : ''
+                "
+                readonly
+              />
+              <ngx-material-timepicker
+                #startTimePicker
+              ></ngx-material-timepicker>
+            </div>
+            <div class="batch__batchData__block--day__time">
+              <span>End Time</span>
+              <input
+                [ngxTimepicker]="endTimePicker"
+                [formControl]="
+                  schedules['controls'][dayIndex]['controls']['endTime']
+                "
+                [min]="
+                  schedules['controls'][dayIndex]['controls']['startTime'][
+                    'value'
+                  ]
+                    ? schedules['controls'][dayIndex]['controls']['startTime'][
+                        'value'
+                      ]
+                    : '12:00 AM'
+                "
+                [ngClass]="
+                  error &&
+                  schedules['controls'][dayIndex]['controls']['endTime'][
+                    'invalid'
+                  ]
+                    ? 'batch__error'
+                    : ''
+                "
+                readonly
+              />
+              <ngx-material-timepicker #endTimePicker></ngx-material-timepicker>
+            </div>
+            <div>
+              <span>Time Zone</span>
+              <mat-select
+                [formControl]="
+                  schedules['controls'][dayIndex]['controls']['timeZone']
+                "
+                [ngClass]="
+                  error &&
+                  schedules['controls'][dayIndex]['controls']['timeZone'][
+                    'invalid'
+                  ]
+                    ? 'batch__error'
+                    : ''
+                "
+              >
+                <mat-option [value]="1">Eastern Time</mat-option>
+                <mat-option [value]="2">Center Time</mat-option>
+                <mat-option [value]="3">Mountain Time</mat-option>
+                <mat-option [value]="4">Pacific Time</mat-option>
+                <mat-option [value]="5">Indian Time</mat-option>
+              </mat-select>
+            </div>
+            <div>
+              <span>Class URL</span>
+              <input
+                [formControl]="
+                  schedules['controls'][dayIndex]['controls']['classUrl']
+                "
+                [ngClass]="
+                  error &&
+                  schedules['controls'][dayIndex]['controls']['classUrl'][
+                    'invalid'
+                  ]
+                    ? 'batch__error'
+                    : ''
+                "
+              />
+            </div>
+            <div>
+              <span></span>
+              <button
+                class="batch__batchData__block--day__add"
+                [ngClass]="
+                  dayIndex > 0
+                    ? 'batch__batchData__block--day__add--remove'
+                    : ''
+                "
+                (click)="
+                  dayIndex === 0 ? addNewSchedule() : removeSchedule(dayIndex)
+                "
+              >
+                <mat-icon>{{ dayIndex === 0 ? "add" : "remove" }}</mat-icon>
+                {{ dayIndex === 0 ? "Add" : "Remove" }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="screenType === 'update'" class="batch__batchData__students">
+          <div class="batch__batchData__students__addBlock">
+            <span class="batch__batchData__students__addBlock__add"
+              >Add Student</span
+            >
+            <mat-select-autocomplete
+              class="batch__batchData__students__addBlock__search capitalize"
+              [selectedOptions]="defaultSelectedStudents"
+              (selectionChange)="getSelectedStudents($event)"
+              [multiple]="true"
+              [display]="'studentName'"
+              [value]="'student_id'"
+              [placeholder]="'Ex: John'"
+              [options]="students"
+              [appearance]="'outline'"
+            ></mat-select-autocomplete>
+            <button
+              class="button batch__batchData__students__addBlock__button"
+              (click)="addStudents()"
+            >
+              Add Student
+            </button>
+          </div>
+          <div class="batch__batchData__students__viewBlock">
+            <span class="batch__batchData__students__viewBlock__heading"
+              >Selected Students</span
+            >
+            <div class="batch__batchData__students__viewBlock__list">
+              <ng-container
+                *ngFor="let student of studentList; index as studentIndex"
+              >
+                <span
+                  class="batch__batchData__students__viewBlock__list--item capitalize"
+                >
+                  <mat-icon
+                    (click)="removeStudent(studentIndex)"
+                    class="batch__batchData__students__viewBlock__list--item__close"
+                    >close</mat-icon
+                  >
+                  {{ student["studentName"] }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div
+          class="batch__batchData__createBatch"
+          *ngIf="screenType === 'create'"
+        >
+          <div class="batch__batchData__createBatch__checkbox">
+            <mat-checkbox [(ngModel)]="isBatchActive"></mat-checkbox>
+            <span>Active</span>
+          </div>
+          <button
+            class="button"
+            (click)="createOrUpdateBatch()"
+            [disabled]="createOrUpdateBatchClicked"
+          >
+            Create Batch
+          </button>
+        </div>
+        <div
+          class="batch__batchData__updateBatch"
+          *ngIf="screenType === 'update'"
+        >
+          <div class="batch__batchData__updateBatch__checkbox">
+            <mat-checkbox [(ngModel)]="isBatchActive"></mat-checkbox>
+            <span>Active</span>
+          </div>
+          <button
+            class="button"
+            (click)="createOrUpdateBatch()"
+            [disabled]="createOrUpdateBatchClicked"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

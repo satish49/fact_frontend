@@ -1,0 +1,160 @@
+<app-common-header [isAdminOrTutor]="role === '1' || role === '2'"></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <!-- Admin Tabs -->
+    <div class="dashboard__tabs" *ngIf="role === '1'">
+      <div class="dashboard__tabs__tab">
+        <img src="assets/users.svg" alt="Users" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/users']">Manage Users</span>
+        <span class="dashboard__tabs__tab--subText">Approve Users</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/classes.svg" alt="Classes" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/classes']">Manage Batches</span>
+        <span class="dashboard__tabs__tab--subText">Create Batch, Assign Students, Links & Schedules</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/course-material.svg" alt="Course Material" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/manage-course-material']">Manage Course
+          Material</span>
+        <span class="dashboard__tabs__tab--subText">Upload & View Course Material</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-manage.svg" alt="Mange Tests" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/tests']">Manage Tests</span>
+        <span class="dashboard__tabs__tab--subText">Create Test & Upload Results</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-view.svg" alt="View Tests" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/view-results']">View Test Scores</span>
+        <span class="dashboard__tabs__tab--subText">View Scores & Reports</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-upload.svg" alt="Upload" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/upload-results']">Upload Test Results</span>
+        <span class="dashboard__tabs__tab--subText">Upload Student's Test Results</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/dollar.svg" alt="Payment" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/payments']">Manage Payments</span>
+        <span class="dashboard__tabs__tab--subText">Payments Due</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/dollar.svg" alt="Payment" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/notification']">Notifications</span>
+        <span class="dashboard__tabs__tab--subText">Send Notification to Students or Parents</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/notes.svg" alt="To Do Notes" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/notes']">To Do Notes</span>
+        <span class="dashboard__tabs__tab--subText">Manage Notes</span>
+      </div>
+    </div>
+    <!-- Tutor Tabs -->
+    <div class="dashboard__tabs" *ngIf="role === '2'">
+      <div class="dashboard__tabs__tab">
+        <img src="assets/classes.svg" alt="Classes" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/classes']">Manage Batches</span>
+        <span class="dashboard__tabs__tab--subText">Create Batch, Assign Students, Links & Schedules</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-view.svg" alt="View Tests" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/view-results']">View Test Scores</span>
+        <span class="dashboard__tabs__tab--subText">View scores & reports</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/course-material.svg" alt="Course Material" />
+        <span class="dashboard__tabs__tab--header">Manage Course Material</span>
+        <span class="dashboard__tabs__tab--subText">Upload & View Course Material</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-manage.svg" alt="Mange Tests" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/tests']">Manage Tests</span>
+        <span class="dashboard__tabs__tab--subText">Create Test & Upload Results</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/course-material.svg" alt="Course Material" />
+        <span class="dashboard__tabs__tab--header">Manage Attendance</span>
+        <span class="dashboard__tabs__tab--subText">Manage classes taught</span>
+      </div>
+    </div>
+    <!-- Student Tabs -->
+    <div class="dashboard__tabs" *ngIf="role === '3'">
+      <div class="dashboard__tabs__tab">
+        <img src="assets/classes.svg" alt="Classes" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/view-classes']">My Classes</span>
+        <span class="dashboard__tabs__tab--subText">View Class Links & Timing</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-manage.svg" alt="Tests" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/view-results']">My Test Scores</span>
+        <span class="dashboard__tabs__tab--subText">View your scores & reports</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/course-material.svg" alt="Course Material" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/my-material']">Course Material</span>
+        <span class="dashboard__tabs__tab--subText">View Course Material</span>
+      </div>
+      <div class="dashboard__tabs__tab">
+        <img src="assets/test-upload.svg" alt="Course Material" />
+        <span class="dashboard__tabs__tab--header" [routerLink]="['/list-of-tests']">Submit Test</span>
+        <span class="dashboard__tabs__tab--subText">Submit Answers For Tests</span>
+      </div>
+    </div>
+    <!-- Parent Tabs -->
+    <div class="dashboard__tabs" *ngIf="role === '4'">
+      <div class="dashboard__tabs__fullTab" *ngIf="childrenLoading">
+        Fetching Children
+      </div>
+      <div class="dashboard__tabs__fullTab" *ngIf="!childrenLoading">
+        {{ children.length > 0 ? "View data for" : "No children found" }}
+        <!-- <select
+          *ngIf="children.length > 0"
+          [(ngModel)]="selectedChild"
+          (change)="setchildren()"
+          class="capitalize"
+        >
+          <option
+            *ngFor="let child of children; let i = index"
+            [value]="i"
+            class="capitalize"
+            >{{ child.first_name }}</option
+          >
+        </select> -->
+        <mat-select [(value)]="selectedChild" (selectionChange)="setchildren()"
+          class="capitalize dashboard__tabs__fullTab__select" *ngIf="children.length > 0">
+          <mat-option *ngFor="let child of children; let i = index" class="capitalize" [value]="i">{{ child.first_name
+            }}</mat-option>
+        </mat-select>
+      </div>
+      <div class="dashboard__tabs__tab" *ngIf="!childrenLoading">
+        <img src="assets/classes.svg" alt="Classes" />
+        <span class="dashboard__tabs__tab--header capitalize">{{
+          children.length > 0
+          ? children[selectedChild]["first_name"] + "'s"
+          : "View"
+          }}
+          Classes</span>
+        <span class="dashboard__tabs__tab--subText">View Class Links & Timing</span>
+      </div>
+      <div class="dashboard__tabs__tab" *ngIf="!childrenLoading">
+        <img src="assets/test-manage.svg" alt="Tests" />
+        <span class="dashboard__tabs__tab--header capitalize" [routerLink]="['/view-results']"
+          *ngIf="children.length > 0">{{ children[selectedChild]["first_name"] }}'s Test Scores</span>
+        <span class="dashboard__tabs__tab--header capitalize" *ngIf="children.length === 0">View Test Scores</span>
+        <span class="dashboard__tabs__tab--subText">View your scores & reports</span>
+      </div>
+      <div class="dashboard__tabs__tab" *ngIf="!childrenLoading">
+        <img src="assets/course-material.svg" alt="Course Material" />
+        <span class="dashboard__tabs__tab--header capitalize">{{
+          children.length > 0
+          ? children[selectedChild]["first_name"] + "'s"
+          : "View"
+          }}
+          Course Material</span>
+        <span class="dashboard__tabs__tab--subText">View Course Material</span>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

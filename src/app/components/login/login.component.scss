@@ -1,0 +1,199 @@
+@import "../../../config";
+.login {
+  width: 100%;
+  background: url("../../../assets/Background.png") no-repeat;
+  background-size: cover;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 10% 90%;
+  &__notAllowed {
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.6);
+    background-color: #f7f7f7 !important;
+    font-weight: 500;
+    height: 392px;
+    padding: 70px 140px;
+    &__heading {
+      font-size: 24px;
+    }
+  }
+  &__errorPage {
+    @extend .login__notAllowed;
+    grid-template-rows: unset !important;
+    &__message {
+      font-size: 24px;
+      align-self: center;
+    }
+  }
+  &__header {
+    display: grid;
+    z-index: 9999;
+    grid-template-columns: repeat(2, 1fr);
+    position: fixed;
+    width: 100%;
+    // justify-items: center;
+    align-items: center;
+    padding: 10px 40px 10px 90px;
+    padding-block-start: 25px !important;
+    &__register {
+      cursor: pointer;
+      background-color: #26479c;
+      border-color: #26479c;
+      border-radius: 20px;
+      padding: 5px 20px;
+      color: white;
+    }
+    &__logo {
+      cursor: pointer;
+      height: 44px;
+    }
+    &__whiteBackground {
+      background-color: white;
+      padding-block-end: 25px !important;
+      box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.6);
+    }
+    a {
+      text-decoration: none;
+    }
+    &__last {
+      height: 43px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .button__green {
+      padding: 8px 24px;
+      font-weight: 600;
+    }
+    &__a {
+      &__green {
+        color: $primary-green;
+        text-decoration: none;
+        font-weight: 600;
+        margin-inline-start: 24px;
+      }
+    }
+  }
+  &__content {
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.6);
+    // background-color: #f7f7f7 !important;
+    background-color: white;
+    margin-bottom: 20px;
+    grid-row: 2/3;
+    width: 45%;
+    align-self: center;
+    justify-self: center;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    background-color: white;
+    // border: 1px solid #979797;
+    justify-items: center;
+    align-items: center;
+    border-radius: 4px;
+    height: 60%;
+    &__header {
+      display: grid;
+      justify-items: center;
+      grid-gap: 16px;
+      &--head {
+        font-size: 24px;
+        text-align: center;
+        padding: 0 40px;
+        font-weight: 500;
+        color: #333333;
+      }
+      &--sub {
+        color: #333333;
+      }
+    }
+    &__buttonStack {
+      display: grid;
+      grid-gap: 16px;
+      &__button {
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        border: 1.5px solid #475993;
+        color: #475993;
+        padding: 10px 30px;
+        border-radius: 4px;
+        text-decoration: none;
+        img {
+          margin-right: 16px;
+        }
+        &--google {
+          border-color: #518ef8;
+          color: #518ef8;
+        }
+      }
+    }
+    &__message {
+      align-self: center;
+      padding: 10px;
+      text-align: center;
+      grid-row: 2/3;
+      font-size: 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .login {
+    &__notAllowed {
+      &__heading {
+        font-size: 22px;
+      }
+      &__subHeading {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login {
+    grid-template-columns: 1fr;
+    &__notAllowed {
+      height: auto;
+      padding: 30px;
+      width: 70% !important;
+      gap: 10px;
+      text-align: center;
+      &__heading {
+        align-self: end;
+      }
+      &__subHeading {
+        align-self: start;
+      }
+    }
+    &__header {
+      padding: 10px;
+      &__whiteBackground {
+        border-bottom: 1px solid black;
+      }
+    }
+    &__content {
+      grid-column: unset;
+      width: unset;
+      height: fit-content;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .login {
+    grid-template-columns: unset;
+    height: fit-content;
+    &__notAllowed {
+      height: auto;
+      padding: 30px;
+      width: 70%;
+      gap: 10px;
+      text-align: center;
+    }
+    &__content {
+      grid-row: 2/3;
+      height: fit-content;
+      margin: 40px 0px;
+    }
+  }
+}

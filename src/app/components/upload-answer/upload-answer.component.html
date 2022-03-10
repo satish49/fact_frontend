@@ -1,0 +1,176 @@
+<app-common-header [isAdminOrTutor]="true"></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="upload-answer">
+      <div class="upload-answer__back" [routerLink]="['/dashboard']">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </div>
+      <div class="upload-answer__main">
+        <div class="upload-answer__main__header">
+          <img src="assets/test-upload-white.svg" alt="Upload Tests" />
+          Upload Test Results
+        </div>
+        <div class="upload-answer__main__newFile" *ngIf="fileName === ''">
+          <img src="assets/cloud-upload.svg" alt="Upload Test Results" />
+          <button
+            class="upload-answer__main__newFile__chooseFile button"
+            (click)="chooseFile()"
+          >
+            Choose File
+          </button>
+          <span class="upload-answer__main__newFile__subText"
+            >The file must be .xls , .xlsx , .ods & .csv</span
+          >
+          <input
+            type="file"
+            accept=".xls, .xlsx, .ods, .csv"
+            (change)="onFileChange($event)"
+            id="selectFile"
+            #selectFile
+            style="display: none;"
+          />
+        </div>
+        <div class="upload-answer__main__fileSelected" *ngIf="fileName !== ''">
+          <div class="upload-answer__main__fileSelected__details">
+            <mat-icon
+              class="upload-answer__main__fileSelected__details__cancel"
+              (click)="!uploadClicked ? clearFile() : ''"
+              [ngClass]="
+                uploadClicked
+                  ? 'upload-answer__main__fileSelected__details__cancel--disabled'
+                  : ''
+              "
+              >cancel</mat-icon
+            >
+            <div class="upload-answer__main__fileSelected__details__div">
+              <img src="assets/sheet.svg" [alt]="fileName" />
+              <div class="upload-answer__main__fileSelected__details__fileName">
+                <span
+                  class="upload-answer__main__fileSelected__details__fileName--header"
+                  >{{ fileName }}</span
+                >
+                <span>File Uploaded</span>
+              </div>
+            </div>
+            <span
+              class="upload-answer__main__fileSelected__details__noFileError"
+              *ngIf="resultsValidated && resultsWithIssues.length === 0"
+              >No Bad Record Found</span
+            >
+            <div
+              class="upload-answer__main__fileSelected__details__fileError"
+              *ngIf="resultsValidated && resultsWithIssues.length > 0"
+            >
+              <span
+                class="upload-answer__main__fileSelected__details__fileError--header"
+                >{{ resultsWithIssues.length }} Bad Records Found</span
+              >
+              <span>The following questions need to be corrected</span>
+            </div>
+            <div
+              class="upload-answer__main__fileSelected__details__fileError"
+              *ngIf="invalidSheet"
+            >
+              <span
+                class="upload-answer__main__fileSelected__details__fileError--header"
+                >File format is invalid</span
+              >
+            </div>
+          </div>
+          <div
+            *ngIf="resultsValidated && resultsWithIssues.length > 0"
+            class="upload-answer__main__fileSelected__errorStack"
+          >
+            <div
+              *ngFor="let record of resultsWithIssues; let i = index"
+              class="upload-answer__main__fileSelected__errorStack__error"
+            >
+              <div
+                class="upload-answer__main__fileSelected__errorStack__error__header"
+              >
+                <mat-icon
+                  class="upload-answer__main__fileSelected__errorStack__error__header--icon"
+                  (click)="
+                    openRecords.indexOf(i) > -1 ? closeRecord(i) : openRecord(i)
+                  "
+                  >{{
+                    openRecords.indexOf(i) > -1
+                      ? "arrow_drop_up"
+                      : "arrow_drop_down"
+                  }}</mat-icon
+                >
+                <span
+                  class="upload-answer__main__fileSelected__errorStack__error__header--student"
+                  >Student ID:
+                  {{ results[record["recordIndex"]]["studentid"] }}</span
+                >
+                <span
+                  >Test ID: {{ results[record["recordIndex"]]["testid"] }}</span
+                >
+                <button
+                  class="button upload-answer__main__fileSelected__errorStack__error__header--button"
+                  (click)="
+                    skippedRecords.indexOf(i) < 0
+                      ? skipRecord(i)
+                      : revertRecord(i)
+                  "
+                >
+                  {{ skippedRecords.indexOf(i) < 0 ? "Skip" : "Revert" }}
+                </button>
+              </div>
+              <div
+                class="upload-answer__main__fileSelected__errorStack__error__questionStack"
+                *ngIf="openRecords.indexOf(i) > -1"
+              >
+                <div
+                  *ngFor="
+                    let question of resultsWithIssues[i]['questionIndexes'];
+                    let j = index
+                  "
+                  class="upload-answer__main__fileSelected__errorStack__error__questionStack__question"
+                >
+                  <span
+                    class="upload-answer__main__fileSelected__errorStack__error__questionStack__question--label"
+                    >Q{{ question + 1 }}</span
+                  >
+                  <input
+                    class="upload-answer__main__fileSelected__errorStack__error__questionStack__question--input"
+                    [ngClass]="
+                      uploadError &&
+                      skippedRecords.indexOf(i) < 0 &&
+                      resultsWithIssues[i]['formArray'].controls[j]['invalid']
+                        ? 'upload-answer__main__fileSelected__errorStack__error__questionStack__question--input--error'
+                        : ''
+                    "
+                    [formControl]="
+                      resultsWithIssues[i]['formArray'].controls[j]
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="upload-answer__main__fileSelected__buttonStack">
+            <button
+              class="button upload-answer__main__fileSelected__buttonStack--button"
+              *ngIf="!resultsValidated"
+              [disabled]="invalidSheet"
+              (click)="validateResults()"
+            >
+              Validate
+            </button>
+            <button
+              class="button upload-answer__main__fileSelected__buttonStack--button"
+              *ngIf="resultsValidated"
+              (click)="uploadResults()"
+              [disabled]="uploadClicked"
+            >
+              Upload Test Result
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

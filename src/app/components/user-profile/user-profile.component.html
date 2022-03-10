@@ -1,0 +1,908 @@
+<!--div class="role-select">
+  <div id="role-select__header" class="role-select__header">
+    <span>
+      <img src="assets/logo-ravi.svg" routerLink="" />
+    </span>
+    <div class="role-select__header__last">
+      <button
+        class="button role-select__header__last__logout"
+        (click)="logout()"
+      >
+        LOGOUT
+      </button>
+      <!- <a
+        class="button button__green"
+        [routerLink]="['/register']"
+        *ngIf="loginRegisterText === 'Log In'"
+        >REGISTER</a
+      >
+      <a
+        class="role-select__header__a__green"
+        [routerLink]="['/login']"
+        *ngIf="loginRegisterText === 'Register'"
+        >LOG IN</a
+      > ->
+    </div>
+  </div>
+  <div class="role-select__form" *ngIf="!updatedProfile">
+    <p class="role-select__form__header">
+      Please complete the form below to register
+    </p>
+    <div class="role-select__form__element">
+      <p
+        class="role-select__form__element__error"
+        *ngIf="error && (first_name === '' || first_name.trim() === '')"
+      >
+        (First name cannot be blank)
+      </p>
+      <p class="role-select__form__element__label">
+        <label>First Name</label
+        ><mat-icon
+          class="role-select__form__element__label__icon"
+          [ngClass]="
+            error && (first_name === '' || first_name.trim() === '')
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && (first_name === "" || first_name.trim() === "")
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <input placeholder="First Name" maxlength="32" [(ngModel)]="first_name" />
+    </div>
+    <div class="role-select__form__element">
+      <p
+        class="role-select__form__element__error"
+        *ngIf="error && (last_name === '' || last_name.trim() === '')"
+      >
+        (Last name cannot be blank)
+      </p>
+      <p class="role-select__form__element__label">
+        <label>Last Name</label>
+        <mat-icon
+          class="role-select__form__element__label__icon"
+          [ngClass]="
+            error && (last_name === '' || last_name.trim() === '')
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && (last_name === "" || last_name.trim() === "")
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <input placeholder="Last Name" maxlength="32" [(ngModel)]="last_name" />
+    </div>
+    <div class="role-select__form__element">
+      <p
+        class="role-select__form__element__error"
+        *ngIf="error && email.invalid"
+      >
+        (Please provide a valid E-mail)
+      </p>
+      <p class="role-select__form__element__label">
+        <label>E-mail</label>
+        <mat-icon
+          class="role-select__form__element__label__icon"
+          [ngClass]="
+            error && email.invalid
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && email.invalid
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <input
+        placeholder="E-mail"
+        id="email"
+        type="email"
+        maxlength="32"
+        [formControl]="email"
+        [disabled]="isProfilePage || emailDisabled"
+        (change)="validateEmail()"
+      />
+    </div>
+    <div class="role-select__form__element">
+      <p class="role-select__form__element__error">
+        {{ error && mobileNumberError ? mobileNumberError : "" }}
+      </p>
+      <p class="role-select__form__element__label">
+        <label>Phone Number</label>
+        <mat-icon
+          class="role-select__form__element__label__icon role-select__form__element__label__icon__happy"
+          [ngClass]="
+            error && mobileNumberError
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && mobileNumberError
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <!- <div class="role-select__form__element__phone">
+        <input />
+        <input />
+      </div> ->
+      <ngx-intl-tel-input
+        [(ngModel)]="mobileNumber"
+        [maxLength]="15"
+        [enablePlaceholder]="false"
+        [enableAutoCountrySelect]="true"
+        [separateDialCode]="true"
+        [searchCountryFlag]="true"
+        [searchCountryField]="[
+          searchCountryField.Iso2,
+          searchCountryField.Name
+        ]"
+        [selectedCountryISO]="countryISO.UnitedStates"
+        *ngIf="!isProfilePage || profileEnableMobile"
+      ></ngx-intl-tel-input>
+      <input
+        *ngIf="isProfilePage && !profileEnableMobile"
+        [(ngModel)]="apiConstructedMobileNumber"
+        (click)="enableMobile()"
+        readonly
+      />
+    </div>
+    <div class="role-select__form__element role-select__form__element--skype">
+      <p class="role-select__form__element__error"></p>
+      <p class="role-select__form__element__label">
+        <label>Skype ID (Optional)</label>
+        <mat-icon
+          class="role-select__form__element__label__icon role-select__form__element__label__icon__happy"
+          >sentiment_satisfied</mat-icon
+        >
+      </p>
+      <input maxlength="32" [(ngModel)]="skypeId" (input)="spaceValidator($event)" />
+    </div>
+    <div class="role-select__form__element">
+      <p
+        class="role-select__form__element__error"
+        *ngIf="error && gender === ''"
+      >
+        (Please select a gender)
+      </p>
+      <p class="role-select__form__element__label">
+        <label>Gender</label>
+        <mat-icon
+          class="role-select__form__element__label__icon"
+          [ngClass]="
+            error && gender === ''
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && gender === ""
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <select [(ngModel)]="gender">
+        <option value="">Select</option>
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+        <option value="3">Do not specify</option>
+      </select>
+    </div>
+    <div class="role-select__form__element role-select__form__element--role">
+      <p class="role-select__form__element__error" *ngIf="error && role === ''">
+        (Please select a role)
+      </p>
+      <p class="role-select__form__element__label">
+        <label>Role</label>
+        <mat-icon
+          class="role-select__form__element__label__icon"
+          [ngClass]="
+            error && role === ''
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && role === ""
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <select [(ngModel)]="role" [disabled]="isProfilePage">
+        <option value="">Select</option>
+        <option value="2">Tutor</option>
+        <option value="3">Student</option>
+        <option value="4">Parent</option>
+      </select>
+    </div>
+
+    <!--div
+      *ngIf="role === '4' && children.length === 1"
+      class="role-select__form__element__children"
+    >
+      <p class="role-select__form__element--parentNotes">
+        <mat-icon class="role-select__form__element--parentNotes__icon"
+          >info</mat-icon
+        >
+        <span>Please make sure your child should registered first</span>
+      </p>
+      <div
+        class="role-select__form__element role-select__form__element__oneChild role-select__form__element__children--block"
+      >
+        <input
+          [(ngModel)]="children[0]"
+          type="email"
+          placeholder="E-mail"
+          id="firstChildEmail"
+          [formControl]="firstChildFormControl"
+          [disabled]="isProfilePage"
+        />
+        <p class="role-select__form__element__error">
+          {{
+            !isProfilePage &&
+            error &&
+            (firstChildFormControl.invalid ||
+              children[0] === "" ||
+              children[0].trim() === "")
+              ? "(Please provide a valid E-mail)"
+              : ""
+          }}
+        </p>
+        <p class="role-select__form__element__label">
+          <label>Child 1's Email address </label>
+          <mat-icon
+            class="role-select__form__element__label__icon"
+            [ngClass]="
+              !isProfilePage &&
+              error &&
+              (firstChildFormControl.invalid ||
+                children[0] === '' ||
+                children[0].trim() === '')
+                ? 'role-select__form__element__label__icon__sad'
+                : 'role-select__form__element__label__icon__happy'
+            "
+          >
+            {{
+              error &&
+              (firstChildFormControl.invalid ||
+                children[0] === "" ||
+                children[0].trim() === "")
+                ? "sentiment_dissatisfied"
+                : "sentiment_satisfied"
+            }}
+          </mat-icon>
+        </p>
+        <button
+          class="role-select__form__element__addChild"
+          (click)="addChild()"
+          [disabled]="isProfilePage"
+        >
+          <mat-icon>add_circle</mat-icon> ADD CHILD
+        </button>
+      </div>
+    </div>
+    <div
+      *ngIf="role === '4' && children.length === 2"
+      class="role-select__form__element__children"
+    >
+      <p class="role-select__form__element--parentNotes">
+        <mat-icon class="role-select__form__element--parentNotes__icon"
+          >info</mat-icon
+        >
+        <span>Please make sure your child should registered first</span>
+      </p>
+      <div
+        *ngFor="let child of children; let i = index; trackBy: trackByIndex"
+        class="role-select__form__element role-select__form__element__children--block"
+      >
+        <input
+          [(ngModel)]="children[i]"
+          type="email"
+          placeholder="E-mail"
+          [id]="i === 0 ? 'firstChildEmail' : i === 1 ? 'secondChildEmail' : ''"
+          [formControl]="
+            i === 0 ? firstChildFormControl : secondChildFormControl
+          "
+          [disabled]="isProfilePage"
+        />
+        <p class="role-select__form__element__error">
+          {{
+            !isProfilePage &&
+            error &&
+            ((i === 0
+              ? firstChildFormControl.invalid
+              : secondChildFormControl.invalid) ||
+              children[i] === "" ||
+              children[i].trim() === "")
+              ? "(Please provide a valid E-mail)"
+              : ""
+          }}
+        </p>
+        <p class="role-select__form__element__label">
+          <label>Child {{ i + 1 }}'s Email address </label>
+          <mat-icon
+            class="role-select__form__element__label__icon"
+            [ngClass]="
+              !isProfilePage &&
+              error &&
+              ((i === 0
+                ? firstChildFormControl.invalid
+                : secondChildFormControl.invalid) ||
+                children[i] === '' ||
+                children[i].trim() === '')
+                ? 'role-select__form__element__label__icon__sad'
+                : 'role-select__form__element__label__icon__happy'
+            "
+          >
+            {{
+              !isProfilePage &&
+              error &&
+              ((i === 0
+                ? firstChildFormControl.invalid
+                : secondChildFormControl.invalid) ||
+                children[i] === "" ||
+                children[i].trim() === "")
+                ? "sentiment_dissatisfied"
+                : "sentiment_satisfied"
+            }}
+          </mat-icon>
+        </p>
+        <button
+          class="role-select__form__element__removeChild"
+          (click)="removeChild(i)"
+          [disabled]="isProfilePage"
+        >
+          <mat-icon>remove_circle</mat-icon> REMOVE CHILD
+        </button>
+      </div>
+    </div->
+    <div *ngIf="isProfilePage && children.length > 0">
+      <b>Existing Children: </b>
+      <p *ngFor="let child of children">{{ child }}</p>
+    </div>
+    <div
+      *ngIf="
+        role === '4' &&
+        this.childrenEmail.controls.length > 0 &&
+        (!isProfilePage || profileAddChild)
+      "
+      class="role-select__form__element__children"
+    >
+      <p class="role-select__form__element--parentNotes">
+        <mat-icon class="role-select__form__element--parentNotes__icon"
+          >info</mat-icon
+        >
+        <span>Please make sure your child should registered first</span>
+      </p>
+      <div
+        *ngFor="let email of childrenEmail.controls; let i = index"
+        class="role-select__form__element role-select__form__element__children--block"
+      >
+        <input
+          type="email"
+          placeholder="E-mail"
+          [formControl]="childrenEmail.controls[i]"
+        />
+        <p class="role-select__form__element__error">
+          {{
+            error && childrenEmail.controls[i].invalid
+              ? "(Please provide a valid E-mail)"
+              : ""
+          }}
+        </p>
+        <p class="role-select__form__element__label">
+          <label>Child {{ children.length + i + 1 }}'s Email address </label>
+          <mat-icon
+            class="role-select__form__element__label__icon"
+            [ngClass]="
+              error && childrenEmail.controls[i].invalid
+                ? 'role-select__form__element__label__icon__sad'
+                : 'role-select__form__element__label__icon__happy'
+            "
+          >
+            {{
+              error && childrenEmail.controls[i].invalid
+                ? "sentiment_dissatisfied"
+                : "sentiment_satisfied"
+            }}
+          </mat-icon>
+        </p>
+        <button
+          [ngClass]="
+            !isProfilePage && childrenEmail.controls.length === 1
+              ? 'role-select__form__element__addChild'
+              : 'role-select__form__element__removeChild'
+          "
+          (click)="
+            !isProfilePage && childrenEmail.controls.length === 1
+              ? addChild()
+              : removeChild(i)
+          "
+        >
+          <mat-icon>{{
+            !isProfilePage && childrenEmail.controls.length === 1
+              ? "add_circle"
+              : "remove_circle"
+          }}</mat-icon>
+          {{
+            !isProfilePage && childrenEmail.controls.length === 1
+              ? "ADD CHILD"
+              : "REMOVE CHILD"
+          }}
+        </button>
+      </div>
+    </div>
+    <button
+      class="role-select__form__element__addChild role-select__form__element__addChild--profile"
+      [ngClass]="
+        profileAddChild
+          ? 'role-select__form__element__addChild--profile--alignStart'
+          : ''
+      "
+      *ngIf="isProfilePage && role === '4'"
+      (click)="addChild()"
+    >
+      <mat-icon>add_circle</mat-icon> ADD CHILD
+    </button>
+    <!-- <div
+      class="role-select__form__element role-select__form__element__addChildMobile"
+      *ngIf="role === '4' && children.length === 1"
+    >
+      <button class="role-select__form__element__addChild" (click)="addChild()">
+        <mat-icon>add_circle</mat-icon> ADD CHILD
+      </button>
+    </div> ->
+    <div
+      class="role-select__form__element role-select__form__element--notes"
+      [ngClass]="
+        role === '4'
+          ? children.length === 1
+            ? 'role-select__form__element--notesMobile--oneChild'
+            : children.length === 2
+            ? 'role-select__form__element--notesMobile'
+            : ''
+          : ''
+      "
+    >
+      <p
+        class="role-select__form__element__error"
+        *ngIf="error && (notes === '' || notes.trim() === '')"
+      >
+        (Tell me yourself cannot be blank)
+      </p>
+      <p class="role-select__form__element__label">
+        <label>Tell us about yourself</label>
+        <mat-icon
+          class="role-select__form__element__label__icon"
+          [ngClass]="
+            error && (notes === '' || notes.trim() === '')
+              ? 'role-select__form__element__label__icon__sad'
+              : 'role-select__form__element__label__icon__happy'
+          "
+          >{{
+            error && (notes === "" || notes.trim() === "")
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+          }}</mat-icon
+        >
+      </p>
+      <textarea
+        placeholder="Tell us about yourself"
+        maxlength="1000"
+        rows="3"
+        [(ngModel)]="notes"
+        [disabled]="isProfilePage"
+      ></textarea>
+    </div>
+    <button
+      class="role-select__form__element__submit"
+      type="button"
+      (click)="onSubmit()"
+      [disabled]="submitClicked"
+    >
+      {{ isProfilePage ? "Update" : "Submit" }}
+    </button>
+  </div>
+  <div class="role-select__form" *ngIf="updatedProfile">
+    <p class="role-select__form__message">
+      Your profile data is updated successfully, Admin will verify and you will
+      get the notification.
+    </p>
+  </div>
+  <p class="role-select__terms">
+    By registering, you agree to the
+    <span class="role-select__terms--link" [routerLink]="['/terms']"
+      >Terms</span
+    >
+    and
+    <span class="role-select__terms--link" [routerLink]="['/privacy-policy']"
+      >Privacy Policy</span
+    >.
+  </p>
+</div-->
+
+<!-- <div id="role-select__header" class="role-select__header">
+  <span>
+    <img
+      class="role-select__header__logo"
+      src="assets/logo-ravi.svg"
+      routerLink=""
+    />
+  </span>
+  <div class="role-select__header__last">
+    <button class="button role-select__header__last__logout" (click)="logout()">
+      LOGOUT
+    </button>
+  </div>
+</div> -->
+<app-common-header [isRoleSelectPage]="!isProfilePage"></app-common-header>
+<div class="body role-select">
+  <div class="mainContent role-select__mainContent" *ngIf="!updatedProfile">
+    <p class="role-select__mainContent__headerMessage" *ngIf="!isProfilePage">
+      Please complete the form below to register
+    </p>
+    <div class="role-select__mainContent__profile">
+      <div class="role-select__mainContent__profile__header">
+        My Information
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>First Name</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && (first_name === '' || first_name.trim() === '')
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && (first_name === "" || first_name.trim() === "")
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <input placeholder="First Name" maxlength="32" [(ngModel)]="first_name" />
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Last Name</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && (last_name === '' || last_name.trim() === '')
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && (last_name === "" || last_name.trim() === "")
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <input placeholder="Last Name" maxlength="32" [(ngModel)]="last_name" />
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Role</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && role === ''
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && role === ""
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <select [(ngModel)]="role" [disabled]="isProfilePage" (change)="onRoleUpdate()">
+          <option value="">Select</option>
+          <option value="2">Tutor</option>
+          <option value="3">Student</option>
+          <option value="4">Parent</option>
+        </select>
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Phone Number</label>
+          <mat-icon
+            class="role-select__mainContent__profile__element__label__icon role-select__mainContent__profile__element__label__icon__happy"
+            [ngClass]="
+              !isProfilePage
+                ? error && !validateMobileNumber(mobileNumber)
+                  ? 'role-select__mainContent__profile__element__label__icon__sad'
+                  : 'role-select__mainContent__profile__element__label__icon__happy'
+                : error &&
+                  (!validateMobileNumber(mobileNumber) || !profileEnableMobile)
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            !isProfilePage
+            ? error && !validateMobileNumber(mobileNumber)
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            : error &&
+            (!validateMobileNumber(mobileNumber) || !profileEnableMobile)
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+
+        <ngx-intl-tel-input [(ngModel)]="mobileNumber" [maxLength]="15" [enablePlaceholder]="false"
+          [enableAutoCountrySelect]="true" [separateDialCode]="true" [searchCountryFlag]="true" [searchCountryField]="[
+            searchCountryField.Iso2,
+            searchCountryField.Name
+          ]" [selectedCountryISO]="countryISO.UnitedStates" *ngIf="!isProfilePage || profileEnableMobile">
+        </ngx-intl-tel-input>
+        <input *ngIf="isProfilePage && !profileEnableMobile" [(ngModel)]="apiConstructedMobileNumber"
+          (click)="enableMobile()" readonly />
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>E-mail</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && email.invalid
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && email.invalid
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <input placeholder="E-mail" id="email" type="email" maxlength="50" [formControl]="email"
+          [disabled]="isProfilePage || emailDisabled" (change)="validateEmail()" />
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Gender</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && gender === ''
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && gender === ""
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <select [(ngModel)]="gender">
+          <option value="">Select</option>
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+          <option value="3">Do not specify</option>
+        </select>
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Skype ID (Optional)</label>
+        </p>
+        <input maxlength="32" [(ngModel)]="skypeId" (input)="spaceValidator($event)" />
+      </div>
+      <div class="role-select__mainContent__profile__element role-select__mainContent__profile__element--twoColumns">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Tell us about yourself</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && (notes === '' || notes.trim() === '')
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && (notes === "" || notes.trim() === "")
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <input [(ngModel)]="notes" [disabled]="isProfilePage" maxlength="100" />
+      </div>
+      <div class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>ZIP Code (Optional)</label>
+        </p>
+        <input maxlength="6" [(ngModel)]="zip" (input)="zipCodeValidator($event)" />
+      </div>
+      <div class="role-select__mainContent__profile__element role-select__mainContent__profile__element--twoColumns">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Address (Optional)</label>
+        </p>
+        <input maxlength="32" [(ngModel)]="address" />
+      </div>
+      <div *ngIf="role === '3' || role === '4'" class="role-select__mainContent__profile__element">
+        <p class="role-select__mainContent__profile__element__label">
+          <label>Courses</label>
+          <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+              error && (role === '3' && selectedCourses.length === 0)
+                ? 'role-select__mainContent__profile__element__label__icon__sad'
+                : 'role-select__mainContent__profile__element__label__icon__happy'
+            ">{{
+            error && (notes === "" || notes.trim() === "")
+            ? "sentiment_dissatisfied"
+            : "sentiment_satisfied"
+            }}</mat-icon>
+        </p>
+        <!-- <mat-select-autocomplete class="role-select__mainContent__profile__element__autoComplete capitalize"
+          (selectionChange)="getSelectedCourses($event)" [multiple]="true" [display]="'courseName'" [value]="'courseId'"
+          [placeholder]="'Search Courses'" [options]="courses" [appearance]="'outline'">
+        </mat-select-autocomplete> -->
+        <p-multiSelect [options]="courses" class="role-select__mainContent__profile__element--autoComplete"
+          [(ngModel)]="selectedCourses" optionLabel="courseName" display="chip" defaultLabel="Select courses"
+          (onChange)="isOthersSelected($event)">
+        </p-multiSelect>
+      </div>
+      <div class="d-flex align-items-center error-text role-select__mainContent__profile__element--twoColumns"
+        *ngIf="otherCoursesSelected">
+        <span>Please mention the course(s) you are interested in the <b>Tell us about yourself</b> section</span>
+      </div>
+    </div>
+    <div *ngIf="role === '3' || role === '4'" class="role-select__mainContent__subProfile">
+      <div class="role-select__mainContent__subProfile__header">
+        {{ role === "3" ? "Parent Details" : "Children Details" }}
+      </div>
+      <div *ngFor="let email of children; let i = index" class="role-select__mainContent__subProfile__block">
+        <p class="role-select__mainContent__subProfile__block__header">
+          {{ role === "3" ? "Parent " : "Child " }}{{ i + 1 }}
+        </p>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>First Name</label>
+          </p>
+          <input placeholder="First Name" readonly [value]="children[i]['first_name']" />
+        </div>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>Last Name</label>
+          </p>
+          <input placeholder="Last Name" readonly [value]="children[i]['last_name']" />
+        </div>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>Phone Number</label>
+          </p>
+          <div class="role-select__mainContent__profile__element__mobile">
+            <input placeholder="Country Code" readonly [value]="children[i]['country']" />
+            <input placeholder="Phone Number" readonly [value]="children[i]['mobile']" />
+          </div>
+        </div>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>E-mail</label>
+          </p>
+          <input placeholder="E-mail" readonly [value]="children[i]['email']" />
+        </div>
+      </div>
+      <div *ngFor="let email of childrenEmail.controls; let i = index"
+        class="role-select__mainContent__subProfile__block">
+        <p class="role-select__mainContent__subProfile__block__header">
+          {{ role === "3" ? "Parent " : "Child " }}{{ children.length + i + 1 }}
+          <mat-icon class="role-select__mainContent__subProfile__block__header__removeChild" (click)="removeChild(i)"
+            *ngIf="isProfilePage || childrenEmail.controls.length > 1">remove_circle</mat-icon>
+        </p>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>First Name</label>
+            <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+                error &&
+                (childrenEmail['controls'][i]['controls']['firstName']
+                  .invalid ||
+                  childrenEmail['controls'][i]['controls'][
+                    'firstName'
+                  ].value.trim() === '')
+                  ? 'role-select__mainContent__profile__element__label__icon__sad'
+                  : 'role-select__mainContent__profile__element__label__icon__happy'
+              ">{{
+              error &&
+              (childrenEmail["controls"][i]["controls"]["firstName"]
+              .invalid ||
+              childrenEmail["controls"][i]["controls"][
+              "firstName"
+              ].value.trim() === "")
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+              }}</mat-icon>
+          </p>
+          <input placeholder="First Name" maxlength="32" [formControl]="
+              childrenEmail['controls'][i]['controls']['firstName']
+            " />
+        </div>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>Last Name</label>
+            <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+                error &&
+                (childrenEmail['controls'][i]['controls']['lastName'].invalid ||
+                  childrenEmail['controls'][i]['controls'][
+                    'lastName'
+                  ].value.trim() === '')
+                  ? 'role-select__mainContent__profile__element__label__icon__sad'
+                  : 'role-select__mainContent__profile__element__label__icon__happy'
+              ">{{
+              error &&
+              (childrenEmail["controls"][i]["controls"]["lastName"].invalid ||
+              childrenEmail["controls"][i]["controls"][
+              "lastName"
+              ].value.trim() === "")
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+              }}</mat-icon>
+          </p>
+          <input placeholder="Last Name" maxlength="32"
+            [formControl]="childrenEmail['controls'][i]['controls']['lastName']" />
+        </div>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>Phone Number</label>
+            <mat-icon
+              class="role-select__mainContent__profile__element__label__icon role-select__mainContent__profile__element__label__icon__happy"
+              [ngClass]="
+                error &&
+                !validateMobileNumber(
+                  childrenEmail['controls'][i]['controls']['phone'].value
+                )
+                  ? 'role-select__mainContent__profile__element__label__icon__sad'
+                  : 'role-select__mainContent__profile__element__label__icon__happy'
+              ">{{
+              error &&
+              !validateMobileNumber(
+              childrenEmail["controls"][i]["controls"]["phone"].value
+              )
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+              }}</mat-icon>
+          </p>
+
+          <ngx-intl-tel-input [formControl]="childrenEmail['controls'][i]['controls']['phone']" [maxLength]="15"
+            [enablePlaceholder]="false" [enableAutoCountrySelect]="true" [separateDialCode]="true"
+            [searchCountryFlag]="true" [searchCountryField]="[
+              searchCountryField.Iso2,
+              searchCountryField.Name
+            ]" [selectedCountryISO]="countryISO.UnitedStates"></ngx-intl-tel-input>
+        </div>
+        <div class="role-select__mainContent__profile__element">
+          <p class="role-select__mainContent__profile__element__label">
+            <label>E-mail</label>
+            <mat-icon class="role-select__mainContent__profile__element__label__icon" [ngClass]="
+                error &&
+                childrenEmail['controls'][i]['controls']['email'].invalid
+                  ? 'role-select__mainContent__profile__element__label__icon__sad'
+                  : 'role-select__mainContent__profile__element__label__icon__happy'
+              ">{{
+              error &&
+              childrenEmail["controls"][i]["controls"]["email"].invalid
+              ? "sentiment_dissatisfied"
+              : "sentiment_satisfied"
+              }}</mat-icon>
+          </p>
+          <input placeholder="E-mail" id="email" type="email" maxlength="50"
+            [formControl]="childrenEmail['controls'][i]['controls']['email']"
+            [disabled]="isProfilePage || emailDisabled" />
+        </div>
+      </div>
+      <button class="role-select__mainContent__subProfile__block__addChild" (click)="addChild()" *ngIf="
+          (role === '3' &&
+            children.length + childrenEmail.controls.length < 2) ||
+          (role === '4' && children.length + childrenEmail.controls.length < 3)
+        ">
+        <mat-icon>add_circle</mat-icon>
+        {{ role === "3" ? "ADD PARENT" : "ADD CHILD" }}
+      </button>
+    </div>
+    <button class="role-select__mainContent__submit" type="button" (click)="onSubmit()" [disabled]="submitClicked">
+      {{ isProfilePage ? "UPDATE" : "REGISTER" }}
+    </button>
+  </div>
+  <div class="mainContent role-select__mainContent" *ngIf="updatedProfile">
+    <div class="role-select__mainContent__profileUpdated">
+      <p class="role-select__mainContent__profileUpdated__heading">
+        Thank you for registering
+      </p>
+      <span class="role-select__mainContent__profileUpdated__subHeading">We will get back to you soon</span>
+      <img src="assets/info-image.svg" />
+    </div>
+  </div>
+  <footer class="role-select__footer">
+    <span class="footer--first">378 Boston Post Road, Suite #202, Orange, CT</span>
+    <span>factorialmath@gmail.com</span>
+    <span class="footer--last">(203) 952 5567 / (203) 981 4186</span>
+  </footer>
+</div>

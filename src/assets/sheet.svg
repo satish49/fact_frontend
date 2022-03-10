@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="47.826" height="55.65" viewBox="0 0 47.826 55.65">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:#0e892b}
+        </style>
+    </defs>
+    <g id="prefix__business_1_" data-name="business (1)" transform="translate(-.5)">
+        <path id="prefix__Path_345" d="M47.838 11.633L36.469.467A1.63 1.63 0 0 0 35.327 0H6.583A6.09 6.09 0 0 0 .5 6.083v43.484a6.09 6.09 0 0 0 6.083 6.083h35.66a6.09 6.09 0 0 0 6.083-6.083V12.8a1.63 1.63 0 0 0-.488-1.167zM36.957 5.517l5.752 5.649h-5.234a.519.519 0 0 1-.518-.518zm5.286 46.872H6.583a2.826 2.826 0 0 1-2.823-2.823V6.083a2.826 2.826 0 0 1 2.823-2.822H33.7v7.387a3.783 3.783 0 0 0 3.779 3.779h7.59v35.14a2.826 2.826 0 0 1-2.826 2.822zm0 0" class="prefix__cls-1" data-name="Path 345"/>
+        <path id="prefix__Path_346" d="M122.8 238H99.822a1.63 1.63 0 1 0 0 3.261H122.8a1.63 1.63 0 1 0 0-3.261zm0 0" class="prefix__cls-1" data-name="Path 346" transform="translate(-87.073 -212.132)"/>
+        <path id="prefix__Path_347" d="M99.822 301.261h18.74a1.63 1.63 0 1 0 0-3.261h-18.74a1.63 1.63 0 1 0 0 3.261zm0 0" class="prefix__cls-1" data-name="Path 347" transform="translate(-87.073 -265.61)"/>
+        <path id="prefix__Path_348" d="M120.822 358h-21a1.63 1.63 0 0 0 0 3.261h21a1.63 1.63 0 0 0 0-3.261zm0 0" class="prefix__cls-1" data-name="Path 348" transform="translate(-87.073 -319.089)"/>
+    </g>
+</svg>

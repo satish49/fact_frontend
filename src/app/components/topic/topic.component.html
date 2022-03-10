@@ -1,0 +1,73 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="topic">
+      <div class="topic__head">
+        <div class="topic__head__block">
+          <span>Test Type</span>
+          <mat-select
+            [(value)]="selectedTestType"
+            (selectionChange)="onTestTypeSelection()"
+          >
+            <mat-option
+              *ngFor="let testType of testTypes; index as i"
+              [value]="i"
+              >{{ testType["test_type_name"] }}</mat-option
+            >
+          </mat-select>
+        </div>
+        <div class="topic__head__block">
+          <span>Section</span>
+          <mat-select [(value)]="selectedSection">
+            <mat-option
+              *ngFor="let section of sections; index as i"
+              [value]="i"
+              >{{ section["scoring_section_name"] }}</mat-option
+            >
+          </mat-select>
+        </div>
+      </div>
+      <div class="topic__body">
+        <span>Topic</span>
+        <span>SubTopic</span>
+        <span></span>
+        <input
+          [ngClass]="error && topic.invalid ? 'topic__body__inputError' : ''"
+          class="topic__body__topic"
+          [formControl]="topic"
+        />
+        <ng-container
+          *ngFor="let subTopic of subTopics['controls']; index as i"
+        >
+          <input
+            [ngClass]="
+              error && subTopics['controls'][i].invalid
+                ? 'topic__body__inputError'
+                : ''
+            "
+            class="topic__body__subTopic"
+            [formControl]="subTopics['controls'][i]"
+          />
+          <button
+            class="topic__body__button"
+            [ngClass]="i !== 0 ? 'topic__body__button__remove' : ''"
+            (click)="i === 0 ? addSubTopic() : removeSubTopic(i)"
+          >
+            <mat-icon>{{ i === 0 ? "add" : "remove" }}</mat-icon
+            >{{ i === 0 ? "Add" : "Remove" }}
+          </button>
+        </ng-container>
+      </div>
+      <button
+        class="topic__save button"
+        [disabled]="saveClicked"
+        (click)="createTopic()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

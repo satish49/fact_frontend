@@ -1,0 +1,30 @@
+@import "../../../config";
+.error-component {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  &__content {
+    display: grid;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.6);
+    background-color: #f7f7f7 !important;
+    grid-column: 2/3;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    background-color: white;
+    margin-bottom: 20px;
+    min-height: 400px;
+    color: $error-color;
+    border: 1px solid #979797;
+    border-radius: 4px;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .error-component {
+    grid-template-columns: 1fr;
+    &__content {
+      grid-column: unset;
+    }
+  }
+}

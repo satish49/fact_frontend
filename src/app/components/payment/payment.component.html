@@ -1,0 +1,521 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="payment">
+      <div class="payment__main">
+        <p class="payment__main__title">Student Fee Payment</p>
+        <div
+          class="payment__main__payments"
+          *ngFor="let payment of paymentInfo['controls']; index as paymentIndex"
+        >
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title"
+              >Select Student</span
+            >
+            <div
+              class="
+                payment__main__payments__block__input
+                payment__main__payments__block__autoComplete
+              "
+              [ngClass]="
+                saveError && payment['controls']['studentName']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            >
+              <ng-autocomplete
+                [data]="students"
+                [searchKeyword]="'studentName'"
+                (selected)="selectStudent($event, paymentIndex)"
+                (inputChanged)="onChangeSearch($event, paymentIndex)"
+                [itemTemplate]="itemTemplate"
+              >
+              </ng-autocomplete>
+
+              <ng-template #itemTemplate let-item>
+                <a [innerHTML]="item.studentName"></a>
+              </ng-template>
+            </div>
+          </div>
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title">Paid For</span>
+            <div
+              class="
+                payment__main__payments__block__input
+                payment__main__payments__block__date
+              "
+              [ngClass]="
+                saveError && payment['controls']['paidFor']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            >
+              <input
+                class="
+                  payment__main__payments__block__date__input
+                  payment__main__payments__block__date__input--absolute
+                "
+                [matDatepicker]="paidFor"
+                [formControl]="payment['controls']['paidFor']"
+                readonly
+              />
+              <input
+                readonly
+                class="payment__main__payments__block__date__input"
+                (click)="paidFor.open()"
+                [value]="
+                  getDate(payment['controls']['paidFor']['value'], 'month')
+                "
+              />
+              <mat-datepicker-toggle
+                class="payment__main__payments__block__date__toggle"
+                matSuffix
+                [for]="paidFor"
+              ></mat-datepicker-toggle>
+              <mat-datepicker
+                #paidFor
+                startView="year"
+                (monthSelected)="selectMonth($event, paidFor, paymentIndex)"
+              ></mat-datepicker>
+            </div>
+          </div>
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title"
+              >Payment Type</span
+            >
+            <mat-select
+              class="payment__main__payments__block__input"
+              [ngClass]="
+                saveError && payment['controls']['paymentType']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+              [formControl]="payment['controls']['paymentType']"
+            >
+              <mat-option
+                *ngFor="let paymentType of paymentTypes"
+                [value]="paymentType['paymentTypeId']"
+                >{{ paymentType["paymentTypeName"] }}</mat-option
+              >
+            </mat-select>
+          </div>
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title"
+              >Due Amount</span
+            >
+            <input
+              class="payment__main__payments__block__input"
+              (input)="numberValidator($event)"
+              [formControl]="payment['controls']['dueAmount']"
+            />
+          </div>
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title"
+              >Paid Amount</span
+            >
+            <input
+              class="payment__main__payments__block__input"
+              [ngClass]="
+                saveError && payment['controls']['paidAmount']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+              (input)="numberValidator($event)"
+              [formControl]="payment['controls']['paidAmount']"
+            />
+          </div>
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title"
+              >Date of Transaction</span
+            >
+            <div
+              class="
+                payment__main__payments__block__input
+                payment__main__payments__block__date
+              "
+              [ngClass]="
+                saveError && payment['controls']['transactionDate']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            >
+              <input
+                class="payment__main__payments__block__date__input"
+                [matDatepicker]="transactionDate"
+                [formControl]="payment['controls']['transactionDate']"
+                readonly
+                (click)="transactionDate.open()"
+              />
+              <mat-datepicker-toggle
+                class="payment__main__payments__block__date__toggle"
+                matSuffix
+                [for]="transactionDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #transactionDate></mat-datepicker>
+            </div>
+          </div>
+          <div class="payment__main__payments__block">
+            <span class="payment__main__payments__block__title">Notes</span>
+            <input
+              class="payment__main__payments__block__input"
+              [formControl]="payment['controls']['notes']"
+            />
+          </div>
+          <div class="payment__main__payments__block">
+            <mat-icon
+              class="payment__main__payments__block__icon"
+              [ngClass]="
+                paymentIndex === 0
+                  ? 'payment__main__payments__add'
+                  : 'payment__main__payments__remove'
+              "
+              (click)="
+                paymentIndex === 0
+                  ? addNewPayment()
+                  : removePayment(paymentIndex)
+              "
+              >{{
+                paymentIndex === 0 ? "add_circle" : "remove_circle"
+              }}</mat-icon
+            >
+          </div>
+        </div>
+        <button
+          class="button payment__main__save"
+          (click)="savePayment()"
+          [disabled]="saveClicked"
+        >
+          SAVE
+        </button>
+      </div>
+      <div class="payment__search">
+        <div class="payment__search__selectMonth">
+          <span class="payment__search__selectMonth__title">Select Month</span>
+          <div
+            class="
+              payment__search__selectMonth__date
+              payment__main__payments__block__input
+              payment__main__payments__block__date
+            "
+          >
+            <input
+              class="
+                payment__main__payments__block__date__input
+                payment__main__payments__block__date__input--absolute
+              "
+              readonly
+              [matDatepicker]="selectMonthPicker"
+              [formControl]="searchMonth"
+            />
+            <input
+              class="payment__main__payments__block__date__input"
+              readonly
+              (click)="selectMonthPicker.open()"
+              [value]="getDate(searchMonth['value'], 'month')"
+              [disabled]="selectMonthClicked"
+            />
+            <mat-datepicker-toggle
+              class="payment__main__payments__block__date__toggle"
+              matSuffix
+              [for]="selectMonthPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              #selectMonthPicker
+              [disabled]="selectMonthClicked"
+              startView="year"
+              (monthSelected)="
+                selectMonth($event, selectMonthPicker, 'monthSearch')
+              "
+            ></mat-datepicker>
+          </div>
+        </div>
+        <div
+          class="payment__search__filters"
+          *ngIf="originalCompeletedPayments['length'] > 0"
+        >
+          <span
+            class="payment__search__filters__item"
+            [ngClass]="
+              filterType === 'paidOnly'
+                ? 'payment__search__filters__item--selected'
+                : ''
+            "
+            (click)="filterPayments('paidOnly')"
+            >Paid Only</span
+          >
+          <span
+            class="payment__search__filters__item"
+            [ngClass]="
+              filterType === 'unPaidOnly'
+                ? 'payment__search__filters__item--selected'
+                : ''
+            "
+            (click)="filterPayments('unPaidOnly')"
+            >Unpaid Only</span
+          >
+          <span
+            class="payment__search__filters__item"
+            [ngClass]="
+              filterType === 'all'
+                ? 'payment__search__filters__item--selected'
+                : ''
+            "
+            (click)="filterPayments('all')"
+            >Show All</span
+          >
+        </div>
+        <span
+          *ngIf="originalCompeletedPayments['length'] > 0"
+          class="payment__search__totalPaid"
+        >
+          Total Paid Amount: {{ totalPaid }}
+        </span>
+        <div class="payment__search__searchBox">
+          <span class="payment__search__searchBox__title">Search</span>
+          <input
+            class="payment__search__searchBox__input"
+            [(ngModel)]="searchTable"
+            (keyup)="applyFilter()"
+          /><button class="payment__search__searchBox__button button">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+      <table mat-table [dataSource]="completedPayments" class="payment__table">
+        <ng-container matColumnDef="studentName">
+          <th mat-header-cell *matHeaderCellDef>Student Name</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            {{ payment["studentName"] }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paidFor">
+          <th mat-header-cell *matHeaderCellDef>Paid For</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <div
+              class="
+                payment__table__input
+                payment__main__payments__block__input
+                payment__main__payments__block__date
+              "
+              *ngIf="payment['edit']"
+              [ngClass]="
+                onGoingErrors.indexOf(payment['studentId']) > -1 &&
+                payment['editableData']['controls']['paidFor']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            >
+              <input
+                class="
+                  payment__main__payments__block__date__input
+                  payment__main__payments__block__date__input--absolute
+                "
+                [matDatepicker]="editPaidFor"
+                [formControl]="payment['editableData']['controls']['paidFor']"
+                readonly
+              />
+              <input
+                readonly
+                class="payment__main__payments__block__date__input"
+                (click)="editPaidFor.open()"
+                [value]="
+                  getDate(
+                    payment['editableData']['controls']['paidFor']['value'],
+                    'month'
+                  )
+                "
+              />
+              <mat-datepicker-toggle
+                class="payment__main__payments__block__date__toggle"
+                matSuffix
+                [for]="editPaidFor"
+              ></mat-datepicker-toggle>
+              <mat-datepicker
+                #editPaidFor
+                startView="year"
+                (monthSelected)="
+                  selectEditMonth($event, editPaidFor, payment['studentId'])
+                "
+              ></mat-datepicker>
+            </div>
+            {{
+              payment["edit"]
+                ? ""
+                : getDate(
+                    payment["editableData"]["controls"]["paidFor"]["value"],
+                    "month"
+                  )
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentType">
+          <th mat-header-cell *matHeaderCellDef>Payment Type</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <mat-select
+              class="
+                payment__table__input payment__main__payments__block__input
+              "
+              [formControl]="payment['editableData']['controls']['paymentType']"
+              *ngIf="payment['edit']"
+              [ngClass]="
+                onGoingErrors.indexOf(payment['studentId']) > -1 &&
+                payment['editableData']['controls']['paymentType']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            >
+              <mat-option
+                *ngFor="let paymentType of paymentTypes"
+                [value]="paymentType['paymentTypeId']"
+                >{{ paymentType["paymentTypeName"] }}</mat-option
+              >
+            </mat-select>
+            {{
+              payment["edit"]
+                ? ""
+                : getPaymentType(
+                    payment["editableData"]["controls"]["paymentType"]["value"]
+                  )
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="dueAmount">
+          <th mat-header-cell *matHeaderCellDef>Due Amount</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <input
+              *ngIf="payment['edit']"
+              class="
+                payment__table__input payment__main__payments__block__input
+              "
+              [formControl]="payment['editableData']['controls']['dueAmount']"
+            />
+            {{
+              payment["edit"]
+                ? ""
+                : payment["editableData"]["controls"]["dueAmount"]["value"]
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paidAmount">
+          <th mat-header-cell *matHeaderCellDef>Paid Amount</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <input
+              *ngIf="payment['edit']"
+              class="
+                payment__table__input payment__main__payments__block__input
+              "
+              [formControl]="payment['editableData']['controls']['paidAmount']"
+              [ngClass]="
+                onGoingErrors.indexOf(payment['studentId']) > -1 &&
+                payment['editableData']['controls']['paidAmount']['invalid']
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            />
+            {{
+              payment["edit"]
+                ? ""
+                : payment["editableData"]["controls"]["paidAmount"]["value"]
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transactionDate">
+          <th mat-header-cell *matHeaderCellDef>Date of Transaction</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <div
+              class="
+                payment__table__input
+                payment__main__payments__block__input
+                payment__main__payments__block__date
+              "
+              *ngIf="payment['edit']"
+              [ngClass]="
+                onGoingErrors.indexOf(payment['studentId']) > -1 &&
+                payment['editableData']['controls']['transactionDate'][
+                  'invalid'
+                ]
+                  ? 'payment__main__payments__block__input__error'
+                  : ''
+              "
+            >
+              <input
+                class="payment__main__payments__block__date__input"
+                [matDatepicker]="editTransactionDate"
+                [formControl]="
+                  payment['editableData']['controls']['transactionDate']
+                "
+                readonly
+                (click)="editTransactionDate.open()"
+              />
+              <mat-datepicker-toggle
+                class="payment__main__payments__block__date__toggle"
+                matSuffix
+                [for]="editTransactionDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #editTransactionDate></mat-datepicker>
+            </div>
+            {{
+              payment["edit"]
+                ? ""
+                : getDate(
+                    payment["editableData"]["controls"]["transactionDate"][
+                      "value"
+                    ],
+                    "date"
+                  )
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="notes">
+          <th mat-header-cell *matHeaderCellDef>Notes</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <input
+              *ngIf="payment['edit']"
+              class="
+                payment__table__input payment__main__payments__block__input
+              "
+              [formControl]="payment['editableData']['controls']['notes']"
+            />
+            {{
+              payment["edit"]
+                ? ""
+                : payment["editableData"]["controls"]["notes"]["value"]
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="lastPaid">
+          <th mat-header-cell *matHeaderCellDef>Last Paid</th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            {{ getDate(payment["lastPaid"], "month") }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let payment" class="capitalize">
+            <button
+              class="payment__table__button button"
+              [disabled]="onGoingUpdates.indexOf(payment['studentId']) > -1"
+              (click)="
+                payment['edit']
+                  ? updatePayment(payment['studentId'], payment['paymentId'])
+                  : editPayment(payment['studentId'], payment['paymentId'])
+              "
+            >
+              {{ payment["edit"] ? "Update" : "Edit" }}
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+      </table>
+      <mat-paginator
+        [pageSize]="15"
+        showFirstLastButtons
+        #paginator
+      ></mat-paginator>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

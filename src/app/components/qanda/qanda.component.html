@@ -1,0 +1,148 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="qanda">
+      <span class="qanda__heading">Manage Tests</span>
+      <div class="qanda__filterSection">
+        <button class="createTopic" [routerLink]="['/topic']">
+          <mat-icon>add</mat-icon>Create Topic
+        </button>
+        <div class="qanda__filterSection__searchSection">
+          <span class="qanda__filterSection__searchSection__label">Search</span>
+          <input
+            class="qanda__filterSection__searchSection__searchInput"
+            [(ngModel)]="searchTable"
+            (keyup)="applyFilter()"
+          /><button
+            class="qanda__filterSection__searchSection__searchButton button"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+        <div class="qanda__filterSection__selectTest">
+          <span class="qanda__filterSection__selectTest__label">Test Type</span>
+          <!-- <select class="qanda__filterSection__selectTest__select">
+            <option hidden selected>Select</option>
+          </select> -->
+          <mat-select
+            class="qanda__filterSection__selectTest__select"
+            [(value)]="selectedTestType"
+            (selectionChange)="getTests()"
+          >
+            <mat-option
+              *ngFor="let type of testTypes; index as i"
+              [value]="i"
+              >{{ type.testTypeName }}</mat-option
+            >
+          </mat-select>
+        </div>
+      </div>
+      <table mat-table [dataSource]="tests" class="qanda__table">
+        <ng-container matColumnDef="test_type">
+          <th mat-header-cell *matHeaderCellDef>Test Type</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            {{ selectedTestName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="test_code">
+          <th mat-header-cell *matHeaderCellDef>Test Code</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            {{ test["testCode"] }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td
+            mat-cell
+            *matCellDef="let test"
+            class="capitalize qanda__table__status"
+          >
+            <img
+              [src]="
+                test.totalQuestions === test.totalSavedQuestions
+                  ? 'assets/test-completed.svg'
+                  : test.totalSavedQuestions === 0
+                  ? 'assets/test-not-started.svg'
+                  : 'assets/test-incomplete.svg'
+              "
+            />
+            <span
+              class="qanda__table__status__text"
+              [ngClass]="
+                test.totalQuestions === test.totalSavedQuestions
+                  ? 'qanda__table__status__text__completed'
+                  : ''
+              "
+              >{{
+                test.totalQuestions === test.totalSavedQuestions
+                  ? "Completed"
+                  : test.totalSavedQuestions === 0
+                  ? "Not Started"
+                  : "Incomplete"
+              }}</span
+            >
+            <!-- <img src="assets/test-completed.svg" />
+            <span class="qanda__table__status__text">Completed</span> -->
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="assign">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            <button
+              class="button qanda__table__assign"
+              [disabled]="!test.is_conversion_available"
+              [routerLink]="['/assign-test', test.testId]"
+              *ngIf="test.totalQuestions === test.totalSavedQuestions"
+            >
+              {{ test.is_conversion_available ? "Assign" : "Scoring Data" }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="score">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            <button
+              class="button qanda__table__assign button qanda__table__assign--score"
+              [disabled]="!test.is_conversion_available"
+              [routerLink]="['/score-analysis', test.testId]"
+              *ngIf="test.totalQuestions === test.totalSavedQuestions"
+            >
+              {{ test.is_conversion_available ? "Scores" : "" }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="analyze">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            <button
+              class="button qanda__table__assign button qanda__table__assign--analyze"
+              [disabled]="!test.is_conversion_available"
+              [routerLink]="['/analyze-test', test.testId]"
+              *ngIf="test.totalQuestions === test.totalSavedQuestions"
+            >
+              {{ test.is_conversion_available ? "Analyze" : "" }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let test" class="capitalize">
+            <button class="button" [routerLink]="['/answer-key', test.testId]">
+              Answers
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+      </table>
+      <mat-paginator
+        [pageSize]="15"
+        showFirstLastButtons
+        #paginator
+      ></mat-paginator>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

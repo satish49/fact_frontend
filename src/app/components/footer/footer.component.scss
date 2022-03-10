@@ -1,0 +1,67 @@
+@import "../../../config";
+.footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  // background-color: $footer-color;
+  // color: white;
+  // height: 100px;
+  // padding: 5px 0;
+  // display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  // align-items: center;
+  background-color: $footer-color;
+  color: white;
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 24px 65px;
+  justify-items: center;
+  &__secondary {
+    background-color: rgba($footer-color, 0.2);
+  }
+  &--first {
+    justify-self: start;
+  }
+  &--last {
+    justify-self: end;
+  }
+  // p {
+  //   grid-column: 1/-1;
+  // }
+  // p,
+  // span {
+  //   justify-self: start;
+  //   margin-left: 50px;
+  // }
+  // span {
+  //   display: flex;
+  //   align-items: center;
+  //   mat-icon {
+  //     margin-right: 10px;
+  //     opacity: 0.25;
+  //   }
+  // }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    // grid-template-columns: unset;
+    // height: auto;
+    // text-align: center;
+    // padding: 10px;
+    // justify-content: center;
+    // p,
+    // span {
+    //   margin-left: 25px;
+    // }
+    grid-template-columns: unset;
+    row-gap: 10px;
+    padding: 20px;
+    span {
+      justify-self: center;
+      text-align: center;
+    }
+  }
+}

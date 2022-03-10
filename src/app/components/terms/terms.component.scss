@@ -1,0 +1,61 @@
+.terms {
+  width: 100%;
+  background: url("../../../assets/water-mark.jpg") no-repeat;
+  background-size: cover;
+  min-height: 100%;
+  display: grid;
+  // grid-template-rows: 10% auto;
+  &__header {
+    display: grid;
+    z-index: 9999;
+    position: fixed;
+    width: 100%;
+    align-items: center;
+    padding: 10px 40px 10px 90px;
+    padding-block-start: 25px !important;
+    &__whiteBackground {
+      background-color: white;
+      padding-block-end: 25px !important;
+      box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.6);
+    }
+  }
+  &__body {
+    display: grid;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    width: 80%;
+    justify-self: center;
+    align-self: center;
+    background-color: white;
+    padding: 40px;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: black;
+    &__header {
+      color: #333333;
+      font-weight: 500;
+      font-size: 24px;
+    }
+    &__bold {
+      font-weight: bold;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+}
+@media screen and (max-width: 540px) {
+  .terms {
+    &__header {
+      padding: 10px 40px;
+      &__whiteBackground {
+        border-bottom: 1px solid darkgray;
+      }
+    }
+    &__body {
+      width: 100%;
+    }
+  }
+}
+@media (orientation: landscape) and (max-width: 900px) {
+}

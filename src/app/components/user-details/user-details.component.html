@@ -1,0 +1,205 @@
+<div class="user-details">
+  <!-- <div id="user-details__header" class="user-details__header">
+    <span>
+      <img src="assets/logo-ravi.svg" routerLink="" />
+    </span>
+    <div class="user-details__header__last">
+      <button
+        class="button user-details__header__last__login"
+        [routerLink]="['/users']"
+      >
+        USERS
+      </button>
+      <button
+        class="button user-details__header__last__logout"
+        (click)="logout()"
+      >
+        LOGOUT
+      </button>
+    </div>
+    <div class="user-details__header__mobile">
+      <input type="checkbox" [checked]="mobileNav" (click)="onMobileNav()" />
+      <div>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="user-details__header__mobile__menu" *ngIf="mobileNav">
+        <button
+          class="button user-details__header__last__login user-details__header__mobile__menu__item"
+          [routerLink]="['/users']"
+        >
+          USERS
+        </button>
+        <button
+          class="button user-details__header__last__logout user-details__header__mobile__menu__item"
+          (click)="logout()"
+        >
+          LOGOUT
+        </button>
+      </div>
+    </div>
+  </div> -->
+  <app-common-header [isAdminOrTutor]="true"></app-common-header>
+  <div class="user-details__body">
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Username:</p>
+      <p class="capitalize">{{ firstName + " " + lastName }}</p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">E-mail:</p>
+      <p>{{ email }}</p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Mobile:</p>
+      <p>{{ mobile }}</p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Role:</p>
+      <p>
+        {{
+        role === 1
+        ? "Admin"
+        : role === 2
+        ? "Tutor"
+        : role === 3
+        ? "Student"
+        : role === 4
+        ? "Parent"
+        : ""
+        }}
+      </p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Gender:</p>
+      <p>
+        {{
+        gender === 1
+        ? "Male"
+        : gender === 2
+        ? "Female"
+        : gender === 3
+        ? "Do not specify"
+        : ""
+        }}
+      </p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Skype ID:</p>
+      <p>{{ skype }}</p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Zip Code:</p>
+      <p>{{ zip }}</p>
+    </div>
+    <div class="user-details__body__card">
+      <p class="user-details__body__card__heading">Address:</p>
+      <p>{{ address }}</p>
+    </div>
+    <div *ngIf="role === 4 || role === 3" class="user-details__body__card user-details__body__card--big">
+      <p class="user-details__body__alignSelfStart user-details__body__card__heading">Courses:</p>
+      <div class="user-details__body__card__courses">
+        <!-- <span *ngFor="let child of myChildren; let i = index">{{ child.email }}<br
+          *ngIf="i < myChildren.length - 1" /></span> -->
+        <p-multiSelect [options]="courses" class="role-select__mainContent__profile__element--autoComplete"
+          [(ngModel)]="selectedCourses" optionLabel="courseName" display="chip" defaultLabel="Select courses">
+        </p-multiSelect>
+        <button class="user-details__body__card__save" (click)="setCoursesForUser()"
+          [disabled]="saveCoursesClicked">Save</button>
+      </div>
+    </div>
+    <div *ngIf="role === 4 || role === 3" class="user-details__body__card user-details__body__card--big">
+      <p class="user-details__body__alignSelfStart user-details__body__card__heading">
+        {{ role === 4 ? "Children:" : "Parents:" }}
+      </p>
+      <p class="user-details__body__alignSelfStart">
+        <!-- <span *ngFor="let child of myChildren; let i = index">{{ child.email }}<br
+          *ngIf="i < myChildren.length - 1" /></span> -->
+        <p-accordion>
+          <p-accordionTab class="capitalize" *ngFor="let child of myChildren"
+            header="{{child.first_name + ' ' + child.last_name}}">
+            <div>
+              <p class="text-initial"><b class="user-details__body__card__heading">Email:</b> {{child.email}}</p>
+              <p class="text-initial"><b class="user-details__body__card__heading">Mobile:</b> {{child?.country || ""}}
+                {{child?.mobile ||
+                ""}}
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </p>
+    </div>
+    <div *ngIf="role === 4" class="user-details__body__card user-details__body__card--big">
+      <p class="user-details__body__alignSelfStart user-details__body__card__heading">
+        Linked Children:
+      </p>
+      <p *ngIf="users.length > 0" class="user-details__body__alignSelfStart">
+        <p-accordion>
+          <p-accordionTab class="capitalize" *ngFor="let child of parentChildren"
+            header="{{child.first_name + ' ' + child.last_name}}">
+            <div>
+              <p class="text-initial"><b class="user-details__body__card__heading">Email:</b> {{child.email}}</p>
+              <p class="text-initial"><b class="user-details__body__card__heading">Mobile:</b> {{child?.countryCode ||
+                ""}}
+                {{child?.mobileNumber ||
+                ""}}</p>
+            </div>
+          </p-accordionTab>
+          <!-- <span *ngFor="let child of parentChildren; let i = index"><span class="capitalize">{{ child.first_name }}
+            {{child.last_name}}</span> <span> ({{child.email}})</span><br
+            *ngIf="i < parentChildren.length - 1" /></span> -->
+        </p-accordion>
+      </p>
+    </div>
+    <div *ngIf="role === 3" class="user-details__body__card user-details__body__card--big">
+      <p class="user-details__body__alignSelfStart user-details__body__card__heading">
+        Linked Parents:
+      </p>
+      <p *ngIf="users.length > 0" class="user-details__body__alignSelfStart">
+        <!-- <span *ngFor="let parent of studentParents; let i = index">{{ parent }}<br
+          *ngIf="i < studentParents.length - 1" /></span> -->
+        <p-accordion>
+          <p-accordionTab class="capitalize" *ngFor="let parent of studentParents"
+            header="{{parent.first_name + ' ' + parent.last_name}}">
+            <div>
+              <p class="text-initial"><b class="user-details__body__card__heading">Email:</b> {{parent.email}}</p>
+              <p class="text-initial"><b class="user-details__body__card__heading">Mobile:</b> {{parent?.countryCode ||
+                "" }} {{ parent?.mobileNumber
+                || ""}}</p>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </p>
+    </div>
+    <button *ngIf="role === 4 && !addNewChild" (click)="toggleAddNewChild()"
+      class="user-details__body__primaryButton user-details__body__addNewChild button">
+      <mat-icon>add</mat-icon>Add New Child
+    </button>
+    <div *ngIf="addNewChild" class="user-details__body__childrenContainer">
+      <!-- <mat-select
+        multiple
+        [formControl]="children"
+        placeholder="Children"
+        class="user-details__body__childrenContainer__select"
+      >
+        <mat-option *ngFor="let student of students" [value]="student.email">{{
+          student.email
+        }}</mat-option>
+      </mat-select> -->
+      <mat-select-autocomplete class="user-details__body__childrenContainer__select"
+        [selectedOptions]="defaultSelectedChildren" (selectionChange)="getSelectedChildren($event)" [multiple]="true"
+        [display]="'email'" [value]="'email'" [placeholder]="'Children'" [options]="students"></mat-select-autocomplete>
+      <button type="button" class="button user-details__body__primaryButton" [disabled]="addingChildren"
+        (click)="addChildToParent()">
+        Save
+      </button>
+      <button type="button" class="button user-details__body__dangerButton" (click)="toggleAddNewChild()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <span class="footer--first">378 Boston Post Road, Suite #202, Orange, CT</span>
+  <span>factorialmath@gmail.com</span>
+  <span class="footer--last">(203) 952 5567 / (203) 981 4186</span>
+</footer>

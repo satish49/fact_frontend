@@ -1,0 +1,48 @@
+$primary-color: #333333;
+$primary-green: #44bb74;
+$error-color: #ff6565;
+$footer-color: #82a3d7;
+$primary-blue: #4eaeeb;
+
+.footer {
+  background-color: $footer-color;
+  color: white;
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 24px 65px;
+  justify-items: center;
+  &--first {
+    justify-self: start;
+  }
+  &--last {
+    justify-self: end;
+  }
+}
+
+.error-text {
+  color: $error-color;
+}
+
+.primary-text {
+  color: $primary-blue;
+}
+
+.error-border {
+  border-color: $error-color !important;
+  .ui-autocomplete .ui-autocomplete-input {
+    border-color: $error-color !important;
+  }
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pointer {
+  cursor: pointer;
+}

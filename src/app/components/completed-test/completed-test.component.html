@@ -1,0 +1,283 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="complete-test">
+      <div class="complete-test__heading">
+        <p class="complete-test__heading__main">Test Analysis</p>
+        <span class="complete-test__heading__sub"
+          >View by Student and Question</span
+        >
+      </div>
+      <div class="complete-test__header">
+        <div class="complete-test__header__block">
+          <span class="complete-test__header__block__label">Test Type:</span>
+          <span class="complete-test__header__block__text">{{ testType }}</span>
+        </div>
+        <div
+          class="complete-test__header__block complete-test__header__block__last"
+        >
+          <span class="complete-test__header__block__label">Test Code:</span>
+          <span class="complete-test__header__block__text">{{ testCode }}</span>
+        </div>
+      </div>
+      <div class="complete-test__main">
+        <div class="complete-test__main__filters">
+          <div
+            class="complete-test__main__filters__head"
+            (click)="toggleDrillDown()"
+          >
+            <span class="complete-test__main__filters__head__text"
+              >FILTERS</span
+            >
+            <mat-icon class="complete-test__main__filters__head__icon">
+              {{ drillDown ? "remove_circle" : "add_circle" }}
+            </mat-icon>
+            <!-- <span class="complete-test__main__filters__head__clear"
+              >Clear all Filters</span
+            > -->
+          </div>
+          <div class="complete-test__main__filters__block" *ngIf="drillDown">
+            <p class="complete-test__main__filters__title">Date</p>
+            <div class="complete-test__main__filters__dates">
+              <div
+                class="complete-test__main__filters__dates__date"
+                [ngClass]="
+                  searchError && fromDate['invalid']
+                    ? 'complete-test__main__filters__dates__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  [matDatepicker]="fromDatePicker"
+                  class="complete-test__main__filters__dates__date__input"
+                  readonly
+                  (click)="fromDatePicker.open()"
+                  [formControl]="fromDate"
+                  [max]="toDate['value']"
+                  placeholder="From"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="fromDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #fromDatePicker></mat-datepicker>
+              </div>
+              <div
+                class="complete-test__main__filters__dates__date"
+                [ngClass]="
+                  searchError && toDate['invalid']
+                    ? 'complete-test__main__filters__dates__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  [matDatepicker]="toDatePicker"
+                  class="complete-test__main__filters__dates__date__input"
+                  readonly
+                  (click)="toDatePicker.open()"
+                  [formControl]="toDate"
+                  [min]="fromDate['value']"
+                  placeholder="To"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="toDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #toDatePicker></mat-datepicker>
+              </div>
+            </div>
+          </div>
+          <div class="complete-test__main__filters__block" *ngIf="drillDown">
+            <span class="complete-test__main__filters__title">Batch </span>
+            <p *ngIf="searchError && students['length'] === 0" class="error">
+              Please Select atleast one batch
+            </p>
+            <mat-select-autocomplete
+              class="capitalize complete-test__main__filters__searchBatch"
+              (selectionChange)="getSelectedBatches($event)"
+              [multiple]="true"
+              [display]="'batchName'"
+              [value]="'batchId'"
+              [placeholder]="'Search Batch'"
+              [options]="batches"
+              [appearance]="'standard'"
+            ></mat-select-autocomplete>
+            <button
+              class="complete-test__main__filters__searchButton button"
+              (click)="searchQuestions()"
+              [disabled]="searchClicked"
+            >
+              Search <mat-icon>search</mat-icon>
+            </button>
+          </div>
+          <div class="complete-test__main__filters__block" *ngIf="drillDown">
+            <span
+              class="complete-test__main__filters__title complete-test__main__filters__block__students--title"
+              >Students
+            </span>
+            <div class="complete-test__main__filters__block__students">
+              <span
+                class="complete-test__main__filters__title complete-test__main__filters__block__students--unSelect complete-test__main__filters__block__students--unSelect--select"
+                (click)="selectOrUnSelectAll(true)"
+                >Select All</span
+              >
+              <span
+                class="complete-test__main__filters__title complete-test__main__filters__block__students--unSelect"
+                (click)="selectOrUnSelectAll(false)"
+                >Un-Select All</span
+              >
+            </div>
+            <div class="complete-test__main__filters__students">
+              <ng-container
+                *ngFor="let student of searchedStudents; index as studentIndex"
+              >
+                <mat-checkbox
+                  class="capitalize"
+                  [(ngModel)]="student['selected']"
+                  (change)="filter()"
+                  >{{ student["studentName"] }}</mat-checkbox
+                >
+              </ng-container>
+            </div>
+          </div>
+          <div class="complete-test__main__filters__block" *ngIf="drillDown">
+            <span class="complete-test__main__filters__title">Section </span>
+            <mat-radio-group
+              class="complete-test__main__filters__sections"
+              [(ngModel)]="selectedSection"
+              (change)="onSectionSelection()"
+            >
+              <mat-radio-button
+                *ngFor="let section of sections; index as sectionIndex"
+                [value]="sectionIndex"
+                >{{ section["testSection"] }}</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div
+            class="complete-test__main__filters__questions complete-test__main__filters__block"
+          >
+            <span class="complete-test__main__filters__title">Questions</span>
+            <div class="complete-test__main__filters__questions__list">
+              <ng-container
+                *ngFor="let question of questionsArray; index as questionIndex"
+              >
+                <div
+                  class="complete-test__main__filters__questions__list__question"
+                  [ngClass]="
+                    selectedQuestion === questionIndex + 1
+                      ? 'complete-test__main__filters__questions__list__question--selected'
+                      : ''
+                  "
+                  (click)="changeSelectedQuestion(questionIndex + 1)"
+                >
+                  {{ questionIndex + 1 }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="complete-test__main__filters__answerType">
+            <span class="complete-test__main__filters__title">Answer Type</span>
+            <mat-radio-group
+              class="complete-test__main__filters__answerType__radios"
+              [(ngModel)]="selectedAnswerType"
+              (change)="filter()"
+            >
+              <mat-radio-button [value]="1">Correct Answer</mat-radio-button>
+              <mat-radio-button
+                [value]="0"
+                class="complete-test__main__filters__answerType__radios__wrong"
+                >Wrong Answer</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="complete-test__main__body">
+          <!-- <span class="complete-test__main__body__searchCriteria"
+            >Search Criteria</span
+          >
+          <div class="complete-test__main__body__selectedFilters"></div> -->
+          <table
+            mat-table
+            [dataSource]="questions"
+            class="complete-test__main__body__table"
+          >
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef>S.No</th>
+              <td
+                mat-cell
+                *matCellDef="let question; index as questionIndex"
+                class="capitalize"
+              >
+                {{ questionIndex + 1 }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="student">
+              <th mat-header-cell *matHeaderCellDef>Student</th>
+              <td mat-cell *matCellDef="let question" class="capitalize">
+                {{ question["student_name"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="section">
+              <th mat-header-cell *matHeaderCellDef>Section</th>
+              <td mat-cell *matCellDef="let question" class="capitalize">
+                {{ selectedSectionName }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="qid">
+              <th mat-header-cell *matHeaderCellDef>Q.No</th>
+              <td mat-cell *matCellDef="let question" class="capitalize">
+                {{ question["qid"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="correct_answer">
+              <th mat-header-cell *matHeaderCellDef>Correct Answer</th>
+              <td mat-cell *matCellDef="let question" class="capitalize">
+                <span *ngIf="question['answer_type'] === 'char'">{{
+                  question["keys"][0]["direct_answer"]
+                }}</span>
+                <span *ngIf="question['answer_type'] === 'number'">
+                  <ng-container
+                    *ngFor="let key of question['keys']; index as keyIndex"
+                  >
+                    {{ key["direct_answer"] }}
+                    {{
+                      keyIndex !== question["keys"]["length"] - 1 ? ", " : ""
+                    }}
+                  </ng-container>
+                </span>
+                <span *ngIf="question['answer_type'] === 'range'">
+                  {{ question["keys"][0]["is_min_inclusive"] ? ">=" : ">" }}
+                  {{ question["keys"][0]["range_min"] }},
+                  {{ question["keys"][0]["is_max_inclusive"] ? "<=" : "<" }}
+                  {{ question["keys"][0]["range_max"] }}
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="actual_answer">
+              <th mat-header-cell *matHeaderCellDef>Student Answer</th>
+              <td mat-cell *matCellDef="let question" class="capitalize">
+                {{ question["student_answer"] }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr
+              mat-row
+              *matRowDef="let myRowData; columns: columnsToDisplay"
+            ></tr>
+          </table>
+          <mat-paginator
+            [pageSize]="25"
+            showFirstLastButtons
+            #paginator
+          ></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

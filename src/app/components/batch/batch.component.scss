@@ -1,0 +1,223 @@
+@import "../../../config";
+.batch {
+  display: grid;
+  padding: 0 100px;
+  font-family: "Montserrat", sans-serif;
+  color: #707070;
+  font-weight: 500;
+  row-gap: 30px;
+  &__heading {
+    color: #4eaeeb;
+    font-size: 35px;
+    font-weight: bold;
+    justify-self: center;
+  }
+  &__error {
+    border-color: $error-color !important;
+  }
+  &__batchData {
+    display: grid;
+    background-color: white;
+    border-radius: 20px;
+    border: 1px solid #d9d9d9;
+    padding: 35px;
+    row-gap: 30px;
+    &__selectedCourse {
+      display: flex;
+      &__heading {
+        align-self: center;
+      }
+      &__name {
+        background: #d8ebff 0% 0% no-repeat padding-box;
+        border-radius: 8px;
+        justify-content: space-evenly;
+        margin-left: 10px;
+        padding: 5px 10px;
+        position: relative;
+        &__close {
+          position: absolute;
+          color: white;
+          color: #75b7fe;
+          top: -10px;
+          right: -10px;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+    }
+    &__block {
+      display: flex;
+      justify-content: space-between;
+      div {
+        display: grid;
+        row-gap: 5px;
+      }
+      &--day {
+        display: grid;
+        grid-template-columns: 15% 8% 8% 15% 40% 100px;
+        column-gap: 10px;
+        &__time {
+          position: relative;
+          ngx-material-timepicker {
+            position: absolute;
+          }
+          input {
+            padding: 10px !important;
+          }
+        }
+        &__add {
+          border: none;
+          background-color: transparent;
+          color: #75b7fe;
+          display: flex;
+          align-items: center;
+          justify-self: flex-end;
+          cursor: pointer;
+          &--remove {
+            color: $error-color;
+          }
+        }
+        input {
+          width: 100% !important;
+        }
+      }
+      &__date {
+        box-shadow: 0px 3px 6px #00000029;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 50px;
+        display: grid;
+        grid-template-columns: auto max-content;
+        align-content: center;
+        &--error {
+          border-color: $error-color;
+        }
+        &__input {
+          cursor: pointer;
+          border: none;
+          width: 150px;
+          box-shadow: unset !important;
+          border: unset !important;
+        }
+      }
+      &__firstRow {
+        &--bigElement {
+          width: 350px;
+        }
+      }
+    }
+    input,
+    mat-select {
+      box-shadow: 0px 3px 6px #00000029;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      padding: 10px 15px;
+    }
+    &__students {
+      display: grid;
+      grid-template-columns: 30% 65%;
+      column-gap: 30px;
+      &__addBlock {
+        display: grid;
+        align-items: start;
+        &__search {
+          width: 100%;
+          display: grid;
+          mat-select {
+            background: #ffffff 0% 0% no-repeat padding-box;
+            box-shadow: 0px 3px 6px #00000029;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px 5px 0px 0px;
+          }
+        }
+        &__button {
+          font-size: 18px;
+          font-weight: 500;
+          border-color: #1492e6;
+          background-color: #1492e6;
+          color: white;
+          width: 150px;
+          justify-self: end;
+          margin-top: 10px;
+        }
+      }
+      &__viewBlock {
+        display: grid;
+        align-items: start;
+        align-content: start;
+        &__heading {
+          color: #1492e6;
+        }
+        &__list {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          padding: 20px;
+          background: #ffffff 0% 0% no-repeat padding-box;
+          box-shadow: 0px 3px 6px #00000029;
+          border: 1px solid #d9d9d9;
+          border-radius: 5px;
+          &--item {
+            display: flex;
+            font-size: 14px;
+            align-items: center;
+            mat-icon {
+              margin-right: 5px;
+              border: 2px solid #1492e6;
+              color: #1492e6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              user-select: none;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+    &__createBatch {
+      display: grid;
+      grid-template-columns: 1fr 250px 1fr;
+      column-gap: 10px;
+      &__checkbox {
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        span {
+          margin-left: 10px;
+        }
+      }
+      .button {
+        // justify-self: center;
+        border-color: #75c52fd6;
+        background-color: #75c52fd6;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+    &__updateBatch {
+      display: flex;
+      justify-content: flex-end;
+      &__checkbox {
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        span {
+          margin-left: 10px;
+        }
+      }
+      .button {
+        width: 250px;
+        justify-self: center;
+        border-color: #75c52fd6;
+        background-color: #75c52fd6;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+  }
+}

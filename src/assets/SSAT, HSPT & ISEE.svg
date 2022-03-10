@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>SSAT, HSPT &amp; ISEE</title>
+    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#F29132" x="0" y="0" width="48" height="48" rx="5"></rect>
+        <g id="create-24px" transform="translate(8.640000, 8.640000)">
+            <polygon id="Path" points="0 0 30.72 0 30.72 30.72 0 30.72"></polygon>
+            <path d="M4.8,21.5231442 L4.8,25.9231997 L9.20005548,25.9231997 L22.1772858,12.9459694 L17.7772303,8.5459139 L4.8,21.5231442 Z M25.5799954,9.54325981 C26.0376011,9.08565404 26.0376011,8.34644472 25.5799954,7.88883895 L22.8343607,5.14320433 C22.376755,4.68559856 21.6375456,4.68559856 21.1799399,5.14320433 L19.0327128,7.2904314 L23.4327683,11.6904869 L25.5799954,9.54325981 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

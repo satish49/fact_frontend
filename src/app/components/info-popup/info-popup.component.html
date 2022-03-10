@@ -1,0 +1,68 @@
+<popover-content
+  #myPopover
+  [closeOnClickOutside]="true"
+  placement="right"
+  size="auto"
+>
+  <div id="popupTemplate" class="popupTemplate" [ngClass]="className">
+    <div class="popupTemplate__header">
+      <div class="popupTemplate__header__title fs14 fw600">
+        {{ title }}
+      </div>
+
+      <!-- <img class="popupTemplate__header__close" (click)="popup.close()" src="assets/images/infoClose.svg" /> -->
+    </div>
+    <div id="data" *ngIf="students">
+      <div class="popupTemplate__students">
+        <ng-container
+          *ngFor="let student of innerContent; index as studentIndex"
+          ><div
+            class="popupTemplate__day capitalize"
+            [ngClass]="
+              studentIndex % 4 === 0 || studentIndex % 4 === 3
+                ? 'popupTemplate__day__even'
+                : ''
+            "
+          >
+            {{ student["studentName"] }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div id="data" *ngIf="!students">
+      <ng-container
+        *ngFor="let schedule of innerContent; index as scheduleIndex"
+      >
+        <div
+          class="popupTemplate__day"
+          [ngClass]="scheduleIndex % 2 === 0 ? 'popupTemplate__day__even' : ''"
+        >
+          <div>
+            {{
+              schedule["day"] === 1
+                ? "Monday"
+                : schedule["day"] === 2
+                ? "Tuesday"
+                : schedule["day"] === 3
+                ? "Wednesday"
+                : schedule["day"] === 4
+                ? "Thursday"
+                : schedule["day"] === 5
+                ? "Friday"
+                : schedule["day"] === 6
+                ? "Saturday"
+                : schedule["day"] === 7
+                ? "Sunday"
+                : ""
+            }}
+          </div>
+          <span>{{ schedule["startTime"] + " - " + schedule["endTime"] }}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</popover-content>
+
+<button class="infoPopup" [popover]="myPopover" [popoverOnHover]="true">
+  <span> {{ text }} </span>
+</button>

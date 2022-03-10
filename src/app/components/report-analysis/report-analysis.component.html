@@ -1,0 +1,71 @@
+<ng-container
+  *ngFor="let scoringSection of scoringSections; index as scoringSectionIndex"
+>
+  <div
+    class="report-analysis__sectionDetails"
+    [id]="'analysis' + scoringSection['scoringSectionName']"
+  >
+    <div class="report-analysis__sectionDetails__header">
+      <span class="report-analysis__sectionDetails__header__sectionName">{{
+        scoringSection["scoringSectionName"]
+      }}</span>
+      <span class="report-analysis__sectionDetails__header__analysis"
+        >Analysis</span
+      >
+    </div>
+    <div
+      class="report-analysis__sectionDetails__topic report-analysis__sectionDetails__topic__mainHeader"
+      [ngClass]="
+        scoringSection['scoringSectionName'] === 'Math'
+          ? 'report-analysis__sectionDetails__topic__mainHeader__math'
+          : ''
+      "
+    >
+      <span class="report-analysis__sectionDetails__topic__firstElement"
+        >Topic/Subtopic</span
+      >
+      <span><mat-icon>check</mat-icon></span>
+      <span>Total</span>
+      <span>%</span>
+      <span>Missed Questions</span>
+      <span>Wrong Questions</span>
+      <!-- <span class="report-analysis__sectionDetails__topic__lastElement"></span> -->
+    </div>
+    <ng-container
+      *ngFor="let topic of scoringSection['topics']; index as topicIndex"
+    >
+      <div
+        class="report-analysis__sectionDetails__topic report-analysis__sectionDetails__topic__subHeader"
+      >
+        <span class="report-analysis__sectionDetails__topic__firstElement">{{
+          topic["topicName"]
+        }}</span>
+        <span>{{ topic["totalCorrect"] }}</span>
+        <span>{{ topic["totalQuestions"] }}</span>
+        <span
+          >{{
+            calculatePercentage(topic["totalCorrect"], topic["totalQuestions"])
+          }}%</span
+        >
+      </div>
+      <ng-container
+        *ngFor="let subTopic of topic['subTopics']; index as subTopicIndex"
+      >
+        <div class="report-analysis__sectionDetails__topic">
+          <span class="report-analysis__sectionDetails__topic__firstElement">{{
+            subTopic["subTopicName"]
+          }}</span>
+          <span>{{ subTopic["correct"] }}</span>
+          <span>{{ subTopic["total"] }}</span>
+          <span
+            >{{
+              calculatePercentage(subTopic["correct"], subTopic["total"])
+            }}%</span
+          >
+          <span>{{ subTopic["missedQuestions"] }}</span>
+          <span>{{ subTopic["wrongQuestions"] }}</span>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>

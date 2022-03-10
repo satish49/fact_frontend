@@ -1,0 +1,366 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="view-results">
+      <div class="view-results__header" *ngIf="userName !== ''">
+        <p class="view-results__header__name">
+          <span *ngIf="role === '3'">Hi, </span>{{ userName }}
+        </p>
+        <p class="view-results__header__subText">
+          Click on score report for more details or to download results
+        </p>
+      </div>
+      <div *ngIf="role === '1' || role === '2'" class="view-results__searchBox">
+        <!-- <mat-select-autocomplete
+          (selectionChange)="getSelectedChild($event)"
+          [multiple]="false"
+          [display]="'first_name'"
+          [value]="'student_id'"
+          [placeholder]="'Students'"
+          [options]="students"
+          [(ngModel)]="selectedStudent"
+        ></mat-select-autocomplete> -->
+        <!-- <input
+          type="text"
+          matInput
+          [formControl]="autoCompleteControl"
+          [matAutocomplete]="auto"
+          placeholder="Students"
+        />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option
+            *ngFor="let student of filteredStuendts | async"
+            [value]="student"
+          >
+            {{ student.first_name }}
+          </mat-option>
+        </mat-autocomplete> -->
+        <div class="ng-autocomplete view-results__searchBox__searchField">
+          <ng-autocomplete
+            [data]="students"
+            [searchKeyword]="'name'"
+            (selected)="selectStudent($event)"
+            (inputChanged)="onChangeSearch($event)"
+            [itemTemplate]="itemTemplate"
+          >
+          </ng-autocomplete>
+
+          <ng-template #itemTemplate let-item>
+            <a [innerHTML]="item.name"></a>
+          </ng-template>
+        </div>
+        <button
+          (click)="getReportsForSelectedUser()"
+          [disabled]="searchClicked"
+          class="button view-results__searchBox__searchButton"
+        >
+          <mat-icon>search</mat-icon><span>Search</span>
+        </button>
+      </div>
+      <div
+        *ngIf="noDataFound; else dataBlock"
+        class="view-results__noDataFound"
+      >
+        No data Found
+      </div>
+      <ng-template #dataBlock>
+        <div
+          class="view-results__report"
+          *ngFor="let test of tests; let i = index"
+        >
+          <div class="view-results__report__right">
+            <p class="view-results__report__right__testName">
+              {{ test["test_code"] }}
+            </p>
+            <p class="view-results__report__right__date">
+              {{ getDate(test["test_date"]) }}
+            </p>
+            <div
+              class="view-results__report__right__scores"
+              *ngIf="
+                test['test_type_name'] === 'SAT' ||
+                test['test_type_name'] === 'PSAT'
+              "
+            >
+              <div class="view-results__report__right__scores__score">
+                <p class="view-results__report__right__scores__score__category">
+                  Reading & Writing Score
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryScore"
+                >
+                  {{
+                    test["section_score"]["Writing and Language"]["score"] +
+                      test["section_score"]["Reading"]["score"]
+                  }}
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryRange"
+                >
+                  {{
+                    test["section_score"]["Writing and Language"]["min"] +
+                      test["section_score"]["Reading"]["min"]
+                  }}
+                  to
+                  {{
+                    test["section_score"]["Writing and Language"]["max"] +
+                      test["section_score"]["Reading"]["max"]
+                  }}
+                </p>
+              </div>
+              <div class="view-results__report__right__scores__score">
+                <p class="view-results__report__right__scores__score__category">
+                  Math Score
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryScore"
+                >
+                  {{ test["section_score"]["Math"]["score"] }}
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryRange"
+                >
+                  {{ test["section_score"]["Math"]["min"] }} to
+                  {{ test["section_score"]["Math"]["max"] }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="view-results__report__right__scores"
+              *ngIf="test['test_type_name'] === 'ACT'"
+            >
+              <div class="view-results__report__right__scores__score">
+                <p class="view-results__report__right__scores__score__category">
+                  English Score
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryScore"
+                >
+                  {{ test["section_score"]["English"]["score"] }}
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryRange"
+                >
+                  {{ test["section_score"]["English"]["min"] }}
+                  to
+                  {{ test["section_score"]["English"]["max"] }}
+                </p>
+              </div>
+              <div class="view-results__report__right__scores__score">
+                <p class="view-results__report__right__scores__score__category">
+                  Math Score
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryScore"
+                >
+                  {{ test["section_score"]["Math"]["score"] }}
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryRange"
+                >
+                  {{ test["section_score"]["Math"]["min"] }} to
+                  {{ test["section_score"]["Math"]["max"] }}
+                </p>
+              </div>
+              <div class="view-results__report__right__scores__score">
+                <p class="view-results__report__right__scores__score__category">
+                  Reading Score
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryScore"
+                >
+                  {{ test["section_score"]["Reading"]["score"] }}
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryRange"
+                >
+                  {{ test["section_score"]["Reading"]["min"] }} to
+                  {{ test["section_score"]["Reading"]["max"] }}
+                </p>
+              </div>
+              <div class="view-results__report__right__scores__score">
+                <p class="view-results__report__right__scores__score__category">
+                  Science Score
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryScore"
+                >
+                  {{ test["section_score"]["Science"]["score"] }}
+                </p>
+                <p
+                  class="view-results__report__right__scores__score__categoryRange"
+                >
+                  {{ test["section_score"]["Science"]["min"] }} to
+                  {{ test["section_score"]["Science"]["max"] }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="view-results__report__left">
+            <p class="view-results__report__left__header">
+              <span *ngIf="role === '3'">Your </span>Total Score
+            </p>
+            <p
+              class="view-results__report__left__score"
+              *ngIf="
+                test['test_type_name'] === 'SAT' ||
+                test['test_type_name'] === 'PSAT'
+              "
+            >
+              {{
+                test["section_score"]["Writing and Language"]["score"] +
+                  test["section_score"]["Reading"]["score"] +
+                  test["section_score"]["Math"]["score"]
+              }}
+            </p>
+            <p
+              class="view-results__report__left__score"
+              *ngIf="test['test_type_name'] === 'ACT'"
+            >
+              {{
+                round(
+                  (test["section_score"]["English"]["score"] +
+                    test["section_score"]["Reading"]["score"] +
+                    test["section_score"]["Math"]["score"] +
+                    test["section_score"]["Science"]["score"]) /
+                    4
+                )
+              }}
+            </p>
+            <p
+              class="view-results__report__left__range"
+              *ngIf="
+                test['test_type_name'] === 'SAT' ||
+                test['test_type_name'] === 'PSAT'
+              "
+            >
+              {{
+                test["section_score"]["Writing and Language"]["min"] +
+                  test["section_score"]["Reading"]["min"] +
+                  test["section_score"]["Math"]["min"]
+              }}
+              to
+              {{
+                test["section_score"]["Writing and Language"]["max"] +
+                  test["section_score"]["Reading"]["max"] +
+                  test["section_score"]["Math"]["max"]
+              }}
+            </p>
+            <p
+              class="view-results__report__left__range"
+              *ngIf="test['test_type_name'] === 'ACT'"
+            >
+              {{
+                round(
+                  (test["section_score"]["English"]["min"] +
+                    test["section_score"]["Reading"]["min"] +
+                    test["section_score"]["Math"]["min"] +
+                    test["section_score"]["Science"]["min"]) /
+                    4
+                )
+              }}
+              to
+              {{
+                round(
+                  (test["section_score"]["English"]["max"] +
+                    test["section_score"]["Reading"]["max"] +
+                    test["section_score"]["Math"]["max"] +
+                    test["section_score"]["Science"]["max"]) /
+                    4
+                )
+              }}
+            </p>
+            <button
+              class="button view-results__report__left__scoreReport"
+              [routerLink]="['/report', test['student_test_id']]"
+              [disabled]="!test['is_view']"
+            >
+              Score Report
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <!-- <div class="view-results__report">
+        <div class="view-results__report__right">
+          <p class="view-results__report__right__testName">SAT-101</p>
+          <p class="view-results__report__right__date">August 24, 2020</p>
+          <div class="view-results__report__right__scores">
+            <div class="view-results__report__right__scores__score">
+              <p class="view-results__report__right__scores__score__category">
+                Reading & Writing Score
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryScore"
+              >
+                740
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryRange"
+              >
+                200 To 800
+              </p>
+            </div>
+            <div class="view-results__report__right__scores__score">
+              <p class="view-results__report__right__scores__score__category">
+                Math Score
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryScore"
+              >
+                740
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryRange"
+              >
+                200 To 800
+              </p>
+            </div>
+            <div class="view-results__report__right__scores__score">
+              <p class="view-results__report__right__scores__score__category">
+                Math Score
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryScore"
+              >
+                740
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryRange"
+              >
+                200 To 800
+              </p>
+            </div>
+            <div class="view-results__report__right__scores__score">
+              <p class="view-results__report__right__scores__score__category">
+                Math Score
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryScore"
+              >
+                740
+              </p>
+              <p
+                class="view-results__report__right__scores__score__categoryRange"
+              >
+                200 To 800
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="view-results__report__left">
+          <p class="view-results__report__left__header">
+            <span *ngIf="role === '3'">Your </span>Total Score
+          </p>
+          <p class="view-results__report__left__score">1460</p>
+          <p class="view-results__report__left__range">400 To 1600</p>
+          <button class="button view-results__report__left__scoreReport">
+            Score Report
+          </button>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

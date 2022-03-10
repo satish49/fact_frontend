@@ -1,0 +1,164 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="score-analysis">
+      <div class="score-analysis__heading">
+        <p class="score-analysis__heading__main">Score Analysis</p>
+        <span class="score-analysis__heading__sub">View by Student Scores</span>
+      </div>
+      <div class="score-analysis__header">
+        <div class="score-analysis__header__block">
+          <span class="score-analysis__header__block__label">Test Type:</span>
+          <span class="score-analysis__header__block__text">{{
+            testType
+          }}</span>
+        </div>
+        <div
+          class="score-analysis__header__block score-analysis__header__block__last"
+        >
+          <span class="score-analysis__header__block__label">Test Code:</span>
+          <span class="score-analysis__header__block__text">{{
+            testCode
+          }}</span>
+        </div>
+      </div>
+      <div class="score-analysis__main">
+        <div class="score-analysis__main__search">
+          <div class="score-analysis__main__search__head">
+            <span class="score-analysis__main__search__head__text">Search</span>
+          </div>
+          <div class="score-analysis__main__search__block">
+            <p class="score-analysis__main__search__title">
+              Date
+            </p>
+            <div class="score-analysis__main__search__dates">
+              <div
+                class="score-analysis__main__search__dates__date"
+                [ngClass]="
+                  searchError && fromDate['invalid']
+                    ? 'score-analysis__main__search__dates__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  [matDatepicker]="fromDatePicker"
+                  class="score-analysis__main__search__dates__date__input"
+                  readonly
+                  (click)="fromDatePicker.open()"
+                  [formControl]="fromDate"
+                  [max]="toDate['value']"
+                  placeholder="From"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="fromDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #fromDatePicker></mat-datepicker>
+              </div>
+              <div
+                class="score-analysis__main__search__dates__date"
+                [ngClass]="
+                  searchError && toDate['invalid']
+                    ? 'score-analysis__main__search__dates__date--error'
+                    : ''
+                "
+              >
+                <input
+                  matInput
+                  [matDatepicker]="toDatePicker"
+                  class="score-analysis__main__search__dates__date__input"
+                  readonly
+                  (click)="toDatePicker.open()"
+                  [formControl]="toDate"
+                  [min]="fromDate['value']"
+                  placeholder="To"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="toDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #toDatePicker></mat-datepicker>
+              </div>
+            </div>
+            <button
+              class="score-analysis__main__search__searchButton button"
+              (click)="searchQuestions()"
+              [disabled]="searchClicked"
+            >
+              Search <mat-icon>search</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="score-analysis__main__body">
+          <table
+            mat-table
+            [dataSource]="scores"
+            matSort
+            class="score-analysis__main__body__table"
+          >
+            <ng-container matColumnDef="student">
+              <th mat-header-cell *matHeaderCellDef>Student</th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ test["studentName"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ getDate(test["testDate"]) }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="reading">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Reading
+              </th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ test["sections"][1]["score"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="writing">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Writing
+              </th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ test["sections"][2]["score"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="readingAndWriting">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>R & W</th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ test["readingAndWriting"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="math">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Math</th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ test["math"] }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+              <td mat-cell *matCellDef="let test" class="capitalize">
+                {{ test["total"] }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr
+              mat-row
+              *matRowDef="let myRowData; columns: columnsToDisplay"
+            ></tr>
+          </table>
+          <mat-paginator
+            [pageSize]="25"
+            showFirstLastButtons
+            #paginator
+          ></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

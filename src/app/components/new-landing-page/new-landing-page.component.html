@@ -1,0 +1,1976 @@
+<div class="new-landing-page">
+  <div class="new-landing-page__header" id="new-landing-page__header">
+    <img
+      class="new-landing-page__header__logo"
+      src="assets/RA LOGO-01.svg"
+      alt="Ravi's Academy"
+      (click)="scrollToTop()"
+    />
+    <div class="new-landing-page__header__buttonStack">
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        (click)="scorllToBottom(false)"
+        >Value</span
+      >
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        (click)="scrollTo('new-landing-page__courses', false)"
+        >Courses</span
+      >
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        (click)="scrollTo('new-landing-page__methodology', false)"
+        >Methodology</span
+      >
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        (click)="scrollTo('new-landing-page__journey', false)"
+        >Our Story</span
+      >
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        (click)="scrollTo('new-landing-page__team', false)"
+        >Team</span
+      >
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        (click)="scrollTo('new-landing-page__contactUs', false)"
+        >Contact Us</span
+      >
+      <span class="new-landing-page__header__buttonStack__button--login"
+        >&nbsp;</span
+      >
+      <span
+        class="new-landing-page__header__buttonStack__button"
+        routerLink="login"
+        >Log In</span
+      >
+      <button
+        class="button new-landing-page__header__buttonStack__register"
+        routerLink="register"
+      >
+        Register
+      </button>
+    </div>
+    <div class="new-landing-page__header__mobileMenu">
+      <input type="checkbox" [checked]="mobileNav" (click)="onMobileNav()" />
+      <mat-icon class="new-landing-page__header__mobileMenu__icon"
+        >menu</mat-icon
+      >
+      <div
+        class="new-landing-page__header__mobileMenu__options"
+        *ngIf="mobileNav"
+      >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          (click)="scorllToBottom(true)"
+          >Value</span
+        >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          (click)="scrollTo('new-landing-page__courses', true)"
+          >Courses</span
+        >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          (click)="scrollTo('new-landing-page__methodology', true)"
+          >Methodology</span
+        >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          (click)="scrollTo('new-landing-page__journey', true)"
+          >Our Story</span
+        >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          (click)="scrollTo('new-landing-page__team', true)"
+          >Team</span
+        >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          (click)="scrollTo('new-landing-page__contactUs', true)"
+          >Contact Us</span
+        >
+        <span
+          class="new-landing-page__header__buttonStack__button"
+          routerLink="login"
+          >Log In</span
+        >
+        <button
+          class="button new-landing-page__header__buttonStack__register"
+          routerLink="register"
+        >
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="new-landing-page__main">
+    <div class="new-landing-page__main__content">
+      <div class="new-landing-page__main__content__text">
+        <p class="new-landing-page__main__content__text__header">You dream,</p>
+        <p class="new-landing-page__main__content__text__header">
+          we help you achieve.
+        </p>
+        <div class="new-landing-page__main__content__text__body">
+          <span
+            >At Ravi&#39;s Academy, we understand that your dream is unique and
+            your needs are equally valuable. We recognize the challenges you
+            face and help you overcome them.</span
+          >
+          <span
+            >Join Ravi's Academy for best-in-class SAT, ACT and other test
+            preparation as well as academic excellence through our comprehensive
+            tutoring courses.</span
+          >
+        </div>
+      </div>
+      <div
+        class="new-landing-page__main__content__explore"
+        (click)="scorllToBottom(false)"
+      >
+        <span>Explore More</span>
+        <mat-icon class="new-landing-page__main__content__explore__icon"
+          >expand_more</mat-icon
+        >
+      </div>
+    </div>
+    <img
+      class="new-landing-page__main__students"
+      src="assets/Students.png"
+      alt="students"
+    />
+  </div>
+  <div class="new-landing-page__winner" id="new-landing-page__winner">
+    <p class="new-landing-page__winner__header">Every Student is a Winner</p>
+    <div class="new-landing-page__winner__text">
+      We understand all students’ learning styles and identify their strengths
+      and weaknesses early to individualize their learning experience. We work
+      diligently to improve weaknesses, sharpen strengths and expand/adjust our
+      lessons to fit all learning styles. We challenge ourselves to add value to
+      each and every student’s journey through this process.
+    </div>
+    <!-- <img src="assets/winner.png" alt="category" /> -->
+    <div class="new-landing-page__winner__bubbles">
+      <div
+        class="new-landing-page__winner__bubbles__bubble new-landing-page__winner__bubbles__bubble--sat"
+        [ngClass]="
+          displayBubble === 1
+            ? 'new-landing-page__winner__bubbles__bubble__animation'
+            : ''
+        "
+      >
+        <!-- <mat-icon class="new-landing-page__winner__bubbles__bubble__icon"
+          >flash_on</mat-icon
+        > -->
+        <img
+          src="../../../assets/avg-sat-boost-logo.svg"
+          alt="Avg SAT Boost"
+          class="new-landing-page__winner__bubbles__bubble__icon"
+        />
+        <div class="new-landing-page__winner__bubbles__bubble__content">
+          <span class="new-landing-page__winner__bubbles__bubble__content__text"
+            >Avg SAT Boost</span
+          >
+          <p class="new-landing-page__winner__bubbles__bubble__content__header">
+            250
+          </p>
+        </div>
+      </div>
+      <div
+        class="new-landing-page__winner__bubbles__bubble new-landing-page__winner__bubbles__bubble--act"
+        [ngClass]="
+          displayBubble === 2
+            ? 'new-landing-page__winner__bubbles__bubble__animation'
+            : ''
+        "
+      >
+        <!-- <mat-icon class="new-landing-page__winner__bubbles__bubble__icon"
+          >airplanemode_active</mat-icon
+        > -->
+        <img
+          src="../../../assets/avg-act-boost-logo.svg"
+          alt="Avg ACT Boost"
+          class="new-landing-page__winner__bubbles__bubble__icon"
+        />
+        <div class="new-landing-page__winner__bubbles__bubble__content">
+          <span class="new-landing-page__winner__bubbles__bubble__content__text"
+            >Avg ACT Boost</span
+          >
+          <p class="new-landing-page__winner__bubbles__bubble__content__header">
+            5
+          </p>
+        </div>
+      </div>
+      <div
+        class="new-landing-page__winner__bubbles__bubble new-landing-page__winner__bubbles__bubble--practice"
+        [ngClass]="
+          displayBubble === 3
+            ? 'new-landing-page__winner__bubbles__bubble__animation'
+            : ''
+        "
+      >
+        <!-- <mat-icon class="new-landing-page__winner__bubbles__bubble__icon"
+          >edit</mat-icon
+        > -->
+        <img
+          src="../../../assets/practice-tests-logo.svg"
+          alt="Practice Tests"
+          class="new-landing-page__winner__bubbles__bubble__icon"
+        />
+        <div class="new-landing-page__winner__bubbles__bubble__content">
+          <p class="new-landing-page__winner__bubbles__bubble__content__header">
+            30+
+          </p>
+          <span class="new-landing-page__winner__bubbles__bubble__content__text"
+            >Practice Tests</span
+          >
+        </div>
+      </div>
+      <div
+        class="new-landing-page__winner__bubbles__bubble new-landing-page__winner__bubbles__bubble--focus"
+        [ngClass]="
+          displayBubble === 4
+            ? 'new-landing-page__winner__bubbles__bubble__animation'
+            : ''
+        "
+      >
+        <!-- <mat-icon class="new-landing-page__winner__bubbles__bubble__icon"
+          >wb_sunny</mat-icon
+        > -->
+        <img
+          src="../../../assets/focus-and-development-logo.svg"
+          alt="Focus and Development"
+          class="new-landing-page__winner__bubbles__bubble__icon"
+        />
+        <div class="new-landing-page__winner__bubbles__bubble__content">
+          <p class="new-landing-page__winner__bubbles__bubble__content__header">
+            360&#176;
+          </p>
+          <span class="new-landing-page__winner__bubbles__bubble__content__text"
+            >Focus and Development</span
+          >
+        </div>
+      </div>
+      <div
+        class="new-landing-page__winner__bubbles__bubble new-landing-page__winner__bubbles__bubble--hours"
+        [ngClass]="
+          displayBubble === 5
+            ? 'new-landing-page__winner__bubbles__bubble__animation'
+            : ''
+        "
+      >
+        <!-- <mat-icon class="new-landing-page__winner__bubbles__bubble__icon"
+          >schedule</mat-icon
+        > -->
+        <img
+          src="../../../assets/hours-of-tutoring-logo.svg"
+          alt="Hours of Tutoring"
+          class="new-landing-page__winner__bubbles__bubble__icon"
+        />
+        <div class="new-landing-page__winner__bubbles__bubble__content">
+          <p class="new-landing-page__winner__bubbles__bubble__content__header">
+            50k+
+          </p>
+          <span class="new-landing-page__winner__bubbles__bubble__content__text"
+            >Hours of Tutoring</span
+          >
+        </div>
+      </div>
+      <div
+        class="new-landing-page__winner__bubbles__bubble new-landing-page__winner__bubbles__bubble--students"
+        [ngClass]="
+          displayBubble === 6
+            ? 'new-landing-page__winner__bubbles__bubble__animation'
+            : ''
+        "
+      >
+        <!-- <mat-icon class="new-landing-page__winner__bubbles__bubble__icon"
+          >school</mat-icon
+        > -->
+        <img
+          src="../../../assets/successful-students-logo.svg"
+          alt="Successful Students"
+          class="new-landing-page__winner__bubbles__bubble__icon"
+        />
+        <div class="new-landing-page__winner__bubbles__bubble__content">
+          <p class="new-landing-page__winner__bubbles__bubble__content__header">
+            1000+
+          </p>
+          <span class="new-landing-page__winner__bubbles__bubble__content__text"
+            >Successful Students</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="new-landing-page__courses" id="new-landing-page__courses">
+    <p class="new-landing-page__courses__header">Courses</p>
+    <div class="new-landing-page__courses__course">
+      <div class="new-landing-page__courses__course__header">
+        <!-- <div class="new-landing-page__courses__course__header__icon">
+          <mat-icon>school</mat-icon>
+        </div> -->
+        <img src="assets/SAT PSAT.svg" alt="SAT PSAT" />
+        <span class="new-landing-page__courses__course__header__text"
+          >SAT<sup>®</sup> / PSAT<sup>®</sup></span
+        >
+      </div>
+      <p class="new-landing-page__courses__course__body">
+        Get an early start and pave the way to an improved performance in Math,
+        Reading and Writing Scores on SAT exams. Enhance your core skills with
+        proper strategies and techniques used for cracking the SAT exams.
+      </p>
+    </div>
+    <div class="new-landing-page__courses__course">
+      <div class="new-landing-page__courses__course__header">
+        <!-- <div
+          class="new-landing-page__courses__course__header__icon new-landing-page__courses__course__header__icon--second"
+        >
+          <mat-icon>hourglass_full</mat-icon>
+        </div> -->
+        <img src="assets/ACT.svg" alt="ACT" />
+        <span class="new-landing-page__courses__course__header__text"
+          >ACT<sup>®</sup></span
+        >
+      </div>
+      <p class="new-landing-page__courses__course__body">
+        Boost your ACT Scores with Ravi’s Academy’s intensive tutoring course in
+        Math, Reading, Writing and Science to open the doors to top colleges and
+        universities.
+      </p>
+    </div>
+    <div class="new-landing-page__courses__course">
+      <div class="new-landing-page__courses__course__header">
+        <!-- <div
+          class="new-landing-page__courses__course__header__icon new-landing-page__courses__course__header__icon--third"
+        >
+          <mat-icon>edit</mat-icon>
+        </div> -->
+        <img src="assets/SSAT, HSPT & ISEE.svg" alt="SSAT, HSPT & ISEE" />
+        <span class="new-landing-page__courses__course__header__text"
+          >SSAT, HSPT & ISEE</span
+        >
+      </div>
+      <p class="new-landing-page__courses__course__body">
+        Access some of the most coveted high schools across the country! Join us
+        for an elaborate course consisting of various subjects and preparation
+        styles for these entrance tests.
+      </p>
+    </div>
+    <div class="new-landing-page__courses__course">
+      <div class="new-landing-page__courses__course__header">
+        <!-- <div
+          class="new-landing-page__courses__course__header__icon new-landing-page__courses__course__header__icon--third"
+        >
+          <mat-icon>calculate</mat-icon>
+        </div> -->
+        <img src="assets/Maths.svg" alt="Academic Math" />
+        <span class="new-landing-page__courses__course__header__text"
+          >Academic Math</span
+        >
+      </div>
+      <p class="new-landing-page__courses__course__body">
+        Learn and understand core concepts ahead of the academic schooling
+        system curriculum. Build critical thinking and problem solving skills.
+        Practice formulae and master your scholastic Math with expert guidance
+        from Ravi&#39;s Academy.
+      </p>
+      <b class="new-landing-page__courses__course__grade">Grade 3 to 12</b>
+    </div>
+    <div class="new-landing-page__courses__course">
+      <div class="new-landing-page__courses__course__header">
+        <!-- <div
+          class="new-landing-page__courses__course__header__icon new-landing-page__courses__course__header__icon--second"
+        >
+          <mat-icon>edit</mat-icon>
+        </div> -->
+        <img
+          src="assets/Physics and Chemistry.svg"
+          alt="Physics and Chemistry"
+        />
+        <span class="new-landing-page__courses__course__header__text"
+          >Physics and Chemistry</span
+        >
+      </div>
+      <p class="new-landing-page__courses__course__body">
+        Understand scientific concepts through practical and relatable
+        applications. With out-of-the-box tips from Ravi’s Academy, you will
+        upgrade your understanding of these scientific fields.
+      </p>
+      <b class="new-landing-page__courses__course__grade">Grade 8 to 12</b>
+    </div>
+    <div class="new-landing-page__courses__course">
+      <div class="new-landing-page__courses__course__header">
+        <!-- <div class="new-landing-page__courses__course__header__icon">
+          <mat-icon>class</mat-icon>
+        </div> -->
+        <img src="assets/Reading and Writing.svg" alt="Reading and Writing" />
+        <span class="new-landing-page__courses__course__header__text"
+          >Reading and Writing</span
+        >
+      </div>
+      <p class="new-landing-page__courses__course__body">
+        Ravi’s Academy emphasizes proper comprehension of abstract prose and
+        rhetorical style to better understand core concepts in reading and
+        writing.
+      </p>
+      <b class="new-landing-page__courses__course__grade">Grade 3 to 12</b>
+    </div>
+  </div>
+  <div class="new-landing-page__tutoring">
+    <div class="new-landing-page__tutoring__section">
+      <img
+        class="new-landing-page__tutoring__section__image"
+        src="assets/one-on-one.svg"
+        alt="One on One"
+      />
+      <p class="new-landing-page__tutoring__section__text">
+        Learn one-on-one with our expert tutors across the world. With our
+        digital classes, we give you the freedom to learn at your flexible time
+        and place.
+      </p>
+      <p class="new-landing-page__tutoring__section__title">
+        One on One Online Tutoring
+      </p>
+    </div>
+    <div class="new-landing-page__tutoring__section">
+      <img
+        class="new-landing-page__tutoring__section__image"
+        src="assets/group-online.svg"
+        alt="One on One"
+      />
+      <p class="new-landing-page__tutoring__section__text">
+        Engage with fellow students in a dynamic environment and experience a
+        virtual classroom session with our skilled tutors from anywhere.
+      </p>
+      <p class="new-landing-page__tutoring__section__title">
+        Group Online Tutoring
+      </p>
+    </div>
+    <div class="new-landing-page__tutoring__section">
+      <img
+        class="new-landing-page__tutoring__section__image"
+        src="assets/classroom.svg"
+        alt="One on One"
+      />
+      <p class="new-landing-page__tutoring__section__text">
+        Study and collaborate with the students in personalized classroom
+        sessions under the guidance of our experienced teachers.
+      </p>
+      <p class="new-landing-page__tutoring__section__title">
+        Classroom Tutoring
+      </p>
+    </div>
+  </div>
+  <div class="new-landing-page__counselling">
+    <p class="new-landing-page__counselling__title">
+      College and Admission Counselling
+    </p>
+    <p class="new-landing-page__counselling__content">
+      College applications can be overwhelming and outright intimidating for
+      even the most experienced students. It is also important to apply to a
+      wide range of colleges that suit your individual academic needs. At Ravi’s
+      Academy, we partner with you on your journey through this excruciating
+      process and help you find tranquility while we craft the best applications
+      for your prospective colleges.
+    </p>
+    <div class="new-landing-page__counselling__divisions">
+      <div class="new-landing-page__counselling__divisions__block">
+        <img src="assets/recommending.svg" alt="Recommending" />
+        <p class="new-landing-page__counselling__divisions__block__title">
+          Recommending Colleges and Universities
+        </p>
+        <p class="new-landing-page__counselling__divisions__block__content">
+          Discover a wide range of colleges suitable for your dream career based
+          on your interests, GPA and test scores.
+        </p>
+      </div>
+      <div class="new-landing-page__counselling__divisions__block">
+        <img src="assets/resume.svg" alt="Resume" />
+        <p class="new-landing-page__counselling__divisions__block__title">
+          Resume, Essays and Statement of Purpose
+        </p>
+        <p class="new-landing-page__counselling__divisions__block__content">
+          Craft a resounding &amp; convincing version of your purpose through
+          effective guidance on statement of purpose, resume and other
+          applicable essays.
+        </p>
+      </div>
+      <div class="new-landing-page__counselling__divisions__block">
+        <img src="assets/curating.svg" alt="Curating" />
+        <p class="new-landing-page__counselling__divisions__block__title">
+          Curating the Right Extracurriculars
+        </p>
+        <p class="new-landing-page__counselling__divisions__block__content">
+          Explore various options for a complete profile including volunteering
+          experiences, extra curricular activities and various initiatives
+        </p>
+      </div>
+      <div class="new-landing-page__counselling__divisions__block">
+        <img src="assets/assistance.svg" alt="Assistance" />
+        <p class="new-landing-page__counselling__divisions__block__title">
+          Assistance with Application Process
+        </p>
+        <p class="new-landing-page__counselling__divisions__block__content">
+          Align with demands of deadlines, complexity of applications for each
+          college and navigate through the process with a close guidance
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="new-landing-page__plan">
+    <img
+      class="new-landing-page__plan__image"
+      src="assets/tutoring.png"
+      alt="Tutoring"
+    />
+    <div class="new-landing-page__plan__content">
+      <p class="new-landing-page__plan__content__header">
+        A unique plan for every student
+      </p>
+      <p class="new-landing-page__plan__content__body">
+        When Ravi tutored his first few students, he knew that tutoring the
+        brightest minds was impossible without empathy and compassion. At Ravi’s
+        Academy, 1000+ students like you have found the path to success. The
+        numerous experiences of our students have guided us to where we are
+        today. Our students’ realized dreams are the pillars of Ravi’s Academy
+        and our empathy helps make the process rewarding for all.
+      </p>
+      <button
+        class="button new-landing-page__plan__content__button"
+        (click)="scrollTo('new-landing-page__journey', false)"
+      >
+        Know our Journey
+      </button>
+    </div>
+  </div>
+  <div class="new-landing-page__universities">
+    <div class="new-landing-page__universities__header">
+      <p class="new-landing-page__universities__header--main">
+        How Success Looks to Our Students
+      </p>
+      <p class="new-landing-page__universities__header--sub">
+        Students like you made it to their dream colleges.
+      </p>
+    </div>
+    <div class="new-landing-page__universities__block">
+      <div
+        class="new-landing-page__universities__block__single new-landing-page__universities__block__single__padPro"
+      >
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/bentley.png"
+          alt="Bentley University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/brandeis.png"
+          alt="Brandeis University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/ne-university.png"
+          alt="North Eastern University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/purdue.png"
+          alt="Purdue University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__5"
+          src="assets/texas.png"
+          alt="Texas University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__6"
+          src="assets/r_i_poly.png"
+          alt="Rensselaer Polytechnic Institute"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__7"
+          src="assets/ucla.jpg"
+          alt="UCLA"
+        />
+      </div>
+      <div
+        class="new-landing-page__universities__block__single new-landing-page__universities__block__single__padPro"
+      >
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/Carnegie Mellon University.jpg"
+          alt="Carnegie Mellon University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/Washington University in St Louis.jpg"
+          alt="Washington University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/Tufts_univ_blue.jpg"
+          alt="Tufts University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/university_of_virginia2.jpg"
+          alt="University of Virginia"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__5"
+          src="assets/umd_logo-2.jpg"
+          alt="University of Maryland"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__6"
+          src="assets/university_of_manchester.jpg"
+          alt="University of Manchester"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__7"
+          src="../../../assets/nyu.png"
+          alt="New York University"
+        />
+      </div>
+      <div
+        class="new-landing-page__universities__block__single new-landing-page__universities__block__single__padPro"
+      >
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image--last"
+          src="assets/gt-ctn-lockup-logo.jpg"
+          alt="Georgia Institute of Technology"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image--last new-landing-page__universities__block__single__image__2"
+          src="assets/U-M_Logo-Horizontal-Hex.jpg"
+          alt="University of Michigan"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image--last new-landing-page__universities__block__single__image__3"
+          src="assets/american_university.jpg"
+          alt="American University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image--last new-landing-page__universities__block__single__image__4"
+          src="assets/Color_Master_Var_White1.jpg"
+          alt="Boston University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image--last new-landing-page__universities__block__single__image__5"
+          src="assets/yale-signature-blue.jpg"
+          alt="Yale University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image--last new-landing-page__universities__block__single__image__6"
+          src="../../../assets/uconn.jpg"
+          alt="UCONN"
+        />
+      </div>
+      <div
+        class="new-landing-page__universities__block__single new-landing-page__universities__block__single__mobile"
+      >
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/bentley.png"
+          alt="Bentley University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/brandeis.png"
+          alt="Brandeis University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/ne-university.png"
+          alt="North Eastern University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/purdue.png"
+          alt="Bentley University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__5"
+          src="assets/texas.png"
+          alt="Brandeis University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__6"
+          src="assets/Carnegie Mellon University.jpg"
+          alt="Carnegie Mellon University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__7"
+          src="assets/Washington University in St Louis.jpg"
+          alt="Washington University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__8"
+          src="assets/Tufts_univ_blue.jpg"
+          alt="Tufts University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__9"
+          src="assets/university_of_virginia2.jpg"
+          alt="University of Virginia"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__10"
+          src="assets/umd_logo-2.jpg"
+          alt="University of Maryland"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__11"
+          src="assets/gt-ctn-lockup-logo.jpg"
+          alt="Georgia Institute of Technology"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__12"
+          src="assets/U-M_Logo-Horizontal-Hex.jpg"
+          alt="University of Michigan"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__13"
+          src="assets/american_university.jpg"
+          alt="American University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__14"
+          src="assets/Color_Master_Var_White1.jpg"
+          alt="Boston University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__15"
+          src="assets/yale-signature-blue.jpg"
+          alt="Yale University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__16"
+          src="assets/r_i_poly.png"
+          alt="Rensselaer Polytechnic Institute"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__17"
+          src="assets/university_of_manchester.jpg"
+          alt="University of Manchester"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__18"
+          src="assets/uconn.jpg"
+          alt="UCONN"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__19"
+          src="assets/ucla.jpg"
+          alt="UCLA"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__20"
+          src="assets/nyu.png"
+          alt="New York University"
+        />
+      </div>
+      <div class="new-landing-page__universities__block__single">
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/bentley.png"
+          alt="Bentley University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/brandeis.png"
+          alt="Brandeis University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/ne-university.png"
+          alt="North Eastern University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="../../../assets/r_i_poly.png"
+          alt="Rensselaer Polytechnic Institute"
+        />
+      </div>
+      <div class="new-landing-page__universities__block__single">
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/purdue.png"
+          alt="Purdue University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/texas.png"
+          alt="Texas University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/Carnegie Mellon University.jpg"
+          alt="Carnegie Mellon University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/university_of_manchester.jpg"
+          alt="University of Manchester"
+        />
+      </div>
+      <div class="new-landing-page__universities__block__single">
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/Washington University in St Louis.jpg"
+          alt="Washington University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/Tufts_univ_blue.jpg"
+          alt="Tufts University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/university_of_virginia2.jpg"
+          alt="University of Virginia"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/uconn.jpg"
+          alt="UCONN"
+        />
+      </div>
+      <div class="new-landing-page__universities__block__single">
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/umd_logo-2.jpg"
+          alt="University of Maryland"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/gt-ctn-lockup-logo.jpg"
+          alt="Georgia Te"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/U-M_Logo-Horizontal-Hex.jpg"
+          alt="University of Michigan"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/ucla.jpg"
+          alt="UCLA"
+        />
+      </div>
+      <div class="new-landing-page__universities__block__single">
+        <img
+          class="new-landing-page__universities__block__single__image"
+          src="assets/american_university.jpg"
+          alt="American University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__2"
+          src="assets/Color_Master_Var_White1.jpg"
+          alt="Boston University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__3"
+          src="assets/yale-signature-blue.jpg"
+          alt="Yale University"
+        />
+        <img
+          class="new-landing-page__universities__block__single__image new-landing-page__universities__block__single__image__4"
+          src="assets/nyu.png"
+          alt="New York University"
+        />
+      </div>
+      <!-- <img src="assets/bentley.png" alt="Bentley University" />
+      <img src="assets/brandeis.png" alt="Brandeis University" />
+      <img src="assets/ne-university.png" alt="North Eastern University" />
+      <img src="assets/purdue.png" alt="Purdue University" /> -->
+      <!-- <img src="assets/texas.png" alt="Texas University" /> -->
+    </div>
+  </div>
+  <div class="new-landing-page__success">
+    <p class="new-landing-page__success__header">Our Impact Stories</p>
+    <div class="new-landing-page__success__story">
+      <mat-icon
+        class="new-landing-page__success__story__arrow"
+        (click)="previousSlide()"
+        >chevron_left</mat-icon
+      >
+      <div
+        class="new-landing-page__success__story__image"
+        [ngClass]="
+          successStories[carouselIndex]['image'] === 'girl-2'
+            ? 'new-landing-page__success__story__image--girl-2'
+            : successStories[carouselIndex]['image'] === 'boy-1'
+            ? 'new-landing-page__success__story__image--boy-1'
+            : successStories[carouselIndex]['image'] === 'boy-2'
+            ? 'new-landing-page__success__story__image--boy-2'
+            : ''
+        "
+      ></div>
+      <div class="new-landing-page__success__story__content">
+        <p class="new-landing-page__success__story__content__header">
+          {{ successStories[carouselIndex]["name"] }}’s Success Story
+        </p>
+        <p class="new-landing-page__success__story__content__body">
+          {{ successStories[carouselIndex]["firstRow"] }}
+          <span
+            class="new-landing-page__success__story__content__body__lower"
+            >{{ successStories[carouselIndex]["lowerMark"] }}</span
+          >
+          to
+          <span
+            class="new-landing-page__success__story__content__body__higher"
+            >{{ successStories[carouselIndex]["higherMark"] }}</span
+          >.
+        </p>
+        <p
+          class="new-landing-page__success__story__content__body new-landing-page__success__story__content__body--sub"
+        >
+          {{ successStories[carouselIndex]["secondRow"] }}
+        </p>
+      </div>
+      <mat-icon
+        class="new-landing-page__success__story__arrow"
+        (click)="nextSlide()"
+        >chevron_right</mat-icon
+      >
+    </div>
+  </div>
+  <!-- <div class="new-landing-page__financialAid">
+    <p class="new-landing-page__financialAid__header">
+      We are happy to do our part in making the society better!
+    </p>
+    <div class="new-landing-page__financialAid__body">
+      <img
+        class="new-landing-page__financialAid__body__image"
+        src="assets/Scholarship.png"
+        alt="Scholarship"
+      />
+      <div class="new-landing-page__financialAid__body__content">
+        <p class="new-landing-page__financialAid__body__content__header">
+          Need Based Financial Aid
+        </p>
+        <ul
+          class="new-landing-page__financialAid__body__content__textContainer"
+        >
+          <li class="new-landing-page__financialAid__body__content__text">
+            Our society today has lot of talented and ambitious students. Some
+            of this students are unable to meet the financial requirements for
+            SAT or ACT coaching.
+          </li>
+          <li class="new-landing-page__financialAid__body__content__text">
+            Each year, we identify such students who can be beneficiaries of our
+            coaching and work with them to find their dream colleges.
+          </li>
+          <li class="new-landing-page__financialAid__body__content__text">
+            For these students, we offer Full Tutoring Fee Waiver so their
+            dreams are not shatter by their financial limitations.
+          </li>
+        </ul>
+        <!-- <p class="new-landing-page__financialAid__body__content__text">
+          <span
+            class="new-landing-page__financialAid__body__content__text__star"
+            >*</span
+          >
+          Our society today has lot of talented and ambitious students. Some of
+          this students are unable to meet the financial requirements for SAT or
+          ACT coaching.
+        </p>
+        <p class="new-landing-page__financialAid__body__content__text">
+          <span
+            class="new-landing-page__financialAid__body__content__text__star"
+            >*</span
+          >
+          Each year, we identify such students who can be beneficiaries of our
+          coaching and work with them to find their dream colleges.
+        </p>
+        <p class="new-landing-page__financialAid__body__content__text">
+          <span
+            class="new-landing-page__financialAid__body__content__text__star"
+            >*</span
+          >
+          For these students, we offer Full Tutoring Fee Waiver so their dreams
+          are not shatter by their financial limitations.
+        </p> ->
+      </div>
+    </div>
+  </div> -->
+  <div class="new-landing-page__methodology" id="new-landing-page__methodology">
+    <p class="new-landing-page__methodology__title">Our Methodology</p>
+    <div class="new-landing-page__methodology__body">
+      <div class="new-landing-page__methodology__body__buttonStack">
+        <div
+          class="new-landing-page__methodology__body__buttonStack__button"
+          [ngClass]="
+            methodology === 'tutoring'
+              ? 'new-landing-page__methodology__body__buttonStack__button--active'
+              : ''
+          "
+          (click)="toggleMethodology('tutoring')"
+        >
+          <img
+            [src]="
+              methodology === 'tutoring'
+                ? 'assets/test-preparation.svg'
+                : 'assets/test-preparation-gray.svg'
+            "
+            class="new-landing-page__methodology__body__buttonStack__button__image"
+            alt="Test Preparation"
+          />
+          <div
+            class="new-landing-page__methodology__body__buttonStack__button__content"
+            [ngClass]="
+              methodology === 'tutoring'
+                ? 'new-landing-page__methodology__body__buttonStack__button__content--active'
+                : ''
+            "
+          >
+            <p
+              class="new-landing-page__methodology__body__buttonStack__button__content__title"
+            >
+              Test Preparation
+            </p>
+            <p
+              class="new-landing-page__methodology__body__buttonStack__button__content__body"
+            >
+              For SAT, ACT and other tests
+            </p>
+            <!-- <p
+              class="new-landing-page__methodology__body__buttonStack__button__content__read"
+            >
+              READ MORE>
+            </p> -->
+          </div>
+        </div>
+        <div
+          class="new-landing-page__methodology__body__buttonStack__button"
+          [ngClass]="
+            methodology === 'academic'
+              ? 'new-landing-page__methodology__body__buttonStack__button--active'
+              : ''
+          "
+          (click)="toggleMethodology('academic')"
+        >
+          <img
+            [src]="
+              methodology === 'academic'
+                ? 'assets/academic.svg'
+                : 'assets/academic-gray.svg'
+            "
+            class="new-landing-page__methodology__body__buttonStack__button__image"
+            alt="Academic Tutoring"
+          />
+          <div
+            class="new-landing-page__methodology__body__buttonStack__button__content"
+            [ngClass]="
+              methodology === 'academic'
+                ? 'new-landing-page__methodology__body__buttonStack__button__content--active'
+                : ''
+            "
+          >
+            <p
+              class="new-landing-page__methodology__body__buttonStack__button__content__title"
+            >
+              Academic Tutoring
+            </p>
+            <p
+              class="new-landing-page__methodology__body__buttonStack__button__content__body"
+            >
+              Coaching for academic excellence
+            </p>
+            <!-- <p
+              class="new-landing-page__methodology__body__buttonStack__button__content__read"
+            >
+              READ MORE>
+            </p> -->
+          </div>
+        </div>
+      </div>
+      <p class="new-landing-page__methodology__body__title">
+        {{
+          methodology === "tutoring"
+            ? "Preparing for a Perfect Test Score"
+            : "Excel in your academics"
+        }}
+      </p>
+      <span class="new-landing-page__methodology__body__sub">
+        {{
+          methodology === "tutoring"
+            ? "Our framework to assess and mentor students achieves the best test prep
+            scores and helps achieve career goals"
+            : "Our approach to understand and refine student competencies sets them for great academic endeavours"
+        }}
+      </span>
+      <div
+        class="new-landing-page__methodology__body__coaching"
+        *ngIf="methodology === 'tutoring'"
+      >
+        <div class="new-landing-page__methodology__body__coaching__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/diagnostic-test.svg"
+            alt="Diagnostic Test"
+          />
+          <div
+            class="new-landing-page__methodology__body__coaching__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__coaching__block__text--header"
+            >
+              Diagnostic Test
+            </p>
+            <span
+              class="new-landing-page__methodology__body__coaching__block__text--content"
+              >Evaluation of innate abilities & gaps</span
+            >
+          </div>
+        </div>
+        <div
+          class="new-landing-page__methodology__body__coaching__block new-landing-page__methodology__body__coaching__block--arrow"
+        >
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image new-landing-page__methodology__body__coaching__block__image--arrow"
+            src="assets/right-arrow.svg"
+            alt="To the left"
+          />
+        </div>
+        <div class="new-landing-page__methodology__body__coaching__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/build-key-concepts.svg"
+            alt="Build Key Concepts"
+          />
+          <div
+            class="new-landing-page__methodology__body__coaching__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__coaching__block__text--header"
+            >
+              Build Key Concepts
+            </p>
+            <span
+              class="new-landing-page__methodology__body__coaching__block__text--content"
+              >Create strong framework of core concepts</span
+            >
+          </div>
+        </div>
+        <div
+          class="new-landing-page__methodology__body__coaching__block new-landing-page__methodology__body__coaching__block--arrow"
+        >
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image new-landing-page__methodology__body__coaching__block__image--arrow"
+            src="assets/return.svg"
+            alt="Recycle"
+          />
+        </div>
+        <div class="new-landing-page__methodology__body__coaching__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/practice-tests.svg"
+            alt="Practice Tests"
+          />
+          <div
+            class="new-landing-page__methodology__body__coaching__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__coaching__block__text--header"
+            >
+              Practice Tests
+            </p>
+            <span
+              class="new-landing-page__methodology__body__coaching__block__text--content"
+              >Practice skills & knowledge on actual tests</span
+            >
+          </div>
+        </div>
+        <div
+          class="new-landing-page__methodology__body__coaching__block new-landing-page__methodology__body__coaching__block--arrow"
+        >
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image new-landing-page__methodology__body__coaching__block__image--arrow"
+            src="assets/return.svg"
+            alt="Recycle"
+          />
+        </div>
+        <div class="new-landing-page__methodology__body__coaching__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/competency-and-individual-needs.svg"
+            alt="Competency Assessment"
+          />
+          <div
+            class="new-landing-page__methodology__body__coaching__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__coaching__block__text--header"
+            >
+              Competency Assessment
+            </p>
+            <span
+              class="new-landing-page__methodology__body__coaching__block__text--content"
+              >Understand the strengths & weakness</span
+            >
+          </div>
+        </div>
+        <div
+          class="new-landing-page__methodology__body__coaching__block new-landing-page__methodology__body__coaching__block--arrow"
+        >
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image new-landing-page__methodology__body__coaching__block__image--arrow"
+            src="assets/right-arrow.svg"
+            alt="To the right"
+          />
+        </div>
+        <div class="new-landing-page__methodology__body__coaching__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/ace-the-final-test.svg"
+            alt="Ace the Final Test"
+          />
+          <div
+            class="new-landing-page__methodology__body__coaching__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__coaching__block__text--header"
+            >
+              Ace the Final Test
+            </p>
+            <span
+              class="new-landing-page__methodology__body__coaching__block__text--content"
+              >Get the best scores to go to your dream college</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="new-landing-page__methodology__body__academics"
+        *ngIf="methodology === 'academic'"
+      >
+        <div class="new-landing-page__methodology__body__academics__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/build-key-concepts.svg"
+            alt="Build Key Concepts"
+          />
+          <div
+            class="new-landing-page__methodology__body__academics__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__academics__block__text--header"
+            >
+              Build Key Concepts
+            </p>
+            <span
+              class="new-landing-page__methodology__body__academics__block__text--content"
+              >Create strong framework of core concepts</span
+            >
+          </div>
+        </div>
+        <div class="new-landing-page__methodology__body__academics__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/learn-proactively.svg"
+            alt="Learn Proactively"
+          />
+          <div
+            class="new-landing-page__methodology__body__academics__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__academics__block__text--header"
+            >
+              Learn Proactively
+            </p>
+            <span
+              class="new-landing-page__methodology__body__academics__block__text--content"
+              >Master Key topics ahead of the school</span
+            >
+          </div>
+        </div>
+        <div class="new-landing-page__methodology__body__academics__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/homework-help.svg"
+            alt="Homework Help"
+          />
+          <div
+            class="new-landing-page__methodology__body__academics__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__academics__block__text--header"
+            >
+              Homework Help
+            </p>
+            <span
+              class="new-landing-page__methodology__body__academics__block__text--content"
+              >Get necessary assistance with your homework</span
+            >
+          </div>
+        </div>
+        <div class="new-landing-page__methodology__body__academics__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/prep-for-exams.svg"
+            alt="Prep for Schoold Exams"
+          />
+          <div
+            class="new-landing-page__methodology__body__academics__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__academics__block__text--header"
+            >
+              Prep for School Exams
+            </p>
+            <span
+              class="new-landing-page__methodology__body__academics__block__text--content"
+              >Study and ready yourself for exams at school</span
+            >
+          </div>
+        </div>
+        <div class="new-landing-page__methodology__body__academics__block">
+          <img
+            class="new-landing-page__methodology__body__coaching__block__image"
+            src="assets/competency-and-individual-needs.svg"
+            alt="Individual Needs"
+          />
+          <div
+            class="new-landing-page__methodology__body__academics__block__text"
+          >
+            <p
+              class="new-landing-page__methodology__body__academics__block__text--header"
+            >
+              Individual Needs
+            </p>
+            <span
+              class="new-landing-page__methodology__body__academics__block__text--content"
+              >Academic help based on your requirements</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="new-landing-page__philosophy">
+    <div class="new-landing-page__philosophy__column">
+      <div
+        class="new-landing-page__philosophy__column__block__text new-landing-page__philosophy__column__block__text__black"
+      >
+        <p
+          class="new-landing-page__philosophy__column__block__text--header new-landing-page__philosophy__column__block__text--header--philosophy"
+        >
+          Our Philosophy
+        </p>
+        <span class="new-landing-page__philosophy__column__block__text--body"
+          >Our foundational guiding principles have led students like you on a
+          path to their dreams. We believe that these learning essentials make
+          us unique.</span
+        >
+      </div>
+      <div class="new-landing-page__philosophy__column__block">
+        <div
+          class="new-landing-page__philosophy__column__block__text new-landing-page__philosophy__column__block__text--beTheBest"
+        >
+          <p class="new-landing-page__philosophy__column__block__text--header">
+            Be the best of yourself
+          </p>
+          <span class="new-landing-page__philosophy__column__block__text--body"
+            >Understand your needs through evaluations. Leverage your strengths
+            and achieve your goals.</span
+          >
+        </div>
+        <img
+          src="assets/be-the-best-of-yourself.png"
+          alt="Be the best of yourself"
+          class="new-landing-page__philosophy__column__block__image"
+        />
+      </div>
+      <div class="new-landing-page__philosophy__column__block">
+        <div
+          class="new-landing-page__philosophy__column__block__text new-landing-page__philosophy__column__block__text--journey"
+        >
+          <p class="new-landing-page__philosophy__column__block__text--header">
+            Journey is about you
+          </p>
+          <span class="new-landing-page__philosophy__column__block__text--body"
+            >We are here you. Your success is our #1 priority.</span
+          >
+        </div>
+        <img
+          src="assets/journey-is-about-you.png"
+          alt="Journey is about you"
+          class="new-landing-page__philosophy__column__block__image"
+        />
+      </div>
+    </div>
+    <div
+      class="new-landing-page__philosophy__column new-landing-page__philosophy__column--right"
+    >
+      <div class="new-landing-page__philosophy__column__block">
+        <div
+          class="new-landing-page__philosophy__column__block__text new-landing-page__philosophy__column__block__text--learning"
+        >
+          <p class="new-landing-page__philosophy__column__block__text--header">
+            Learning is fun
+          </p>
+          <span class="new-landing-page__philosophy__column__block__text--body"
+            >We hate the "book-monotony". Games and fun perks encourage
+            participation from our students.</span
+          >
+        </div>
+        <img
+          src="assets/learning-is-fun.png"
+          alt="Learning is fun"
+          class="new-landing-page__philosophy__column__block__image"
+        />
+      </div>
+      <div class="new-landing-page__philosophy__column__block">
+        <div
+          class="new-landing-page__philosophy__column__block__text new-landing-page__philosophy__column__block__text--360"
+        >
+          <p class="new-landing-page__philosophy__column__block__text--header">
+            360 Development Resources
+          </p>
+          <span class="new-landing-page__philosophy__column__block__text--body"
+            >Our research and experience brings you the most exhaustive &
+            complete learning assets</span
+          >
+        </div>
+        <img
+          src="assets/360-development-resources.png"
+          alt="360 Development Resources"
+          class="new-landing-page__philosophy__column__block__image"
+        />
+      </div>
+      <div
+        class="new-landing-page__philosophy__column__block__text new-landing-page__philosophy__column__block__text__black"
+      >
+        <span class="new-landing-page__philosophy__column__block__text--body"
+          >This first step puts YOU ahead of the rest. Kick start your coaching
+          with Ravi&#39;s Academy and get closer to having your dream
+          career.</span
+        >
+        <p class="new-landing-page__philosophy__column__block__text--header">
+          Your story begins today...
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="new-landing-page__journey" id="new-landing-page__journey">
+    <p class="new-landing-page__journey__header">Our Journey</p>
+    <p
+      class="new-landing-page__journey__text new-landing-page__journey__text--started"
+    >
+      A strong passion for tutoring in Math inspired Ravi to start coaching his
+      first student in 2008
+    </p>
+    <div class="new-landing-page__journey__image">
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--top"
+      >
+        Ravi started coaching his first student in 2008
+      </p>
+      <img src="assets/journey-1.svg" alt="Couse" />
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--bottom"
+      >
+        Improved and expanded to SAT and ACT coaching
+      </p>
+    </div>
+    <p
+      class="new-landing-page__journey__text new-landing-page__journey__text--ravis"
+    >
+      Ravi&#39;s Academy goes online to students across multiple countries
+    </p>
+    <div
+      class="new-landing-page__journey__image new-landing-page__journey__image--left"
+    >
+      <img src="assets/journey-2.svg" alt="Couse" />
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--top new-landing-page__journey__image__mobileText--top--left"
+      >
+        Goes online to students across multiple countries
+      </p>
+    </div>
+    <p
+      class="new-landing-page__journey__text--start new-landing-page__journey__text--top"
+    >
+      Improved and expanded to multiple students in Math tutoring along with SAT
+      and ACT coaching
+    </p>
+    <div class="new-landing-page__journey__image">
+      <img src="assets/journey-3.svg" alt="Couse" />
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--top"
+      >
+        Opened first dedicated campus
+      </p>
+    </div>
+    <p
+      class="new-landing-page__journey__text--start new-landing-page__journey__text--opened"
+    >
+      Opened first dedicated campus for Ravi's Academy that accommodates more
+      50+ students
+    </p>
+    <p
+      class="new-landing-page__journey__text new-landing-page__journey__text--top"
+    >
+      Experienced tutors join the team Ravi's Academy for each subject focused
+      courses
+    </p>
+    <div
+      class="new-landing-page__journey__image new-landing-page__journey__image--left"
+    >
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--top new-landing-page__journey__image__mobileText--top--left"
+      >
+        Experienced tutors join the team
+      </p>
+      <img src="assets/journey-4.svg" alt="Couse" />
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--bottom new-landing-page__journey__image__mobileText--bottom--left"
+      >
+        Upgraded and extended test prep resources
+      </p>
+    </div>
+    <p
+      class="new-landing-page__journey__text new-landing-page__journey__text--introduced"
+    >
+      Introduced the online practice test process, score calculation and
+      detailed reports
+    </p>
+    <div
+      class="new-landing-page__journey__image new-landing-page__journey__image--last"
+    >
+      <p
+        class="new-landing-page__journey__image__mobileText new-landing-page__journey__image__mobileText--top"
+      >
+        Introduced the online test grading system
+      </p>
+      <img
+        class="new-landing-page__journey__image__logo"
+        src="assets/RA LOGO-01.svg"
+        alt="Couse"
+      />
+    </div>
+    <p
+      class="new-landing-page__journey__text--start new-landing-page__journey__text--top"
+    >
+      Upgraded and extended test prep resources and pedagogy from SAT, ACT and
+      Academic Tutoring
+    </p>
+  </div>
+  <div class="new-landing-page__ravi">
+    <div class="new-landing-page__ravi__content">
+      <img
+        class="new-landing-page__ravi__content__image"
+        src="assets/ravi.png"
+        alt="Ravi"
+      />
+      <div class="new-landing-page__ravi__content__text">
+        <p>
+          Ravi was always passionate about Math through his school and college.
+          Occasionally, he would end up guiding his colleagues, cousins, and
+          neighbors with their math problems. His passion for mathematics kept
+          him going when he relocated to the US and start tutoring school
+          students for Math and other subjects. Ravi's passion lies in crafting
+          the best version of each student. He believes students need empathy
+          and compassion on their journey of learning. This fundamental belief
+          guides his choices for team members and pedagogy. Ravi invests in
+          achieving academic excellence and creating career opportunities
+          through SAT/ACT preparation. Ravi's real motivation lies in his
+          students' success.
+        </p>
+        <p>
+          As a professional, Ravi is a software architect in a consulting
+          company. He completed his Masters in Technology from NIT Warangal, one
+          of India's top colleges. He brings his experience-driven skills like
+          situation and gap analysis, designing capability augmentation plans,
+          and executing those in limited time.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="new-landing-page__team" id="new-landing-page__team">
+    <p class="new-landing-page__team__header">Team</p>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--yellow"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--adam"
+      ></div>
+      <p class="new-landing-page__team__block__name">Adam</p>
+      <p class="new-landing-page__team__block__text">
+        Adam has been working with students both inside and outside of the
+        classroom since 2000. Early on in his career, he enjoyed challenging
+        roles as a teacher, coach, and tutor. Upon graduation from the
+        University of Connecticut, Adam focused on academic tutoring for a
+        variety of subjects. Over the years, he slowly gravitated to
+        standardized test preparation and is now highly experienced. Adam prides
+        himself on having a unique style that engages students by providing a
+        comfortable, dynamic learning environment. He strives for and attains
+        success by identifying and adapting to each student's learning style
+        when presenting the material. Working with students to achieve academic
+        excellence will always be a top priority and a passion of Adam's as he
+        continues his teaching and learning journey.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--blue"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--kevin"
+      ></div>
+      <p class="new-landing-page__team__block__name">Kevin</p>
+      <p class="new-landing-page__team__block__text">
+        Kevin joined our team as a language expert who is among the top 5% in
+        the nation in Reading, Writing, and SAT Prep English. Kevin holds 14
+        years of extensive experience in teaching students across various
+        spheres of education. He is a high school teacher, teaching English for
+        students across different age groups. He is an expert tutor in Creative
+        Writing, AP Literature &amp; Composition, and SAT Prep English. When not
+        teaching, Kevin enjoys spending time with his wife Melissa and children.
+        He enjoys traveling, coaching AAU baseball, fishing, hiking, and writing
+        poetry.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--red"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--brittany"
+      ></div>
+      <p class="new-landing-page__team__block__name">Brittany</p>
+      <p class="new-landing-page__team__block__text">
+        Brittany is a passionate teacher who loves to help students unlock their
+        true academic potential. An academic genius herself, she was accepted to
+        12 top universities. She graduated cum laude from the University of
+        Pennsylvania in Psychology with a minor in Education. She tutored and
+        mentored students through school-university partnerships and has always
+        enjoyed helping students achieve their academic and college admission
+        goals. With over ten years of teaching SAT and ACT prep, she tutors
+        students according to their needs and counsels them throughout the
+        admissions process.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--yellow"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--tanuja"
+      ></div>
+      <p class="new-landing-page__team__block__name">Tanuja</p>
+      <p class="new-landing-page__team__block__text">
+        Tanuja comes with eight years of experience in teaching Math and Science
+        to students across all age groups online and offline. With her unique
+        teaching style, she strives to improve grades and boosts confidence
+        among students by making the fundamentals and concepts more
+        uncomplicated and comfortable. Tanuja is a computer science graduate who
+        also taught computer science to engineering students early in her
+        career. She teaches students in the US, UK, and Australia. She
+        attributes her love towards teaching Yoga, and she believes that it
+        motivates her to contribute effectively towards education.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--green"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--puja"
+      ></div>
+      <p class="new-landing-page__team__block__name">Puja</p>
+      <p class="new-landing-page__team__block__text">
+        Puja discovered her interest in teaching when she started tutoring her
+        peers and juniors during her graduation and postgraduation days. She
+        holds a master’s degree in Actuarial Science. After a brief stint in
+        MNC, she realized that teaching satisfies her intellect more than a
+        regular desk job. She is part of Ravi’s academy tutoring students in
+        Math, Statistics, PSAT and SAT. Puja is popular amongst her students for
+        her simplicity, patience, and compassion while teaching.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--orange"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--navita"
+      ></div>
+      <p class="new-landing-page__team__block__name">Navita</p>
+      <p class="new-landing-page__team__block__text">
+        Navita, with a master’s degree in math, comes with 18 years of teaching
+        experience, and her love for mathematics shows in her teaching style and
+        methodology. Her students enjoy her sessions the most for being very
+        interactive. She continually encourages them to express themselves and
+        learn along the way. She teaches students globally across countries like
+        UK, USA, Dubai, and New Zealand, helping the students get the best of
+        everything.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--pink"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--harika"
+      ></div>
+      <p class="new-landing-page__team__block__name">Harika</p>
+      <p class="new-landing-page__team__block__text">
+        Harika is a computer science graduate from Purdue University. She works
+        as a software engineer at JPMorgan Chase and is an enthusiast tutor and
+        mentor. She has been a student and part of Ravi’s Academy from her
+        elementary school until she left for college. She spent a few years at
+        college as a tutor and guide for her fellow peers. The zeal to teach and
+        her motivation stems from wanting to give back to the very place that
+        helped her succeed in her life and career.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--pink"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--sai"
+      ></div>
+      <p class="new-landing-page__team__block__name">Sai</p>
+      <p class="new-landing-page__team__block__text">
+        Sai is an aspiring quantitative analyst who is currently a senior in
+        Trumbull High School. Sai has been a student at Ravi’s Academy for many
+        years, and mathematics has always been a strong suit. Being a part of
+        our community for long, Sai comes with a great understanding of our
+        teaching methodology and standards apart from his mathematical
+        excellence. While studying to major in applied mathematics, he wants to
+        tutor and share his knowledge back to the very place and community that
+        helped succeed in SAT and ACT.
+      </p>
+    </div>
+    <div
+      class="new-landing-page__team__block new-landing-page__team__block--red"
+    >
+      <div
+        class="new-landing-page__team__block__image new-landing-page__team__block__image--vaishnavi"
+      ></div>
+      <p class="new-landing-page__team__block__name">Vaishnavi</p>
+      <p class="new-landing-page__team__block__text">
+        Vaishnavi is a freshman at Brandeis University. She is majoring in
+        Biology and Public Health on the premed track. She is experienced in the
+        tutoring field, having worked with students of all ages at Mathnasium
+        and Ravi’s Academy. Dedicated to her students’ success, she personalizes
+        every session and caters to their specific goals- whether it is
+        improvement or enrichment. She loves working with students of all ages.
+      </p>
+    </div>
+  </div>
+  <div class="new-landing-page__scholarship">
+    <img
+      class="new-landing-page__scholarship__logo"
+      src="../../../assets/scholarship.svg"
+      alt="Scholarship"
+    />
+    <img
+      class="new-landing-page__scholarship__logo"
+      src="../../../assets/financialAid.svg"
+      alt="Financial Aid"
+    />
+    <div
+      class="new-landing-page__scholarship__topBlock new-landing-page__scholarship__topBlock--first"
+    >
+      <p class="new-landing-page__scholarship__topBlock__title">
+        <span>Scholarships and</span>
+        <span>Awards</span>
+      </p>
+      <p>
+        For each batch, we distinguish the exceptional efforts and extraordinary
+        achievements of our outgoing students through several different
+        criteria. We intend to motivate the students to achieve brilliance and
+        outstanding results. We also believe in helping students towards
+        achieving an enriching career. We want to thank our supporters who
+        sponsor some of these awards:
+      </p>
+    </div>
+    <div class="new-landing-page__scholarship__topBlock">
+      <p class="new-landing-page__scholarship__topBlock__title">
+        <span>Need-based Financial</span>
+        <span>Assistance</span>
+      </p>
+      <p>
+        Each year, we identify such students who can be beneficiaries of our
+        coaching and work with them to find their dream colleges. For these
+        students, we offer Full Tutoring Fee Waiver so their dreams are not
+        shatter by their financial limitations. We work alongside some generous
+        sponsors without whom, this would not be possible. We want to thank them
+        for their support to this cause:
+      </p>
+    </div>
+    <div
+      class="new-landing-page__scholarship__bottomBlock new-landing-page__scholarship__bottomBlock--first"
+    >
+      <img src="assets/SAT PSAT.svg" alt="Scholarship" />
+      <p class="new-landing-page__scholarship__bottomBlock__title">
+        Tej Foundation
+      </p>
+      <p>
+        We intend to encourage students to achieve their full potential and
+        their educational aspirations. We hope our humble awards encourage them
+        for a more meaningful pursuit of education.
+      </p>
+    </div>
+    <div class="new-landing-page__scholarship__bottomBlock">
+      <img src="assets/SAT PSAT.svg" alt="Financial Aid" />
+      <p class="new-landing-page__scholarship__bottomBlock__title">
+        Tej Foundation
+      </p>
+      <p>
+        Every student, no matter where they come from, should have access to
+        resources and the help they deserve. With our scholarships, students in
+        need will get all.
+      </p>
+    </div>
+  </div>
+  <div class="new-landing-page__contactUs" id="new-landing-page__contactUs">
+    <div class="new-landing-page__contactUs__getInTouch">
+      <p class="new-landing-page__contactUs__getInTouch__header">
+        Get in touch
+      </p>
+      <span class="new-landing-page__contactUs__getInTouch__text"
+        >Please fill out the quick form and we will get back to you as soon as
+        possible.</span
+      >
+      <input
+        class="new-landing-page__contactUs__getInTouch__input"
+        [ngClass]="
+          error && (name['invalid'] || name['value'].trim() === '')
+            ? 'new-landing-page__contactUs__getInTouch__input--error'
+            : ''
+        "
+        placeholder="Name"
+        [formControl]="name"
+      />
+      <input
+        class="new-landing-page__contactUs__getInTouch__input"
+        [ngClass]="
+          error && (email['invalid'] || email['value'].trim() === '')
+            ? 'new-landing-page__contactUs__getInTouch__input--error'
+            : ''
+        "
+        placeholder="E-mail"
+        [formControl]="email"
+      />
+      <textarea
+        placeholder="Your message..."
+        class="new-landing-page__contactUs__getInTouch__textarea"
+        [ngClass]="
+          error && (message['invalid'] || message['value'].trim() === '')
+            ? 'new-landing-page__contactUs__getInTouch__textarea--error'
+            : ''
+        "
+        rows="2"
+        [formControl]="message"
+      ></textarea>
+      <div class="new-landing-page__contactUs__getInTouch__lastRow">
+        <button
+          class="button new-landing-page__contactUs__getInTouch__lastRow__submit"
+          (click)="sendEmail()"
+          [disabled]="submitClicked"
+        >
+          Submit
+        </button>
+        <p
+          *ngIf="successMessage || errorMessage"
+          class="new-landing-page__contactUs__getInTouch__lastRow__message"
+          [ngClass]="
+            successMessage
+              ? ''
+              : 'new-landing-page__contactUs__getInTouch__lastRow__message--error'
+          "
+        >
+          {{ successMessage ? successMessage : errorMessage }}
+        </p>
+      </div>
+    </div>
+    <div class="new-landing-page__contactUs__info">
+      <div class="new-landing-page__contactUs__info__block">
+        <p class="new-landing-page__contactUs__info__block__header">
+          Connect with us:
+        </p>
+        <span class="new-landing-page__contactUs__info__block__body"
+          >Feel free to get in touch with us via email
+          <span class="new-landing-page__contactUs__info__block__body--email"
+            >factorialmath@gmail.com</span
+          >
+        </span>
+      </div>
+      <div class="new-landing-page__contactUs__info__block">
+        <p class="new-landing-page__contactUs__info__block__header">
+          Ravi's Academy
+        </p>
+        <span class="new-landing-page__contactUs__info__block__body"
+          >378 Boston Post Road, Suite #202, Orange, CT 06477, USA</span
+        >
+      </div>
+      <div class="new-landing-page__contactUs__info__block">
+        <p class="new-landing-page__contactUs__info__block__header">Phone</p>
+        <span class="new-landing-page__contactUs__info__block__body"
+          >(203) 952 5567 / (203) 981 4186</span
+        >
+      </div>
+    </div>
+  </div>
+  <div style="width: 100%">
+    <iframe
+      width="100%"
+      height="400"
+      frameborder="0"
+      scrolling="no"
+      marginheight="0"
+      marginwidth="0"
+      src="https://maps.google.com/maps?width=100%25&amp;height=400&amp;hl=en&amp;q=378%20boston%20post%20road+(Ravis%20Academy)&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+    ></iframe>
+  </div>
+  <div class="new-landing-page__footer">
+    <div class="new-landing-page__footer__main">
+      <img
+        class="new-landing-page__footer__main__logo"
+        src="assets/RA LOGO-01.svg"
+        alt="Ravi's Academy"
+      />
+      <div class="new-landing-page__footer__main__quickLinks">
+        <p class="new-landing-page__footer__main__quickLinks__header">
+          Quick Links
+        </p>
+        <div class="new-landing-page__footer__main__quickLinks__links">
+          <span
+            class="new-landing-page__footer__main__quickLinks__links__link"
+            (click)="scorllToBottom(false)"
+            >Value</span
+          >
+          <span
+            class="new-landing-page__footer__main__quickLinks__links__link"
+            (click)="scrollTo('new-landing-page__courses', false)"
+            >Courses</span
+          >
+          <span
+            class="new-landing-page__footer__main__quickLinks__links__link"
+            (click)="scrollTo('new-landing-page__methodology', false)"
+            >Methodology</span
+          >
+          <span
+            class="new-landing-page__footer__main__quickLinks__links__link"
+            (click)="scrollTo('new-landing-page__journey', false)"
+            >Our Story</span
+          >
+          <span
+            class="new-landing-page__footer__main__quickLinks__links__link"
+            (click)="scrollTo('new-landing-page__team', false)"
+            >Team</span
+          >
+          <span
+            class="new-landing-page__footer__main__quickLinks__links__link"
+            (click)="scrollTo('new-landing-page__contactUs', false)"
+            >Contact Us</span
+          >
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="new-landing-page__footer__sub">
+      Copyright © 2020 Ravi’s Academy • Privacy Policy
+    </div>
+  </div>
+</div>

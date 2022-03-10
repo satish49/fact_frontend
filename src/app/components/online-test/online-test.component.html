@@ -1,0 +1,397 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="online-test">
+      <span class="online-test__heading">Online Test</span>
+      <div
+        class="online-test__header online-test__header__hideTimer"
+        id="online-test__timer"
+      >
+        <span class="online-test__header__timer">{{ getTime(timeLeft) }}</span>
+      </div>
+      <div class="online-test__header">
+        <div class="online-test__header__block">
+          <span class="online-test__header__block__label">Test Type:</span>
+          <span class="online-test__header__block__text">{{ testType }}</span>
+        </div>
+        <div class="online-test__header__block">
+          <span class="online-test__header__block__label">Test Code:</span>
+          <span class="online-test__header__block__text">{{ testCode }}</span>
+        </div>
+        <div class="online-test__header__block">
+          <span class="online-test__header__block__label">Test Date:</span>
+          <span class="online-test__header__block__text">{{ testDate }}</span>
+        </div>
+        <button
+          class="online-test__header__changeTest"
+          [routerLink]="['/list-of-tests']"
+        >
+          Change Test
+        </button>
+      </div>
+      <div class="online-test__header online-test__header__mobileSelectSection">
+        <mat-select [(value)]="mobileSelectedIndex" [disabled]="timer">
+          <mat-option
+            *ngFor="let section of sections; index as i"
+            [value]="i"
+            >{{ section["testSection"] }}</mat-option
+          >
+        </mat-select>
+      </div>
+      <div class="online-test__testBody">
+        <ng-container *ngFor="let section of sections; index as sectionIndex">
+          <div
+            class="online-test__testBody__section"
+            [ngClass]="
+              mobileSelectedIndex === sectionIndex
+                ? 'online-test__testBody__section__mobileDisplay'
+                : ''
+            "
+          >
+            <span class="online-test__testBody__section__sectionName"
+              >Section {{ sectionIndex + 1 }} -
+              {{ section["testSection"] }}</span
+            >
+            <span class="online-test__testBody__section__time"
+              >Time: {{ getTime(section["sectionTime"]) }}</span
+            >
+            <div class="online-test__testBody__section__answers">
+              <div
+                class="online-test__testBody__section__answers__buttonStack"
+                [ngClass]="
+                  isPauseAllowed && timerBlockIndex === sectionIndex
+                    ? 'online-test__testBody__section__answers__buttonStack--twoColumns'
+                    : ''
+                "
+              >
+                <button
+                  class="button"
+                  [id]="
+                    'online-test__testBody__section__answers__buttonStack__' +
+                    sectionIndex
+                  "
+                  [ngClass]="
+                    submittedSections.indexOf(sectionIndex) > -1
+                      ? 'online-test__testBody__section__answers__buttonStack--hide'
+                      : ''
+                  "
+                  (click)="
+                    timerBlockIndex === sectionIndex
+                      ? false
+                      : startTimerBlock(sectionIndex)
+                  "
+                  [disabled]="
+                    submittedSections.indexOf(sectionIndex) > -1
+                      ? true
+                      : startTimerClicked
+                      ? true
+                      : timerBlockIndex === null
+                      ? false
+                      : timerBlockIndex !== sectionIndex
+                  "
+                >
+                  {{
+                    timerBlockIndex === sectionIndex
+                      ? getTime(timeLeft)
+                      : pausedQuestions.indexOf(sectionIndex) > -1
+                      ? "Continue"
+                      : section["studentAnswers"]["length"] > 0
+                      ? "Continue"
+                      : "Start"
+                  }}
+                </button>
+                <button
+                  *ngIf="isPauseAllowed && timerBlockIndex === sectionIndex"
+                  (click)="pauseTest()"
+                  [disabled]="pauseClicked"
+                  class="button"
+                >
+                  Pause
+                </button>
+              </div>
+              <!-- <div
+                class="online-test__testBody__section__answers__block"
+                *ngFor="
+                  let question of section['sectionQuestionIds'];
+                  index as i
+                "
+              >
+                <span
+                  class="online-test__testBody__section__answers__block__questionNumber"
+                  >{{ i + 1 }}.</span
+                >
+                <span
+                  class="online-test__testBody__section__answers__block__option"
+                  >A</span
+                >
+                <span
+                  class="online-test__testBody__section__answers__block__option online-test__testBody__section__answers__block__option--selected"
+                  >B</span
+                >
+                <span
+                  class="online-test__testBody__section__answers__block__option"
+                  >C</span
+                >
+                <span
+                  class="online-test__testBody__section__answers__block__option"
+                  >D</span
+                >
+              </div> -->
+              <ng-container
+                *ngFor="
+                  let question of section['sectionQuestionIds'];
+                  index as i
+                "
+              >
+                <div
+                  class="online-test__testBody__section__answers__block"
+                  *ngIf="question['isChar'] !== 0"
+                >
+                  <span
+                    class="online-test__testBody__section__answers__block__questionNumber"
+                    >{{ i + 1 }}.</span
+                  >
+                  <span
+                    class="online-test__testBody__section__answers__block__option"
+                    [class.online-test__testBody__section__answers__block__option--selected]="
+                      questions['controls'][sectionIndex]['controls'][i][
+                        'value'
+                      ] === 'A'
+                    "
+                    [class.online-test__testBody__section__answers__block__option--disabled]="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                    "
+                    (click)="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                        ? false
+                        : selectOption('A', i)
+                    "
+                    >A</span
+                  >
+                  <span
+                    class="online-test__testBody__section__answers__block__option"
+                    [ngClass]="
+                      questions['controls'][sectionIndex]['controls'][i][
+                        'value'
+                      ] === 'B'
+                        ? 'online-test__testBody__section__answers__block__option--selected'
+                        : ''
+                    "
+                    [class.online-test__testBody__section__answers__block__option--disabled]="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                    "
+                    (click)="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                        ? false
+                        : selectOption('B', i)
+                    "
+                    >B</span
+                  >
+                  <span
+                    class="online-test__testBody__section__answers__block__option"
+                    [ngClass]="
+                      questions['controls'][sectionIndex]['controls'][i][
+                        'value'
+                      ] === 'C'
+                        ? 'online-test__testBody__section__answers__block__option--selected'
+                        : ''
+                    "
+                    [class.online-test__testBody__section__answers__block__option--disabled]="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                    "
+                    (click)="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                        ? false
+                        : selectOption('C', i)
+                    "
+                    >C</span
+                  >
+                  <span
+                    class="online-test__testBody__section__answers__block__option"
+                    [ngClass]="
+                      questions['controls'][sectionIndex]['controls'][i][
+                        'value'
+                      ] === 'D'
+                        ? 'online-test__testBody__section__answers__block__option--selected'
+                        : ''
+                    "
+                    [class.online-test__testBody__section__answers__block__option--disabled]="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                    "
+                    (click)="
+                      timerBlockIndex !== sectionIndex ||
+                      timeLeft === 0 ||
+                      timer === null ||
+                      pauseClicked ||
+                      submittedQuestions.indexOf(i) > -1
+                        ? false
+                        : selectOption('D', i)
+                    "
+                    >D</span
+                  >
+                </div>
+                <div
+                  class="online-test__testBody__section__answers__block"
+                  *ngIf="question['isChar'] === 0"
+                >
+                  <span
+                    class="online-test__testBody__section__answers__block__questionNumber"
+                    >{{ i + 1 }}.</span
+                  >
+
+                  <input
+                    class="online-test__testBody__section__answers__block__input"
+                    [value]="
+                      questions['controls'][sectionIndex]['controls'][i][
+                        'value'
+                      ]
+                    "
+                    *ngIf="
+                      timerBlockIndex !== sectionIndex ||
+                        timeLeft === 0 ||
+                        timer === null ||
+                        pauseClicked ||
+                        submittedQuestions.indexOf(i) > -1;
+                      else enabledInput
+                    "
+                    type="text"
+                    disabled
+                  />
+                  <ng-template #enabledInput>
+                    <input
+                      [formControl]="
+                        questions['controls'][sectionIndex]['controls'][i]
+                      "
+                      class="online-test__testBody__section__answers__block__input"
+                      [ngClass]="
+                        (submitError ||
+                          questions['controls'][sectionIndex]['controls'][i][
+                            'touched'
+                          ]) &&
+                        questions['controls'][sectionIndex]['controls'][i][
+                          'invalid'
+                        ]
+                          ? 'online-test__testBody__section__answers__block__input__error'
+                          : ''
+                      "
+                      (input)="numberValidator($event)"
+                      (focusout)="submitNumber(i)"
+                      maxlength="4"
+                      type="text"
+                    />
+                  </ng-template>
+                </div>
+              </ng-container>
+              <!-- <div class="online-test__testBody__section__answers__block">
+                <span
+                  class="online-test__testBody__section__answers__block__questionNumber"
+                  >{{
+                    section["sectionQuestionIds"]["length"] +
+                      (sectionIndex === 0 ? 2 : 1)
+                  }}.</span
+                >
+                <select>
+                  <option>.</option>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                </select>
+                <select>
+                  <option>.</option>
+                  <option>/</option>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                </select>
+                <select>
+                  <option>.</option>
+                  <option>/</option>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                </select>
+                <select>
+                  <option>.</option>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                </select>
+              </div> -->
+            </div>
+            <button
+              class="button online-test__testBody__section__submit"
+              (click)="submitTest('userSubmit', sectionIndex)"
+              [disabled]="
+                submitClicked ||
+                (!submitClicked &&
+                  (timerBlockIndex !== sectionIndex ||
+                    timerBlockIndex === null))
+              "
+            >
+              Submit
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

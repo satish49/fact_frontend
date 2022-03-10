@@ -1,0 +1,349 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="answer-key">
+      <span class="answer-key__heading">Questions and Answers</span>
+      <div class="answer-key__header">
+        <span
+          >Test Type :
+          <span class="answer-key__header__highlight">{{
+            testType
+          }}</span></span
+        >
+        <span
+          >Test Code :
+          <span class="answer-key__header__highlight">{{
+            testCode
+          }}</span></span
+        >
+        <span class="answer-key__header__section"
+          >Section :
+          <mat-select
+            [(value)]="selectedSection"
+            (selectionChange)="onSectionSelection()"
+            class="capitalize dashboard__tabs__fullTab__select"
+          >
+            <mat-option
+              *ngFor="let section of sections; index as i"
+              class="capitalize"
+              [value]="i"
+              >{{ section["testSection"] }}</mat-option
+            >
+          </mat-select>
+        </span>
+      </div>
+      <div class="answer-key__body">
+        <div class="answer-key__body__questionsList">
+          <span class="answer-key__body__questionsList__header"
+            >Number of Questions</span
+          >
+          <div class="answer-key__body__questionsList__body">
+            <ng-container *ngFor="let question of questions; index as i">
+              <div
+                class="answer-key__body__questionsList__body__question"
+                (click)="saveQuestionClicked ? false : selectQuestion(i + 1)"
+                [ngClass]="
+                  isQuestionAnswered(i + 1)
+                    ? 'answer-key__body__questionsList__body__question__answered'
+                    : ''
+                "
+              >
+                {{ i + 1 }}
+              </div>
+            </ng-container>
+            <!-- <ng-container *ngFor="let question of questions; index as i">
+              <div
+                class="answer-key__body__questionsList__body__question"
+                (click)="selectQuestion(10 + i + 1)"
+              >
+                {{ 10 + i + 1 }}
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let question of questions; index as i">
+              <div
+                class="answer-key__body__questionsList__body__question answer-key__body__questionsList__body__question__answered"
+                (click)="selectQuestion(20 + i + 1)"
+              >
+                {{ 20 + i + 1 }}
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let question of questions; index as i">
+              <div
+                class="answer-key__body__questionsList__body__question"
+                (click)="selectQuestion(30 + i + 1)"
+              >
+                {{ 30 + i + 1 }}
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let question of questions; index as i">
+              <div
+                class="answer-key__body__questionsList__body__question answer-key__body__questionsList__body__question__answered"
+                (click)="selectQuestion(40 + i + 1)"
+              >
+                {{ 40 + i + 1 }}
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let question of questions; index as i">
+              <div
+                class="answer-key__body__questionsList__body__question"
+                (click)="selectQuestion(50 + i + 1)"
+              >
+                {{ 50 + i + 1 }}
+              </div>
+            </ng-container> -->
+          </div>
+        </div>
+        <div class="answer-key__body__questionBody">
+          <div class="answer-key__body__questionBody__section">
+            <div class="answer-key__body__questionBody__section__block">
+              <span>Q. No.</span>
+              <span
+                class="answer-key__body__questionBody__section__block__questionNumber"
+                >{{ selectedQuestionNumber }}</span
+              >
+            </div>
+            <div class="answer-key__body__questionBody__section__block">
+              <span>Difficulty Level</span>
+              <mat-select [(value)]="selectedLevel">
+                <mat-option
+                  *ngFor="let level of difficultyLevels"
+                  [value]="level.tdlId"
+                  >{{ level.levelDescription }}</mat-option
+                >
+              </mat-select>
+            </div>
+            <div
+              class="answer-key__body__questionBody__section__block answer-key__body__questionBody__section__block__passage"
+              *ngIf="
+                sections.length > 0
+                  ? sections[selectedSection]['isPassageType']
+                  : false
+              "
+            >
+              <span>Passage Type</span>
+              <mat-select [(value)]="selectedPassage">
+                <mat-option
+                  *ngFor="let passage of passageTypes"
+                  [value]="passage.tptId"
+                  >{{ passage.passageType }}</mat-option
+                >
+              </mat-select>
+            </div>
+          </div>
+          <div
+            class="answer-key__body__questionBody__section answer-key__body__questionBody__section__second"
+            [ngClass]="
+              answerType === 'range'
+                ? 'answer-key__body__questionBody__section__second__range'
+                : ''
+            "
+          >
+            <div class="answer-key__body__questionBody__section__block">
+              <span>Answer Type</span>
+              <mat-select
+                [(value)]="answerType"
+                [disabled]="isQuestionAnswered(selectedQuestionNumber)"
+              >
+                <mat-option value="char">Multiple Choice</mat-option>
+                <mat-option value="num">Numbers</mat-option>
+                <mat-option value="range">Numbers & Range</mat-option>
+              </mat-select>
+            </div>
+            <div
+              class="answer-key__body__questionBody__section__block"
+              *ngIf="answerType !== 'range'"
+            >
+              <span>Answer</span>
+              <div
+                class="answer-key__body__questionBody__section__block__char"
+                *ngIf="answerType === 'char'"
+                [ngClass]="
+                  error && selectedCharacter === ''
+                    ? 'answer-key__body__questionBody__section__block__char__error'
+                    : ''
+                "
+              >
+                <mat-radio-group [(ngModel)]="selectedCharacter">
+                  <mat-radio-button value="A" labelPosition="before"
+                    >A</mat-radio-button
+                  >
+                  <mat-radio-button value="B" labelPosition="before"
+                    >B</mat-radio-button
+                  >
+                  <mat-radio-button value="C" labelPosition="before"
+                    >C</mat-radio-button
+                  >
+                  <mat-radio-button value="D" labelPosition="before"
+                    >D</mat-radio-button
+                  >
+                </mat-radio-group>
+              </div>
+              <div
+                *ngIf="answerType === 'num'"
+                class="answer-key__body__questionBody__section__block__num"
+              >
+                <input
+                  (input)="numberValidator($event)"
+                  class="answer-key__body__questionBody__section__block__input answer-key__body__questionBody__section__block__input__number"
+                  maxlength="4"
+                  *ngFor="let number of numbers.controls; index as i"
+                  [formControl]="numbers['controls'][i]"
+                  [ngClass]="
+                    error && numbers['controls'][i]['invalid']
+                      ? 'answer-key__body__questionBody__section__block__input__error'
+                      : ''
+                  "
+                />
+                <button
+                  class="answer-key__body__questionBody__section__block__add answer-key__body__questionBody__section__block__add--remove"
+                  (click)="removeNumber()"
+                  *ngIf="numbers.length !== 1"
+                >
+                  <mat-icon>remove</mat-icon>Remove
+                </button>
+                <button
+                  class="answer-key__body__questionBody__section__block__add"
+                  (click)="addNumber()"
+                  *ngIf="numbers.length < 6"
+                >
+                  <mat-icon>add</mat-icon>Add
+                </button>
+              </div>
+            </div>
+            <ng-container
+              class="answer-key__body__questionBody__section__block answer-key__body__questionBody__section__block--range"
+              *ngIf="answerType === 'range'"
+            >
+              <div class="answer-key__body__questionBody__section__block">
+                <span>Min. Value</span>
+                <input
+                  class="answer-key__body__questionBody__section__block__input"
+                  [ngClass]="
+                    error && answerMinVal.invalid
+                      ? 'answer-key__body__questionBody__section__block__input__error'
+                      : ''
+                  "
+                  maxlength="4"
+                  (input)="numberValidator($event)"
+                  [formControl]="answerMinVal"
+                />
+              </div>
+              <div class="answer-key__body__questionBody__section__block">
+                <span>Inclusive</span>
+                <mat-checkbox [(ngModel)]="answerMinInc"></mat-checkbox>
+              </div>
+              <div class="answer-key__body__questionBody__section__block">
+                <span>Max. Value</span>
+                <input
+                  class="answer-key__body__questionBody__section__block__input"
+                  [ngClass]="
+                    error && answerMinVal.invalid
+                      ? 'answer-key__body__questionBody__section__block__input__error'
+                      : ''
+                  "
+                  maxlength="4"
+                  (input)="numberValidator($event)"
+                  [formControl]="answerMaxVal"
+                />
+              </div>
+              <div class="answer-key__body__questionBody__section__block">
+                <span>Inclusive</span>
+                <mat-checkbox [(ngModel)]="answerMaxInc"></mat-checkbox>
+              </div>
+            </ng-container>
+          </div>
+          <div class="answer-key__body__questionBody__topic">
+            <span>Topic</span>
+            <span>Subtopic</span>
+          </div>
+          <ng-container
+            *ngFor="let availableTopic of availableTopics.controls; index as i"
+          >
+            <div
+              class="answer-key__body__questionBody__topic answer-key__body__questionBody__topic__noTopics"
+              *ngIf="!subTopicsLoading && topics.length === 0"
+            >
+              No Topics Found
+            </div>
+            <div
+              class="answer-key__body__questionBody__topic"
+              *ngIf="!subTopicsLoading && topics.length > 0"
+            >
+              <mat-select
+                [formControl]="availableTopics.controls[i]['controls']['topic']"
+                (selectionChange)="onTopicSelection(i)"
+              >
+                <mat-option
+                  *ngFor="let topic of topics; index as j"
+                  [value]="topic.topic_id"
+                  >{{ topic.topic_name }}</mat-option
+                >
+              </mat-select>
+              <mat-select
+                [formControl]="
+                  availableTopics.controls[i]['controls']['subTopic']
+                "
+                ><ng-container
+                  *ngIf="
+                    availableTopics.controls[i]['controls']['topic'][
+                      'value'
+                    ] !== null
+                  "
+                >
+                  <!-- <mat-option
+                    *ngFor="
+                      let subTopic of topics[
+                        availableTopics.controls[i].controls.topic.value
+                      ].subtopics;
+                      index as k
+                    "
+                    [value]="subTopic.subtopic_id"
+                    >{{ subTopic.subtopic_name }}</mat-option
+                  > -->
+                  <mat-option
+                    *ngFor="let subTopic of getSubTopics(i); index as k"
+                    [value]="subTopic.subtopic_id"
+                    >{{ subTopic.subtopic_name }}</mat-option
+                  >
+                </ng-container>
+              </mat-select>
+              <button
+                class="answer-key__body__questionBody__section__block__add"
+                *ngIf="i === 0"
+                (click)="addTopic()"
+              >
+                <mat-icon>add</mat-icon>Add
+              </button>
+              <button
+                class="answer-key__body__questionBody__section__block__add answer-key__body__questionBody__section__block__add--remove"
+                *ngIf="i !== 0"
+                (click)="removeTopic(i)"
+              >
+                <mat-icon>remove</mat-icon>Remove
+              </button>
+            </div>
+          </ng-container>
+          <div class="answer-key__body__questionBody__buttonStack">
+            <button
+              class="button answer-key__body__questionBody__buttonStack__next"
+              (click)="saveQuestion('next')"
+              [disabled]="saveQuestionClicked"
+            >
+              Save & Next Question
+            </button>
+            <button
+              class="button answer-key__body__questionBody__buttonStack__exit"
+              (click)="saveQuestion('exit')"
+              [disabled]="saveQuestionClicked"
+            >
+              Save and Exit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

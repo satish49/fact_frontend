@@ -1,0 +1,149 @@
+<div class="landingPage">
+  <div id="landingPage__header" class="landingPage__header">
+    <span>
+      <img src="assets/logo-ravi.svg" class="landingPage__header__logo" />
+    </span>
+    <div class="landingPage__header__middle">
+      <a>Courses</a>
+      <!-- <a routerLink="our-team">Our Team</a> -->
+      <a>Our Team</a>
+      <a>Why Ravi's</a>
+      <a>Contact Us</a>
+    </div>
+    <div class="landingPage__header__last">
+      <a class="button button__green" routerLink="register">REGISTER</a>
+      <a class="landingPage__header__a__green" routerLink="login">LOG IN</a>
+    </div>
+    <div class="landingPage__header__mobile">
+      <input type="checkbox" [checked]="mobileNav" (click)="onMobileNav()" />
+      <div>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="landingPage__header__mobile__menu" *ngIf="mobileNav">
+        <a class="landingPage__header__mobile__menu__item">
+          Courses
+        </a>
+        <!-- <a
+          routerLink="our-team"
+          class="landingPage__header__mobile__menu__item"
+        > -->
+        <a class="landingPage__header__mobile__menu__item">
+          Our Team
+        </a>
+        <a class="landingPage__header__mobile__menu__item">
+          Why Ravi's
+        </a>
+        <a class="landingPage__header__mobile__menu__item">
+          Contact Us
+        </a>
+        <a class="button button__green mobileView" routerLink="register"
+          >REGISTER</a
+        >
+        <a class="landingPage__header__a__green mobileView" routerLink="login"
+          >LOG IN</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="landingPage__body">
+    <img class="landingPage__body__img" src="assets/ravi.png" />
+    <div class="landingPage__body__right">
+      <div class="landingPage__body__right__top">
+        <p
+          class="landingPage__body__right__top--title"
+          [innerHTML]="carouselContent[carouselIndex].title"
+        >
+          <!-- {{ carouselContent[carouselIndex].title }} -->
+        </p>
+        <!-- <div class="landingPage__body__right__top--body"> -->
+        <mat-icon
+          class="landingPage__body__right__top--body--arrow landingPage__body__right__top--body--arrow--left"
+          (click)="previousSlide()"
+          [ngClass]="
+            carouselIndex === 0
+              ? 'landingPage__body__right__top--body--arrow--disabled'
+              : ''
+          "
+          >keyboard_arrow_left__rounded</mat-icon
+        >
+        <span class="landingPage__body__right__top--body--content faded">
+          <!--span>“</span><span-->{{ carouselContent[carouselIndex].body
+          }}<!--/span
+          ><span>”</span-->
+        </span>
+        <mat-icon
+          class="justify__end landingPage__body__right__top--body--arrow landingPage__body__right__top--body--arrow--right"
+          (click)="nextSlide()"
+          [ngClass]="
+            carouselIndex === carouselContent.length - 1
+              ? 'landingPage__body__right__top--body--arrow--disabled'
+              : ''
+          "
+          >keyboard_arrow_right__rounded</mat-icon
+        >
+        <div class="landingPage__body__right__top--body--carousel">
+          <span
+            class="landingPage__body__right__top--body--carousel--element"
+            [ngClass]="
+              this.carouselIndex === 0
+                ? 'landingPage__body__right__top--body--carousel--element--active'
+                : ''
+            "
+            (click)="gotoSlide(0)"
+          ></span>
+          <span
+            class="landingPage__body__right__top--body--carousel--element"
+            [ngClass]="
+              this.carouselIndex === 1
+                ? 'landingPage__body__right__top--body--carousel--element--active'
+                : ''
+            "
+            (click)="gotoSlide(1)"
+          ></span>
+          <span
+            class="landingPage__body__right__top--body--carousel--element"
+            [ngClass]="
+              this.carouselIndex === 2
+                ? 'landingPage__body__right__top--body--carousel--element--active'
+                : ''
+            "
+            (click)="gotoSlide(2)"
+          ></span>
+          <span
+            class="landingPage__body__right__top--body--carousel--element"
+            [ngClass]="
+              this.carouselIndex === 3
+                ? 'landingPage__body__right__top--body--carousel--element--active'
+                : ''
+            "
+            (click)="gotoSlide(3)"
+          ></span>
+        </div>
+        <!-- </div> -->
+      </div>
+      <div class="landingPage__body__right__bottom">
+        <div class="landingPage__body__right__bottom__cell">
+          <img src="assets/test.svg" />
+          Test Prep
+        </div>
+        <div class="landingPage__body__right__bottom__cell">
+          <img src="assets/teacher.svg" />
+          Online Tutoring
+        </div>
+        <div class="landingPage__body__right__bottom__cell">
+          <img src="assets/student.svg" />
+          Academic Tutoring
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <span class="footer--first"
+    >378 Boston Post Road, Suite #202, Orange, CT</span
+  >
+  <span>factorialmath@gmail.com</span>
+  <span class="footer--last">(203) 952 5567 / (203) 981 4186</span>
+</footer>

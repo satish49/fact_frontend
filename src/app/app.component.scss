@@ -1,0 +1,20 @@
+.body {
+  min-height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+.mainContent {
+  margin: 120px 0px 150px;
+  // display: grid;
+  // justify-content: center;
+  // align-items: center;
+  // grid-gap: 1rem;
+  // margin-bottom: 110px;
+  // &__buttons {
+  //   background-color: transparent;
+  //   border: 1px solid gray;
+  //   border-radius: 5px;
+  //   padding: 1rem;
+  //   cursor: pointer;
+  // }
+}

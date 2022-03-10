@@ -1,0 +1,224 @@
+@import "../../../config";
+.assign-material {
+    display: grid;
+    gap: 30px;
+    &__document {
+      &--viewer {
+        width:100%;
+        height:60vh;
+      }
+    }  
+    &__files {
+        padding: 25px 20px;
+        background-color: white;
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        gap: 30px;
+        border: 1px solid #D6D6D6;
+        border-radius: 8px;
+        &--tree {
+            &--trigger {
+                display: flex;
+                justify-content: space-between;
+                padding: 5px 10px;
+                box-shadow: 0px 3px 6px #00000029;
+                border: 1px solid #95989A4D;
+                border-radius: 5px;
+            }
+            &--body {
+                .ui-tree {
+                    width: 100%;
+                  }
+                  &--label {
+                    margin-bottom: unset;
+                    margin-left: 5px;
+                  }
+                  &--icon {
+                    color: #E3BB34;
+                  }
+            }
+        }
+        &--category {
+            &--list {
+                max-height: 220px;
+                overflow-y: auto;
+                display: grid;
+                &--item {
+                    display: grid;
+                    grid-template-columns: 1fr repeat(3, 150px);
+                    align-items: center;
+                    font-size: 12px;
+                    gap: 10px;
+                    padding: 5px 10px;
+                    &:nth-child(odd) {
+                        background-color: #F4F4F4;
+                    }
+                    &:nth-child(even) {
+                        background-color: #FAFAFA;
+                    }
+                    &--file {
+                        color: $primary-blue;
+                        font-size: 13px;
+                    }
+                    &--categories {
+                        border: 1px solid #c4c4c4;
+                        border-radius: 5px;
+                        height: 40px;
+                        background-color: white;
+                    }
+                    &--datepicker {
+                        background-color: white;
+                        display: flex;
+                        border: 1px solid #C4C4C4;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        height: 40px;
+                        &--input {
+                            font-size: 14px;
+                            width: 110px;
+                            padding-left: 8px;
+                            border: none;
+                            outline: none;
+                            background-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &__students {
+        background-color: white;
+        border-radius: 8px;
+        padding: 25px 20px;
+        display: grid;
+        row-gap: 30px;
+        &__selectType {
+            display: grid;
+            grid-template-columns: 120px 190px 300px 100px;
+            column-gap: 20px;
+            align-items: center;
+            &__sendTo {
+              font-size: 20px;
+              color: #4eaeeb;
+              font-weight: bold;
+            }
+            &__select {
+              background: #ffffff 0% 0% no-repeat padding-box;
+              box-shadow: 0px 3px 6px #00000029;
+              border: 1px solid #d9d9d9;
+              border-radius: 5px;
+              padding: 10px 15px;
+            }
+            &__search {
+              background: #ffffff 0% 0% no-repeat padding-box;
+              box-shadow: 0px 3px 6px #00000029;
+              border: 1px solid #d9d9d9;
+              border-radius: 5px;
+            }
+            .textButton {
+              color: #75c52fd6;
+            }
+          }
+          &__studentList {
+            color: #4eaeeb;
+            font-weight: bold;
+            font-size: 20px;
+          }
+          &__selectedStudents {
+            display: grid;
+            &__list {
+              display: grid;
+              margin-top: 10px;
+              grid-template-columns: repeat(4, 23%);
+              gap: 2%;
+              &__item {
+                background-color: #d8ebff;
+                cursor: pointer;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #1592e6;
+                font-size: 14px;
+                font-weight: 400;
+                padding: 5px;
+                position: relative;
+                &__close {
+                  position: absolute;
+                  color: white;
+                  color: #75b7fe;
+                  top: -10px;
+                  right: -10px;
+                  cursor: pointer;
+                  user-select: none;
+                }
+              }
+            }
+          }
+          &__selectedBatches {
+            display: grid;
+            row-gap: 10px;
+            &__batch {
+              border: 1px solid #bcbcbc;
+              border-radius: 5px;
+              padding: 10px 20px;
+              &__info {
+                text-transform: capitalize;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                align-items: center;
+                color: #9b9b9b;
+                cursor: pointer;
+                user-select: none;
+                font-weight: bold;
+                &__openDrillDown {
+                  color: #4eaeeb;
+                }
+                &__studentCount {
+                  justify-self: center;
+                }
+                &__arrow {
+                  justify-self: end;
+                  user-select: none;
+                  cursor: pointer;
+                }
+              }
+              &__students {
+                margin-top: 10px;
+                border-top: 1px solid gray;
+                padding-top: 10px;
+                display: grid;
+                color: #272727;
+                font-size: 14px;
+                grid-template-columns: repeat(4, 23%);
+                gap: 2%;
+                &__student {
+                    &--name {
+                        margin-left: 10px;
+                        cursor: pointer;
+                    }
+                }
+              }
+              &__buttonStack {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-top: 10px;
+                &__remove {
+                  color: $error-color;
+                  margin-left: 10px;
+                  mat-icon {
+                    margin-right: 0px;
+                  }
+                }
+              }
+            }
+          }
+    }
+
+    &__assign {
+        background-color: #75D23D;
+        font-weight: normal;
+        justify-self: end;
+    }
+}

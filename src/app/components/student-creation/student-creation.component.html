@@ -1,0 +1,274 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+  <div class="mainContent">
+    <div class="create-student">
+      <p class="create-student__header">Student Creation</p>
+      <div class="create-student__form">
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title">Fist Name</span>
+          <input
+            class="create-student__form__block__input"
+            [ngClass]="
+              error && studentDetails['controls']['firstName']['invalid']
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['firstName']"
+            maxlength="32"
+          />
+        </div>
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title">Last Name</span>
+          <input
+            class="create-student__form__block__input"
+            [ngClass]="
+              error && studentDetails['controls']['lastName']['invalid']
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['lastName']"
+            maxlength="32"
+          />
+        </div>
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title">Gender</span>
+          <mat-select
+            [ngClass]="
+              error && studentDetails['controls']['gender']['invalid']
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['gender']"
+            class="create-student__form__block__input create-student__form__block__select"
+          >
+            <mat-option value="">Select</mat-option>
+            <mat-option value="1">Male</mat-option>
+            <mat-option value="2">Female</mat-option>
+            <mat-option value="3">Do not specify</mat-option>
+          </mat-select>
+        </div>
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title">Phone Number</span>
+          <ngx-intl-tel-input
+            [ngClass]="
+              error &&
+              !validateMobileNumber(
+                studentDetails['controls']['phoneNumber']['value']
+              )
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['phoneNumber']"
+            [maxLength]="15"
+            [enablePlaceholder]="false"
+            [enableAutoCountrySelect]="true"
+            [separateDialCode]="true"
+            [searchCountryFlag]="true"
+            [searchCountryField]="[
+              searchCountryField.Iso2,
+              searchCountryField.Name
+            ]"
+            [selectedCountryISO]="countryISO.UnitedStates"
+          ></ngx-intl-tel-input>
+        </div>
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title">Email address</span>
+          <input
+            class="create-student__form__block__input"
+            type="email"
+            [ngClass]="
+              error && studentDetails['controls']['email']['invalid']
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['email']"
+            maxlength="50"
+          />
+        </div>
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title"
+            >Skype ID (Optional)</span
+          >
+          <input
+            class="create-student__form__block__input"
+            [formControl]="studentDetails['controls']['skypeId']"
+            maxlength="32"
+            (input)="spaceValidator($event)"
+          />
+        </div>
+        <div
+          class="create-student__form__block create-student__form__block--address"
+        >
+          <span class="create-student__form__block__title">Address</span>
+          <input
+            class="create-student__form__block__input"
+            [ngClass]="
+              error && studentDetails['controls']['address']['invalid']
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['address']"
+            maxlength="32"
+          />
+        </div>
+        <div class="create-student__form__block">
+          <span class="create-student__form__block__title">ZIP Code</span>
+          <input
+            maxlength="6"
+            class="create-student__form__block__input"
+            (input)="zipCodeValidator($event)"
+            [ngClass]="
+              error && studentDetails['controls']['zipCode']['invalid']
+                ? 'create-student__form__block__input__error'
+                : ''
+            "
+            [formControl]="studentDetails['controls']['zipCode']"
+          />
+        </div>
+      </div>
+      <p
+        class="error"
+        *ngIf="error && parents['length'] + selectedParents['length'] === 0"
+      >
+        Add atleast one parent
+      </p>
+      <div class="create-student__parentSearch">
+        <p class="create-student__parentSearch__selectParent">Select Parent</p>
+        <mat-select-autocomplete
+          class="capitalize create-student__parentSearch__autoComplete"
+          (selectionChange)="getSelectedParents($event)"
+          [multiple]="true"
+          [placeholder]="'Search Parent'"
+          [options]="totalParents"
+          ngDefaultControl
+          [appearance]="'outline'"
+          name="optionsSelector"
+          [formControl]="parentList"
+        ></mat-select-autocomplete>
+        <div>
+          <p>Selected Parent</p>
+          <div class="create-student__parentSearch__list">
+            <span
+              class="create-student__parentSearch__list__item"
+              *ngFor="
+                let parentId of parentList['value'];
+                index as parentListIndex
+              "
+              >{{ getParentName(parentId) }}
+              <mat-icon
+                class="create-student__parentSearch__list__item__close"
+                (click)="removeFromParentList(parentListIndex)"
+                >cancel</mat-icon
+              ></span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="create-student__newParents" *ngIf="parents['length'] !== 0">
+        <p class="create-student__newParents__header">PARENT INFO</p>
+        <div
+          class="create-student__form"
+          *ngFor="let parent of parents['controls']; index as parentIndex"
+        >
+          <div class="create-student__form__block">
+            <p class="create-student__form__block__title">First Name</p>
+            <input
+              class="create-student__form__block__input"
+              maxlength="32"
+              [ngClass]="
+                error && parent['controls']['firstName']['invalid']
+                  ? 'create-student__form__block__input__error'
+                  : ''
+              "
+              [formControl]="parent['controls']['firstName']"
+            />
+          </div>
+          <div class="create-student__form__block">
+            <p class="create-student__form__block__title">Last Name</p>
+            <input
+              class="create-student__form__block__input"
+              maxlength="32"
+              [ngClass]="
+                error && parent['controls']['lastName']['invalid']
+                  ? 'create-student__form__block__input__error'
+                  : ''
+              "
+              [formControl]="parent['controls']['lastName']"
+            />
+          </div>
+          <div class="create-student__form__block">
+            <p class="create-student__form__block__title">Email ID</p>
+            <input
+              class="create-student__form__block__input"
+              maxlength="50"
+              type="email"
+              [ngClass]="
+                error && parent['controls']['email']['invalid']
+                  ? 'create-student__form__block__input__error'
+                  : ''
+              "
+              [formControl]="parent['controls']['email']"
+            />
+          </div>
+          <div class="create-student__form__block">
+            <p class="create-student__form__block__title">Phone Number</p>
+            <ngx-intl-tel-input
+              [ngClass]="
+                error &&
+                !validateMobileNumber(
+                  parent['controls']['phoneNumber']['value']
+                )
+                  ? 'create-student__form__block__input__error'
+                  : ''
+              "
+              [formControl]="parent['controls']['phoneNumber']"
+              [maxLength]="15"
+              [enablePlaceholder]="false"
+              [enableAutoCountrySelect]="true"
+              [separateDialCode]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                searchCountryField.Iso2,
+                searchCountryField.Name
+              ]"
+              [selectedCountryISO]="countryISO.UnitedStates"
+            ></ngx-intl-tel-input>
+          </div>
+          <div class="create-student__form__block">
+            <button
+              class="textButton create-student__form__block__removeParent"
+              (click)="removeParent(parentIndex)"
+            >
+              <mat-icon>remove_circle</mat-icon>Remove Parent
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="create-student__footer">
+        <button
+          class="textButton create-student__footer__newParent"
+          (click)="addParent()"
+          [disabled]="parents['length'] === 2"
+        >
+          <mat-icon>add_circle</mat-icon>Add Parent
+        </button>
+        <button
+          class="button create-student__footer__create button create-student__footer__create--manage"
+          [routerLink]="['/users']"
+        >
+          Manage Users
+        </button>
+        <button
+          class="button create-student__footer__create"
+          (click)="createStudent()"
+          [disabled]="createStudentClicked"
+        >
+          Create Student
+        </button>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

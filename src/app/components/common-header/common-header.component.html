@@ -1,0 +1,130 @@
+<div class="common-header">
+  <div class="common-header__logoStack">
+    <mat-icon class="common-header__logoStack__menu">apps</mat-icon>
+    <img
+      src="assets/RA LOGO-01.svg"
+      alt="Ravi's Academy"
+      class="common-header__logoStack__logo"
+      [routerLink]="['/dashboard']"
+    />
+  </div>
+  <div class="common-header__buttonStack">
+    <span
+      class="common-header__buttonStack__button common-header__buttonStack__button__active"
+      [routerLink]="['/dashboard']"
+      *ngIf="!isRoleSelectPage"
+      ><mat-icon class="common-header__buttonStack__button--icon--mr"
+        >home</mat-icon
+      >Home</span
+    >
+    <span
+      class="common-header__buttonStack__button common-header__buttonStack__button__userName common-header__buttonStack__button__active"
+      (click)="toggleDropdown()"
+      id="common-header__dropDown"
+      *ngIf="!isRoleSelectPage"
+      >{{ userName }}
+      <mat-icon class="common-header__buttonStack__button--icon"
+        >arrow_drop_down_round</mat-icon
+      >
+      <div
+        class="common-header__buttonStack__button__userName__options"
+        *ngIf="dropDownOpen"
+      >
+        <span
+          class="common-header__buttonStack__button__userName__options__button"
+          [routerLink]="['/profile']"
+          *ngIf="!isAdminOrTutor"
+          ><mat-icon>person</mat-icon>My Profile</span
+        >
+        <span
+          class="common-header__buttonStack__button__userName__options__button"
+          ><mat-icon>settings</mat-icon>Settings</span
+        >
+        <span
+          class="common-header__buttonStack__button__userName__options__button"
+          ><img src="assets/help.svg" alt="Help" />Help</span
+        >
+      </div>
+    </span>
+    <span
+      class="common-header__buttonStack__button common-header__buttonStack__button__active"
+      (click)="logout()"
+      [ngClass]="
+        isRoleSelectPage ? 'common-header__buttonStack__button__noBorder' : ''
+      "
+      >Log Out
+      <img
+        class="common-header__buttonStack__button--icon"
+        src="assets/logout.svg"
+        alt="Logout"
+      />
+    </span>
+  </div>
+  <div class="common-header__buttonStack__mobile">
+    <input type="checkbox" [checked]="mobileNav" (click)="onMobileNav()" />
+    <div class="common-header__buttonStack__mobile__hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="common-header__buttonStack__mobile__menu" *ngIf="mobileNav">
+      <span
+        class="common-header__buttonStack__mobile__menu__button common-header__buttonStack__button__active"
+        [routerLink]="['/dashboard']"
+        *ngIf="!isRoleSelectPage"
+        ><mat-icon
+          class="common-header__buttonStack__mobile__menu__button--icon"
+          >home</mat-icon
+        >Home</span
+      >
+      <span
+        class="common-header__buttonStack__mobile__menu__button common-header__buttonStack__button__userName common-header__buttonStack__mobile__menu__button__userName common-header__buttonStack__button__active"
+        (click)="toggleMobileDropdown()"
+        id="common-header__dropDown"
+        *ngIf="!isRoleSelectPage"
+        >{{ userName }}
+        <mat-icon
+          class="common-header__buttonStack__mobile__menu__button--icon--ml"
+          >arrow_drop_down_round</mat-icon
+        >
+      </span>
+      <div
+        class="common-header__buttonStack__mobile__menu__button__userName__options"
+        *ngIf="mobileDropDownOpen"
+      >
+        <span
+          class="common-header__buttonStack__mobile__menu__button"
+          [routerLink]="['/profile']"
+          *ngIf="!isAdminOrTutor"
+          ><mat-icon
+            class="common-header__buttonStack__mobile__menu__button--icon"
+            >person</mat-icon
+          >My Profile</span
+        >
+        <span class="common-header__buttonStack__mobile__menu__button"
+          ><mat-icon
+            class="common-header__buttonStack__mobile__menu__button--icon"
+            >settings</mat-icon
+          >Settings</span
+        >
+        <span class="common-header__buttonStack__mobile__menu__button"
+          ><img
+            src="assets/help.svg"
+            alt="Help"
+            class="common-header__buttonStack__mobile__menu__button--icon"
+          />Help</span
+        >
+      </div>
+      <span
+        class="common-header__buttonStack__mobile__menu__button common-header__buttonStack__button__active"
+        (click)="logout()"
+        >Log Out
+        <img
+          class="common-header__buttonStack__mobile__menu__button--icon--ml"
+          src="assets/logout.svg"
+          alt="Logout"
+        />
+      </span>
+    </div>
+  </div>
+</div>

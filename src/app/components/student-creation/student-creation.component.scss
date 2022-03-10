@@ -1,0 +1,199 @@
+@import "../../../config";
+.create-student {
+  display: grid;
+  margin: 0 90px;
+  font-family: "Montserrat", sans-serif;
+  color: #707070;
+  font-weight: 500;
+  row-gap: 30px;
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  padding: 35px;
+  display: grid;
+  &__header {
+    color: #4eaeeb;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+  }
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    &__block {
+      display: grid;
+      gap: 8px;
+      grid-template-rows: 22px 52px;
+      &--address {
+        grid-column: 1/3;
+      }
+      &__removeParent {
+        color: $error-color;
+        grid-row: 2/3;
+        align-self: center;
+      }
+      ngx-intl-tel-input {
+        box-shadow: 0px 3px 6px #00000029;
+      }
+      &__title {
+        font-size: 14px;
+      }
+      &__select {
+        display: grid;
+        align-items: center;
+      }
+      &__input {
+        box-shadow: 0px 3px 6px #00000029;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        padding: 10px 15px;
+        &__error {
+          border-color: $error-color;
+          input {
+            border-color: $error-color;
+          }
+        }
+      }
+    }
+  }
+  &__parentSearch {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    row-gap: 10px;
+    column-gap: 30px;
+    &__selectParent {
+      grid-column: 1/-1;
+    }
+    &__list {
+      display: grid;
+      margin-top: 10px;
+      grid-template-columns: repeat(4, 23%);
+      gap: 2%;
+      &__item {
+        background-color: #d8ebff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1592e6;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 6px 25px;
+        position: relative;
+        &__close {
+          position: absolute;
+          color: white;
+          color: #75b7fe;
+          top: -10px;
+          right: -10px;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+    }
+    &__autoComplete {
+      &:hover {
+        border-color: red;
+      }
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+  &__newParents {
+    display: grid;
+    row-gap: 30px;
+    &__header {
+      color: #4eaeeb;
+      font-weight: 500;
+    }
+  }
+  &__footer {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto auto;
+    gap: 30px;
+    &__newParent {
+      color: #4eaeeb;
+      justify-self: start;
+    }
+    &__create {
+      background-color: #75c52fd6;
+      border-color: #75c52fd6;
+      border-radius: 5px;
+      color: white;
+      font-weight: 500;
+      padding: 10px 25px;
+      &--manage {
+        background-color: #4eaeeb;
+        border-color: #4eaeeb;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .create-student {
+    margin: 10px 50px;
+    &__form {
+      grid-template-columns: 1fr 1fr;
+    }
+    &__parentSearch {
+      &__list {
+        grid-template-columns: 32% 32% 32%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .create-student {
+    &__parentSearch {
+      &__list {
+        grid-template-columns: 48% 48%;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .create-student {
+    margin: 10px;
+    &__form {
+      grid-template-columns: 1fr 1fr;
+    }
+    &__parentSearch {
+      grid-template-columns: unset;
+      &__list {
+        grid-template-columns: 48% 48%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .create-student {
+    margin: 10px;
+    &__form {
+      grid-template-columns: unset;
+      &__block {
+        &--address {
+          grid-column: unset;
+        }
+      }
+    }
+    &__parentSearch {
+      grid-template-columns: unset;
+      &__list {
+        grid-template-columns: unset;
+      }
+    }
+    &__footer {
+      grid-template-columns: unset;
+      &__create {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,255 @@
+@import "../../../config";
+.complete-test {
+  display: grid;
+  padding: 0 30px;
+  font-family: "Montserrat", sans-serif;
+  color: #707070;
+  font-weight: 500;
+  row-gap: 20px;
+  &__heading {
+    display: grid;
+    justify-items: center;
+    &__main {
+      color: #4eaeeb;
+      font-size: 35px;
+      font-weight: bold;
+    }
+    &__sub {
+      font-weight: 400;
+      font-size: 20px;
+    }
+  }
+  &__header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px 40px;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    box-shadow: 0px 3px 23px #00000029;
+    margin: 0 60px;
+    &__block {
+      &__label {
+      }
+      &__text {
+        color: #4eaeeb;
+        font-weight: bold;
+        margin-left: 5px;
+      }
+      &__last {
+        justify-self: end;
+      }
+    }
+  }
+  &__main {
+    display: grid;
+    grid-template-columns: 25% 70%;
+    column-gap: 30px;
+    align-items: start;
+    &__filters {
+      box-shadow: 0px 3px 20px #00000029;
+      background-color: white;
+      padding: 0 15px 15px;
+      display: grid;
+      row-gap: 10px;
+      font-size: 14px;
+      &__block {
+        border-bottom: 1px solid #ececec;
+        padding-bottom: 15px;
+        display: grid;
+        &__students {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          &--title {
+            grid-column: unset !important;
+          }
+          &--unSelect {
+            grid-column: unset !important;
+            color: #4eaeeb;
+            cursor: pointer;
+            justify-self: end;
+            &--select {
+              justify-self: start;
+            }
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+      &__title {
+        font-size: 14px;
+        font-weight: bold;
+        grid-column: 1/-1;
+        // cursor: pointer;
+        display: flex;
+      }
+      &__head {
+        background: #f3f3f3 0% 0% no-repeat padding-box;
+        border-bottom: 1px solid #d9d9d9;
+        padding: 10px 15px;
+        margin: 0 -15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        cursor: pointer;
+        &__text {
+          color: #2a2a2a;
+        }
+        &__icon {
+          justify-self: end;
+        }
+        &__clear {
+          justify-self: end;
+          color: #0653ab;
+          font-weight: 400;
+          font-size: 12px;
+        }
+      }
+      &__dates {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+        &__date {
+          display: flex;
+          align-items: center;
+          box-shadow: 0px 3px 6px #00000029;
+          border: 1px solid #d9d9d9;
+          border-radius: 5px;
+          padding-left: 15px;
+          &--error {
+            border-color: $error-color;
+          }
+          &__input {
+            width: 80%;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+          }
+        }
+      }
+      &__searchBatch {
+        width: 100%;
+      }
+      &__searchButton {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        justify-self: center;
+        color: white;
+        border-color: #4eaeeb;
+        background-color: #4eaeeb;
+        mat-icon {
+          justify-self: end;
+        }
+      }
+      &__students {
+        display: grid;
+        row-gap: 5px;
+        max-height: 450px;
+        overflow-y: auto;
+      }
+      &__sections {
+        display: grid;
+        row-gap: 5px;
+      }
+      &__questions {
+        &__list {
+          display: grid;
+          grid-template-columns: repeat(9, 1fr);
+          gap: 10px;
+          margin-top: 10px;
+          &__question {
+            background-color: #d9d9d9;
+            color: #333333;
+            display: grid;
+            align-content: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 10px;
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+            &--selected {
+              background-color: #75c52fd6;
+              color: white;
+            }
+          }
+        }
+      }
+      &__answerType {
+        display: flex;
+        flex-direction: column;
+        &__radios {
+          display: flex;
+          flex-direction: column;
+          &__wrong {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+    &__body {
+      display: grid;
+      border: 1px solid #d9d9d9;
+      border-radius: 20px;
+      padding: 20px;
+      background-color: white;
+      row-gap: 10px;
+      &__table {
+        width: 100%;
+        tr {
+          font-family: "Montserrat", sans-serif;
+          display: grid;
+          grid-template-columns: 0.5fr 1.5fr 1.5fr 0.5fr 1fr 1fr;
+          align-items: center;
+          &:nth-child(odd) {
+            background-color: white;
+          }
+          &:nth-child(even) {
+            background-color: #e6e6e6;
+          }
+          td,
+          th {
+            border-bottom: none;
+            font-weight: 500;
+          }
+          td:last-child,
+          th:last-child {
+            grid-column: 6/7;
+            .button {
+              border-color: #75c52fd6;
+              background-color: #75c52fd6;
+              color: white;
+              font-weight: 500;
+            }
+          }
+          td:not(:first-child),
+          th:not(:first-child) {
+            text-align: center;
+          }
+        }
+        .mat-header-row {
+          background-color: #4eaeeb !important;
+        }
+        .mat-header-cell {
+          font-weight: 500;
+          color: #f4f2f3;
+          font-size: 16px;
+        }
+        &__status {
+          display: grid;
+          justify-items: center;
+          align-items: center;
+          &__text {
+            font-size: 12px;
+            color: #aeaeae;
+            &__completed {
+              color: #75c52fd6;
+            }
+          }
+        }
+      }
+    }
+  }
+}

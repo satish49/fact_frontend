@@ -1,0 +1,89 @@
+<ng-container
+  *ngFor="let scoringSection of errorDetails; index as scoringSectionIndex"
+>
+  <div
+    class="report-error-log__sectionDetails"
+    [id]="scoringSection['scoringSectionName']"
+  >
+    <div class="report-error-log__sectionDetails__header">
+      <span class="report-error-log__sectionDetails__header__sectionName">{{
+        scoringSection["scoringSectionName"]
+      }}</span>
+      <span class="report-error-log__sectionDetails__header__errorLog"
+        >Incorrect Answers</span
+      >
+    </div>
+    <div
+      class="report-error-log__sectionDetails__topic report-error-log__sectionDetails__topic__mainHeader"
+      [ngClass]="
+        scoringSection['scoringSectionName'] === 'Math'
+          ? ' report-error-log__sectionDetails__topic__mainHeader__math'
+          : ''
+      "
+    >
+      <span>SECTION</span>
+      <span>QUESTION #</span>
+      <span>TOPIC</span>
+      <span>SUBTOPIC</span>
+      <span>CORRECT ANSWER</span>
+      <span>YOUR ANSWER</span>
+    </div>
+    <ng-container
+      *ngFor="
+        let errorQuestion of scoringSection['errorQuestions'];
+        index as errorQuestionIndex
+      "
+    >
+      <div class="report-error-log__sectionDetails__topic">
+        <span>{{ errorQuestion["sectionName"] }}</span>
+        <span>{{ errorQuestion["qid"] }}</span>
+        <span>
+          <ng-container
+            *ngFor="let topic of errorQuestion['topics']; index as topicIndex"
+          >
+            {{ topic["topic_name"]
+            }}{{
+              topicIndex === errorQuestion["topics"]["length"] - 1 ? "" : ", "
+            }}
+          </ng-container>
+        </span>
+        <span>
+          <ng-container
+            *ngFor="
+              let subTopic of errorQuestion['subTopics'];
+              index as subTopicIndex
+            "
+          >
+            {{ subTopic["subtopic_name"]
+            }}{{
+              subTopicIndex === errorQuestion["subTopics"]["length"] - 1
+                ? ""
+                : ", "
+            }}
+          </ng-container>
+        </span>
+        <span>
+          <ng-container
+            *ngIf="errorQuestion['key'][0] !== null; else minMaxElement"
+          >
+            <ng-container
+              *ngFor="let answer of errorQuestion['key']; index as answerIndex"
+            >
+              {{ answer }}
+              {{
+                answerIndex === errorQuestion["key"]["length"] - 1 ? "" : ", "
+              }}
+            </ng-container>
+          </ng-container>
+          <ng-template #minMaxElement>
+            {{ errorQuestion["is_min_inclusive"] === 1 ? ">=" : ">"
+            }}{{ errorQuestion["range_min"] }},&nbsp;
+            {{ errorQuestion["is_max_inclusive"] === 1 ? "<=" : "<"
+            }}{{ errorQuestion["range_max"] }}
+          </ng-template>
+        </span>
+        <span>{{ errorQuestion["student_answers"][0] }}</span>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

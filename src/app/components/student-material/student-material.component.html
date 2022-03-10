@@ -1,0 +1,283 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<!-- <div style="background-color: red">abcdeed</div> -->
+
+<div class="body body__secondary">
+  <div class="mainContent">
+    <div class="student-material" *ngIf="!dataLoading">
+      <div class="student-material__heading">
+        Course Materials
+        <p-dialog
+          [(visible)]="documentDialog"
+          class="student-material__document"
+          [maximizable] = "true"
+        >
+          <div style="overflow-y: auto !important">
+            <div
+              class="d-flex justify-content-between mt-3 student-material__document--container"
+              *ngIf="options?.accessType !== 3"
+              style="overflow-y: auto !important"
+            >
+              <button
+                (click)="downloadPdf(viewURL.href, options.file_name)"
+                class="button student-material__document--download"               
+              >
+                Download
+              </button>
+              
+              <button
+                class="button student-material__document--download"
+                (click)="printTest()"
+              >
+                Print
+              </button>
+            </div>            
+            <!-- PDF viewer addition -->
+            <div>
+              <pdf-viewer
+                class="notPdfList d-flex justify-content-center mt-3"
+                *ngIf="fileUrlExtension === 'pdf'"
+                [src]="viewURL.href"
+                id="pdfViewerId"
+                [render-text]="false"
+                [original-size]="true"
+                [show-all]="true"
+              >
+              </pdf-viewer>
+            </div>
+            <!-- PDF viewer addition -->
+
+          </div>
+        </p-dialog>
+      </div>
+      <p-dialog [(visible)]="showLoader" [modal]="true" [blockScroll]="true" [closeOnEscape]="true" [closable]="true" [showHeader]="false" appendTo="body" contentStyleClass="loader" styleClass="loaderContainer">
+        <mat-spinner >Please wait</mat-spinner>
+      </p-dialog>
+      <div class="student-material__courses">
+        <!-- <div *ngIf="files.length > 0" class="student-material__courses"> -->
+        <p-carousel
+          [value]="files"
+          *ngIf="files.length > 0"
+          [numVisible]="4"
+          [numScroll]="1"
+          [responsiveOptions]="responsiveOptions"
+        >
+          <ng-template let-file pTemplate="item">
+            <div
+              class="student-material__courses__course"
+              [ngClass]="{
+                'student-material__courses__course--active':
+                  file.label === selectedLabel
+              }"
+              (click)="setLabel(file.label)"
+            >
+              {{ file.label }}
+            </div>
+          </ng-template>
+        </p-carousel>
+      </div>
+      <div
+        class="student-material__filterSection"
+        [ngClass]="{ 'student-material__filterSection--alternate': viewAll }"
+      >
+        <div class="student-material__filterSection__viewAllSection">
+          <div
+            class="student-material__filterSection__viewAllSection__item"
+            [ngClass]="{
+              'student-material__filterSection__viewAllSection__item--active':
+                !viewAll
+            }"
+            (click)="viewAll ? toggleView(false) : false"
+          >
+            Recent Uploads
+          </div>
+          <div
+            class="student-material__filterSection__viewAllSection__item student-material__filterSection__viewAllSection__item--viewAll"
+            [ngClass]="{
+              'student-material__filterSection__viewAllSection__item--active':
+                viewAll
+            }"
+            (click)="!viewAll ? toggleView(true) : false"
+          >
+            All Materials
+          </div>
+        </div>
+        <div
+          class="student-material__filterSection__categories"
+          *ngIf="viewAll"
+        >
+          <div
+            class="student-material__filterSection__categories__item"
+            [ngClass]="{
+              'student-material__filterSection__categories__item--active':
+                selectedCategories.indexOf(category.id) >= 0
+            }"
+            *ngFor="let category of categories"
+            (click)="toggleCategories(category.id)"
+          >
+            {{ category.name }}
+          </div>
+        </div>
+        <div
+          class="student-material__filterSection__searchSection"
+          [ngClass]="{
+            'student-material__filterSection--alternate--search': viewAll
+          }"
+        >
+          <mat-select
+            class="student-material__filterSection__searchSection__select"
+            [(ngModel)]="recentType"
+            (selectionChange)="getMyFiles()"
+            *ngIf="!viewAll"
+          >
+            <mat-option [value]="1">Last Week</mat-option>
+            <mat-option [value]="2">Last 2 Weeks</mat-option>
+          </mat-select>
+          <div
+            class="student-material__filterSection__searchSection__searchBlock"
+          >
+            <mat-icon
+              class="student-material__filterSection__searchSection__searchBlock--icon"
+              >search
+            </mat-icon>
+            <input
+              class="student-material__filterSection__searchSection__searchBlock--input"
+              [(ngModel)]="searchFilter"
+              placeholder="Type to Search.."
+            />
+          </div>
+        </div>
+        <div *ngIf="files.length === 0">No Courses Found</div>
+      </div>
+      <div
+        *ngIf="!viewAll && selectedLabel !== '' && files.length > 0"
+        class="student-material__recentFiles"
+      >
+        <div
+          class="student-material__recentFiles__header student-material__recentFiles__row"
+        >
+          <div>File Name</div>
+          <div>Category</div>
+          <div class="text-center">Assigned Date</div>
+          <div class="text-center">Due By</div>
+          <div>File Path</div>
+        </div>
+        <ng-container *ngFor="let file of fileNames">
+          <div
+            *ngIf="
+              file.object_key.indexOf(selectedLabel) === 0 &&
+              file.object_key.toLowerCase().includes(searchFilter.toLowerCase())
+            "
+            class="student-material__recentFiles__row"
+          >
+            <div
+              class="student-material__recentFiles__row--fileName pointer"
+              (click)="displayDocumentDialog(file.file_id, file.file_name)"
+            >
+              {{ file.file_name }}
+            </div>
+
+            <div class="student-material__recentFiles__row__category">
+              <mat-icon [ngStyle]="{ color: file.categoryColor || 'black' }"
+                >stop</mat-icon
+              >
+              {{ file.categoryName }}
+            </div>
+            <div
+              class="text-center student-material__recentFiles__row--hidden-mobile"
+            >
+              {{ file.assignedOn }}
+            </div>
+            <div class="text-center">
+              <span class="student-material__recentFiles__row--hidden-system"
+                >Due By: </span
+              >{{ file.dueBy }}
+            </div>
+            <div class="student-material__recentFiles__row--hidden-mobile">
+              {{ file.object_key.replace("/" + file.file_name, "") }}
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <p-treeTable
+        *ngIf="viewAll && selectedLabel"
+        [value]="selectedCourse"
+        class="student-material__allFiles"
+      >
+        <ng-template pTemplate="header">
+          <tr class="student-material__allFiles__header">
+            <th width="57%">Name</th>
+            <th width="15%">Category</th>
+            <th width="15%" class="text-center">Assigned Date</th>
+            <th width="12%" class="text-center">Due By</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode>
+          <tr
+            *ngIf="
+              rowNode.node.children ||
+              (rowNode.node.label
+                .toLowerCase()
+                .includes(searchFilter.toLowerCase()) &&
+                (selectedCategories.length === 0 ||
+                  selectedCategories.indexOf(rowNode.node.category) >= 0))
+            "
+          >
+            <td>
+              <div
+                class="d-flex align-items-center pointer"
+                (click)="
+                  rowNode.node.children
+                    ? false
+                    : displayDocumentDialog(
+                        rowNode.node.fileId,
+                        rowNode.node.label
+                      )
+                "
+              >
+                <p-treeTableToggler
+                  class="d-flex"
+                  [rowNode]="rowNode"
+                ></p-treeTableToggler>
+                <mat-icon
+                  class="student-material__allFiles__icon"
+                  [ngClass]="{
+                    'student-material__allFiles__icon--folder':
+                      rowNode.node.children,
+                    'student-material__allFiles__icon--file':
+                      !rowNode.node.children
+                  }"
+                >
+                  {{
+                    rowNode.node.children ? "folder" : "description"
+                  }}</mat-icon
+                >
+                {{ rowNode.node.label }}
+              </div>
+            </td>
+            <ng-container *ngIf="!rowNode.node.children">
+              <td>
+                <div class="d-flex align-items-center">
+                  <mat-icon
+                    [ngStyle]="{ color: rowNode.node.categoryColor || 'black' }"
+                    >stop
+                  </mat-icon>
+                  {{ rowNode.node.categoryName }}
+                </div>
+              </td>
+              <td class="text-center">{{ rowNode.node.assignedOn }}</td>
+              <td class="text-center">{{ rowNode.node.dueBy }}</td>
+            </ng-container>
+            <ng-container *ngIf="rowNode.node.children">
+              <td></td>
+              <td></td>
+              <td></td>
+            </ng-container>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+    </div>
+  </div>
+  <app-footer [themedFooter]="true"></app-footer>
+</div>

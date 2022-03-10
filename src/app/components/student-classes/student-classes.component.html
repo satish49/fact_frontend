@@ -1,0 +1,37 @@
+<app-common-header
+  [isAdminOrTutor]="role === '1' || role === '2'"
+></app-common-header>
+<div class="body">
+    <div class="mainContent">
+        <div class="list-of-classes">
+            <span class="list-of-classes__heading">Classes and Links </span>
+           
+                <div
+                class="list-of-classes__report"
+                *ngFor="let class of student_classes; let i = index"
+                >
+                    <div class="list-of-classes__report__right"> 
+                        <p class="list-of-classes__report__right__courseName"> 
+                            {{ class["course"] }} / {{ class["batchName"] }}
+                        </p>
+                        <p class="list-of-classes__report__right__date">
+                            {{ class["day_display_name"] }}  {{ class["startTime"] }}  - {{ class["endTime"] }} {{ class["zone_display_name"] }} 
+                        </p>
+                        <div>
+                            <p class="list-of-classes__report__right__scores">Link:</p>
+                            <p class="list-of-classes__report__right__scores__score">   
+                            <a href='{{ class["classUrl1"] }}' target="_blank">
+                                {{ class["classUrl1"] }}
+                            </a>
+                            </p>
+                            <p class="list-of-classes__report__right__scores__score">
+                                {{ class["classUrl2"] }}
+                            </p>  
+                        </div>
+                    </div>
+                </div>
+           
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

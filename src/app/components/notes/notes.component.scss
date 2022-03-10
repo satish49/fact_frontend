@@ -1,0 +1,379 @@
+@import "../../../config";
+.notes {
+  display: grid;
+  padding: 0 100px;
+  font-family: "Montserrat", sans-serif;
+  color: #373737;
+  &__heading {
+    color: #4eaeeb;
+    font-size: 35px;
+    font-weight: bold;
+    justify-self: center;
+  }
+  &__filterSection {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+    &__searchSection {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      &__label {
+        align-self: center;
+        margin-right: 10px;
+        font-weight: 500;
+      }
+      &__inputSection {
+        display: flex;
+      }
+      &__searchInput {
+        border: 1px solid #d9d9d9;
+        border-radius: 5px 0px 0px 5px;
+        box-shadow: 0px 3px 6px #00000029;
+        min-width: 300px;
+        padding: 10px 15px;
+      }
+      &__searchButton {
+        display: flex;
+        align-items: center;
+        background-color: #4eaeeb;
+        border-color: #4eaeeb;
+        border-radius: 0px 5px 5px 0px;
+        mat-icon {
+          color: white;
+        }
+      }
+    }
+    &__selectNote {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      // justify-content: flex-end;
+      &__label {
+        align-self: center;
+        margin-right: 10px;
+        font-weight: 500;
+      }
+      &__select {
+        background-color: white;
+        box-shadow: 0px 3px 6px #00000029;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        min-width: 260px;
+        padding: 10px 15px;
+        width: 60%;
+      }
+    }
+  }
+  &__markSection {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    &__button {
+      padding: 8px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      &__open {
+        background: $primary-blue;
+        border: 1px solid $primary-blue;
+        color: white;
+        margin-inline-end: 10px;
+      }
+      &__closed {
+        background: #dddedf;
+        border: 1px solid #dddedf;
+        color: #363535;
+      }
+    }
+  }
+  &__status {
+    border: 1px solid #dddedf;
+    border-radius: 4px;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    color: #999999;
+    cursor: pointer;
+    &__button {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      &__first-child {
+        padding: 8px 0px 8px 10px;
+      }
+      &__last-child {
+        padding: 8px 10px 8px 0px;
+        text-align: end;
+      }
+    }
+    &__openbg {
+      background: linear-gradient(to right, $primary-blue 50%, #fcfcfc 50%);
+    }
+    &__closebg {
+      background: linear-gradient(to right, #fcfcfc 50%, #dddedf 50%);
+    }
+    // &__initial {
+    //   background-color: #fcfcfc;
+    //   color: #999999;
+    //   padding: 8px 0px;
+    //   &__opened {
+    //     padding-left: 8px;
+    //   }
+    //   &__closed {
+    //     padding-right: 8px;
+    //   }
+    // }
+    &__opened {
+      // background-color: $primary-blue;
+      color: white;
+    }
+    &__closed {
+      // background-color: #dddedf;
+      color: #363535;
+    }
+  }
+  &__table {
+    width: 100%;
+    tr {
+      font-family: "Montserrat", sans-serif;
+      display: grid;
+      grid-template-columns: 60px 20% 45% 10% 8% 10%;
+      align-items: center;
+      &:nth-child(odd) {
+        background-color: white;
+      }
+      &:nth-child(even) {
+        background-color: #e6e6e6;
+      }
+      td,
+      th {
+        border-bottom: none;
+        font-weight: 500;
+      }
+      td:last-child,
+      th:last-child {
+        // grid-column: 7/8;
+        .button {
+          border-color: #75c52fd6;
+          background-color: #75c52fd6;
+          color: white;
+          font-weight: 500;
+        }
+      }
+      td:not(:first-child),
+      th:not(:first-child) {
+        // text-align: center;
+      }
+    }
+    .mat-header-row {
+      background-color: #4eaeeb !important;
+    }
+    .mat-header-cell {
+      font-weight: 500;
+      color: #f4f2f3;
+      font-size: 16px;
+    }
+    &__assign {
+      border-color: #2fc5a1d6;
+      background-color: #2fc5a1d6;
+      color: white;
+      font-weight: 500;
+      outline: none;
+      &--analyze {
+        background-color: #4eaeeb;
+        border-color: #4eaeeb;
+      }
+      &--score {
+        background-color: #9c6be0;
+        border-color: #9c6be0;
+      }
+    }
+    &__status {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      &__text {
+        font-size: 12px;
+        color: #aeaeae;
+        &__completed {
+          color: #75c52fd6;
+        }
+      }
+    }
+  }
+}
+
+.createNote {
+  color: #4eaeeb;
+  justify-self: start;
+  outline: none;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  cursor: pointer;
+  mat-icon {
+    margin-right: 10px;
+  }
+  &__container {
+    width: 700px;
+    &__section {
+      display: grid;
+      grid-template-columns: 30px 0.7fr 3fr;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+      padding: 0px 10px;
+      color: #575757;
+      font-size: 14px;
+      &:first-child {
+        padding-top: 10px;
+      }
+      &--big {
+        grid-template-rows: 1fr 1fr 1fr;
+      }
+      &--notes {
+        grid-row: 1/-1;
+        grid-column: 3/4;
+        height: 100%;
+        width: 100%;
+        resize: none;
+      }
+      &--input {
+        background-color: #fcfcfc;
+        border: 1px solid #95989a4d;
+        border-radius: 6px;
+        padding: 10px 12px;
+        min-width: 180px;
+        &::placeholder {
+          color: #dddedf;
+        }
+      }
+      &__datepicker {
+        padding-top: unset;
+        padding-bottom: unset;
+        width: 180px;
+        display: flex;
+        &--input {
+          border: none;
+          width: 120px;
+          background: transparent;
+        }
+      }
+      &--icon {
+        color: #5b5b5b;
+        width: 24px;
+      }
+    }
+    &__footer {
+      display: flex;
+      justify-content: flex-end;
+      background-color: #f0f0f0;
+      padding: 12px 30px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      &--cancel {
+        color: #575757;
+        background-color: #dddedf;
+        border: 1px solid #dddedf;
+        border-radius: 5px;
+        height: 30px;
+        min-width: 75px;
+        cursor: pointer;
+      }
+      &--add {
+        color: white;
+        background-color: $primary-blue;
+        border-radius: 5px;
+        border: 1px solid $primary-blue;
+        height: 30px;
+        min-width: 62px;
+        margin-inline-start: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .createNote {
+    .ui-dialog-content {
+      padding: unset !important;
+    }
+  }
+}
+
+@media screen and (max-width: 1399px) {
+  .notes {
+    padding: 0 50px;
+    &__table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+    &__table {
+      width: 1200px;
+    }
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .notes {
+    &__filterSection {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .createNote {
+    &__container {
+      width: 90vw;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .notes {
+    &__filterSection {
+      grid-template-columns: unset;
+      mat-select {
+        width: fit-content;
+      }
+    }
+  }
+
+  .createNote {
+    &__container {
+      width: 90vw;
+      &__section {
+        grid-template-columns: 30px 1fr;
+        &__datepicker {
+          &--input {
+            width: 75vw;
+          }
+        }
+        &--small {
+          grid-template-columns: 30px 0.5fr 1fr;
+        }
+        &--big {
+          grid-template-rows: unset;
+        }
+        &--input {
+          width: 80vw;
+        }
+        &--notes {
+          grid-column: unset;
+          grid-row: 2/3;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .notes {
+    padding: 0 10px;
+  }
+}

@@ -1,0 +1,137 @@
+@import "../../../config";
+.users {
+  display: grid;
+  grid-template-columns: 55% 40%;
+  grid-gap: 10px;
+  &__buttonStack {
+    grid-column: 2/-1;
+    display: flex;
+    justify-content: space-between;
+    &__addStudent {
+      color: #4eaeeb;
+    }
+  }
+  &__filter {
+    margin-left: 40px;
+    padding: 10px;
+    width: 40%;
+    background-color: transparent;
+    border: 1.5px solid $primary-green;
+    color: $primary-green;
+    border-radius: 5px;
+    justify-self: end;
+  }
+  &__table {
+    grid-column: 1/-1;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1.5px solid $primary-green;
+    // color: $primary-green;
+    border-radius: 5px;
+
+    td.mat-cell {
+      border-bottom-style: none;
+    }
+
+    th.mat-header-cell {
+      border-bottom-style: none;
+    }
+    tr {
+      display: grid;
+      grid-template-columns: 1.5fr 1.5fr 0.75fr 0.75fr 1.5fr repeat(2, 1fr);
+      grid-gap: 10px;
+      align-items: center;
+    }
+    .mat-row:not(:last-child),
+    .mat-header-row {
+      border-bottom: 1px solid grey;
+    }
+    td,
+    th {
+      word-break: break-word;
+    }
+    &__select {
+      padding: 5px 10px;
+      background-color: transparent;
+      border-radius: 5px;
+      text-transform: capitalize;
+    }
+    &__buttonStack {
+      display: flex;
+      &--update {
+        background-color: $primary-green;
+        border-color: $primary-green;
+        color: white;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .users {
+    width: 100%;
+    overflow-x: auto;
+    &__buttonStack {
+      grid-column: unset;
+      position: absolute;
+      top: 100px;
+      right: 20px;
+    }
+    &__filter {
+      width: unset;
+    }
+    &__table {
+      width: 1100px;
+      margin-top: 60px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .users {
+    width: 100%;
+    overflow-x: auto;
+    grid-template-columns: unset;
+    &__buttonStack {
+      position: absolute;
+      top: 100px;
+      right: 20px;
+      grid-column: unset;
+    }
+    &__filter {
+      width: unset;
+    }
+    &__table {
+      width: 1100px;
+      margin-top: 65px;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .users {
+    width: 100%;
+    overflow-x: auto;
+    grid-template-columns: unset;
+    &__buttonStack {
+      flex-direction: column;
+      grid-column: unset;
+      position: absolute;
+      top: 100px;
+      right: 20px;
+      height: fit-content;
+      &__addStudent {
+        align-self: flex-end;
+        margin-bottom: 10px;
+      }
+    }
+    &__filter {
+      width: unset;
+    }
+    &__table {
+      width: 1100px;
+      margin-top: 105px;
+    }
+  }
+}

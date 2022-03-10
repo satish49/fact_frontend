@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__business" width="63.457" height="63.457" viewBox="0 0 63.457 63.457">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:#30dd11}
+        </style>
+    </defs>
+    <g id="prefix__Group_9648" data-name="Group 9648">
+        <g id="prefix__Group_9647" data-name="Group 9647">
+            <path id="prefix__Path_243" d="M54.164 9.293A31.729 31.729 0 0 0 9.293 54.164 31.729 31.729 0 0 0 54.164 9.293zM31.729 59.739a28.01 28.01 0 1 1 28.01-28.01 28.042 28.042 0 0 1-28.01 28.01z" class="prefix__cls-1" data-name="Path 243"/>
+        </g>
+    </g>
+    <g id="prefix__Group_9650" data-name="Group 9650" transform="translate(21.904 11.948)">
+        <g id="prefix__Group_9649" data-name="Group 9649">
+            <path id="prefix__Path_244" d="M188.55 114.323h-3.983a4.115 4.115 0 1 1 0-8.229h7.965a1.859 1.859 0 0 0 0-3.718h-4.115V98.26a1.859 1.859 0 0 0-3.718 0v4.115h-.132a7.833 7.833 0 1 0 0 15.666h3.983a4.115 4.115 0 0 1 0 8.23h-7.965a1.859 1.859 0 0 0 0 3.718h4.115v4.111a1.859 1.859 0 0 0 3.718 0v-4.115h.132a7.833 7.833 0 0 0 0-15.666z" class="prefix__cls-1" data-name="Path 244" transform="translate(-176.734 -96.401)"/>
+        </g>
+    </g>
+</svg>

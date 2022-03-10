@@ -1,0 +1,113 @@
+<div class="header">
+  <img
+    class="header__logo"
+    src="assets/logo-ravi.svg"
+    alt="Ravi's Academy"
+    routerLink=""
+  />
+  <div class="header__buttonStack header__buttonStack__desktop">
+    <button
+      class="button header__buttonStack__login"
+      [routerLink]="['/users']"
+      routerLinkActive="active"
+      *ngIf="path !== '#/role-select' && accessToken && role === '1'"
+    >
+      USERS
+    </button>
+    <button
+      class="button header__buttonStack__login"
+      [routerLink]="['/profile']"
+      routerLinkActive="active"
+      *ngIf="path !== '#/role-select' && accessToken && role !== '1'"
+    >
+      PROFILE
+    </button>
+    <button
+      class="button header__buttonStack__login header__buttonStack__register"
+      [routerLink]="['/register']"
+      *ngIf="path === '#/login'"
+    >
+      Register
+    </button>
+    <button
+      class="button header__buttonStack__login"
+      [routerLink]="['/login']"
+      *ngIf="path === '#/register'"
+    >
+      LOG IN
+    </button>
+    <button
+      class="button header__buttonStack__logout"
+      (click)="logout()"
+      *ngIf="accessToken"
+    >
+      LOGOUT
+    </button>
+    <!-- <div class="header__buttonStack__dropdown">
+      <button
+        (click)="toggleDropdown()"
+        class="button header__buttonStack__logout"
+      >
+        Dropdown
+      </button>
+      <div class="header__buttonStack__dropdown--content" *ngIf="showDropdown">
+        <button class="button header__buttonStack__logout">Abc</button>
+        <button class="button header__buttonStack__logout">ad</button>
+      </div>
+    </div> -->
+    <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu>
+      <button mat-menu-item>PROFILE</button>
+      <button mat-menu-item>Logout</button>
+    </mat-menu> -->
+    <!-- <button
+      class="button header__buttonStack__login"
+      routerLink="login"
+      *ngIf="path !== '/login' && path !== '/role-select'"
+    >
+      LOG IN
+    </button> -->
+  </div>
+  <div class="header__buttonStack header__buttonStack__mobile">
+    <input type="checkbox" [checked]="mobileNav" (click)="onMobileNav()" />
+    <div>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="header__buttonStack__mobile__menu" *ngIf="mobileNav">
+      <button
+        class="button header__buttonStack__login"
+        [routerLink]="['/users']"
+        *ngIf="path !== '#/role-select' && accessToken && role === '1'"
+        (click)="onMobileNav()"
+      >
+        USERS
+      </button>
+      <button
+        class="button header__buttonStack__login"
+        [routerLink]="['/profile']"
+        *ngIf="path !== '#/role-select' && accessToken && role !== '1'"
+        (click)="onMobileNav()"
+      >
+        PROFILE
+      </button>
+      <button
+        class="button header__buttonStack__login"
+        routerLink="login"
+        *ngIf="path === '#/'"
+        (click)="onMobileNav()"
+      >
+        LOG IN
+      </button>
+      <button
+        class="button header__buttonStack__logout"
+        (click)="logout()"
+        *ngIf="accessToken"
+        (click)="onMobileNav()"
+      >
+        LOGOUT
+      </button>
+    </div>
+  </div>
+</div>
